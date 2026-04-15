@@ -1,208 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LWR Community Finder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <style>
-        :root { --primary: #1a1a1a; --accent: #27ae60; --text: #333; --bg: #f8f9fa; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        
-        header { background: var(--primary); color: white; padding: 20px; text-align: center; }
-        header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+<meta charset="UTF-8">
+<title>LWR App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        nav { display: flex; background: #2c2c2c; sticky: top; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        nav button { flex: 1; padding: 16px; border: none; background: none; color: #aaa; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-size: 13px; }
-        nav button.active { color: white; background: #3d3d3d; border-bottom: 4px solid var(--accent); }
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+<style>
+body { margin:0; font-family: Arial; }
+h1 { margin:0; padding:10px; }
+nav { display:flex; background:#1a1a1a; }
+nav button {
+  flex:1; padding:14px; border:none;
+  background:none; color:white; cursor:pointer;
+}
+nav button.active { background:#333; }
 
-        /* Browse cards exactly how you liked them */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card-header { background: #fdfdfd; padding: 20px; border-bottom: 1px solid #eee; }
-        .card-header h3 { margin: 0; font-size: 20px; color: var(--primary); }
-        .card-body { padding: 20px; }
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid #f9f9f9; padding-bottom: 5px; }
-        .stat-label { font-weight: 600; color: #666; }
-        
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 12px; }
-        .btn-main { background: var(--primary); color: white; }
-        .btn-sec { background: #f0f0f0; color: #333; }
-        .btn:hover { opacity: 0.9; }
+.tab { display:none; padding:15px; }
+.tab.active { display:block; }
 
-        /* Map styling */
-        #map { height: calc(100vh - 180px); width: 100%; border-radius: 12px; border: 1px solid #ddd; }
-
-        /* Mortgage tab restoration */
-        .calculator { max-width: 550px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .input-box { margin-bottom: 20px; }
-        .input-box label { display: block; font-weight: 700; font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 8px; }
-        .input-box input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 8px; font-size: 18px; box-sizing: border-box; outline: none; transition: 0.3s; }
-        .input-box input:focus { border-color: var(--accent); }
-
-        .summary-box { background: #f8fdf9; border: 2px solid #e0f2e5; padding: 25px; border-radius: 10px; margin-top: 30px; }
-        .main-payment { font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
-        .cash-required { font-size: 18px; font-weight: 700; color: var(--primary); }
-        .detail-text { font-size: 14px; color: #777; margin-top: 10px; }
-    </style>
+#map { height:80vh; width:100%; }
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>LAKEWOOD RANCH FINDER</h1>
-</header>
+<h1 style="background:red;color:white;">VERSION TEST V7 (REAL COORDS)</h1>
 
 <nav>
-    <button onclick="tab(event, 'Browse')" class="active">Browse</button>
-    <button onclick="tab(event, 'Map')">Map View</button>
-    <button onclick="tab(event, 'Compare')">Shortlist</button>
-    <button onclick="tab(event, 'Mortgage')">Mortgage</button>
+  <button onclick="showTab(event,'browse')" class="active">Browse</button>
+  <button onclick="showTab(event,'mapTab')">Map</button>
+  <button onclick="showTab(event,'mortgage')">Mortgage</button>
+  <button onclick="showTab(event,'install')">Install</button>
 </nav>
 
-<div class="container">
-    <!-- BROWSE TAB -->
-    <div id="Browse" class="tab-content active">
-        <div class="grid" id="browse-grid"></div>
-    </div>
+<div id="browse" class="tab active">
+  <h2>Browse</h2>
+</div>
 
-    <!-- MAP TAB -->
-    <div id="Map" class="tab-content">
-        <div id="map"></div>
-    </div>
+<div id="mapTab" class="tab">
+  <div id="map"></div>
+</div>
 
-    <!-- COMPARE TAB -->
-    <div id="Compare" class="tab-content">
-        <h2>Your Saved Comparisons</h2>
-        <div class="grid" id="compare-grid"></div>
-    </div>
+<div id="mortgage" class="tab">
+  <h2>Mortgage</h2>
+</div>
 
-    <!-- MORTGAGE TAB -->
-    <div id="Mortgage" class="tab-content">
-        <div class="calculator">
-            <h2 style="margin-top:0">Payment Estimator</h2>
-            <div class="input-box">
-                <label>Home Purchase Price</label>
-                <input type="number" id="mPrice" value="750000" oninput="calc()">
-            </div>
-            <div class="input-box">
-                <label>Down Payment (%)</label>
-                <input type="number" id="mDown" value="20" oninput="calc()">
-            </div>
-            <div class="input-box">
-                <label>Interest Rate (%)</label>
-                <input type="number" id="mRate" value="6.75" step="0.1" oninput="calc()">
-            </div>
-            <div class="input-box">
-                <label>Property Tax (%)</label>
-                <input type="number" id="mTax" value="1.15" step="0.05" oninput="calc()">
-            </div>
-            
-            <div class="summary-box">
-                <div class="main-payment" id="resMonthly">$0 /mo</div>
-                <div class="cash-required" id="resCash">$0 Due at Close</div>
-                <div class="detail-text" id="resDetails"></div>
-            </div>
-        </div>
-    </div>
+<div id="install" class="tab">
+  <h2>Install</h2>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-    let map, mapReady = false;
-    let saved = [];
+let map, initialized=false;
 
-    const data = [
-        {name: "Waterside Place", price: "Town Center", lat: 27.3746, lng: -82.3995, hoa: "N/A", school: "Sarasota County"},
-        {name: "LakeHouse Cove", price: "$600k - $2M", lat: 27.3787, lng: -82.4045, hoa: "$380", school: "Sarasota County"},
-        {name: "Kingfisher Estates", price: "$1.8M+", lat: 27.3742, lng: -82.4020, hoa: "$450", school: "Sarasota County"},
-        {name: "Shellstone", price: "$750k+", lat: 27.3715, lng: -82.3965, hoa: "$320", school: "Sarasota County"},
-        {name: "Wild Blue", price: "$900k - $4M", lat: 27.3695, lng: -82.3935, hoa: "$350", school: "Sarasota County"},
-        {name: "Lakewood National", price: "$500k - $1.6M", lat: 27.4235, lng: -82.3913, hoa: "$580", school: "Manatee County"},
-        {name: "Esplanade Azario", price: "$650k - $2M", lat: 27.4265, lng: -82.3835, hoa: "$480", school: "Manatee County"},
-        {name: "Lorraine Lakes", price: "$500k - $1.1M", lat: 27.4140, lng: -82.3685, hoa: "$290", school: "Manatee County"},
-        {name: "The Lake Club", price: "$2M - $10M", lat: 27.4060, lng: -82.3815, hoa: "$620", school: "Manatee County"},
-        {name: "Skye Ranch", price: "$600k - $1.8M", lat: 27.3185, lng: -82.3925, hoa: "$220", school: "Sarasota County"}
-    ];
+function showTab(evt,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
 
-    function tab(e, name) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(name).classList.add('active');
-        e.currentTarget.classList.add('active');
-        if(name === 'Map' && !mapReady) { setTimeout(initMap, 200); mapReady = true; }
-    }
+  document.getElementById(id).classList.add('active');
+  evt.target.classList.add('active');
 
-    function initMap() {
-        map = L.map('map').setView([27.38, -82.39], 12);
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri'
-        }).addTo(map);
+  if(id==='mapTab' && !initialized){
+    setTimeout(initMap,100);
+    initialized=true;
+  }
+}
 
-        data.forEach(c => {
-            L.marker([c.lat, c.lng]).addTo(map).bindPopup(`<b>${c.name}</b><br>${c.price}`);
-        });
-    }
+function initMap(){
 
-    function jump(lat, lng) {
-        document.querySelector("button[onclick*='Map']").click();
-        setTimeout(() => { map.flyTo([lat, lng], 15); }, 400);
-    }
+  map=L.map('map').setView([27.375,-82.40],12);
 
-    function save(name) {
-        if(!saved.includes(name)) { saved.push(name); renderBrowse(); renderCompare(); }
-    }
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19
+  }).addTo(map);
 
-    function renderBrowse() {
-        document.getElementById('browse-grid').innerHTML = data.map(c => `
-            <div class="card">
-                <div class="card-header"><h3>${c.name}</h3></div>
-                <div class="card-body">
-                    <div class="stat-row"><span class="stat-label">Price Range</span><span>${c.price}</span></div>
-                    <div class="stat-row"><span class="stat-label">HOA/Club</span><span>${c.hoa}</span></div>
-                    <div class="stat-row"><span class="stat-label">Schools</span><span>${c.school}</span></div>
-                    <div class="btn-group">
-                        <button class="btn btn-main" onclick="jump(${c.lat}, ${c.lng})">LOCATE</button>
-                        <button class="btn btn-sec" onclick="save('${c.name}')">${saved.includes(c.name) ? 'SAVED' : 'ADD TO LIST'}</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
+  // ✅ WATERSIDE PLACE (exact town center)
+  const FM=[27.37455,-82.39970];
+  L.marker(FM).addTo(map).bindPopup("Waterside Place");
 
-    function renderCompare() {
-        const grid = document.getElementById('compare-grid');
-        grid.innerHTML = saved.length ? "" : "<p>No communities shortlisted yet.</p>";
-        saved.forEach(n => {
-            const c = data.find(x => x.name === n);
-            grid.innerHTML += `<div class="card"><div class="card-header"><h3>${c.name}</h3></div><div class="card-body"><p>${c.price}</p></div></div>`;
-        });
-    }
+  // ✅ WATERSIDE (road-aligned)
+  const water=[
+    ["LakeHouse Cove",27.37895,-82.40420],
+    ["Kingfisher Estates",27.37490,-82.40260],
+    ["Shellstone",27.37190,-82.39720],
+    ["Wild Blue",27.37010,-82.39420]
+  ];
 
-    function calc() {
-        const p = parseFloat(document.getElementById('mPrice').value);
-        const d = parseFloat(document.getElementById('mDown').value) / 100;
-        const r = parseFloat(document.getElementById('mRate').value) / 100 / 12;
-        const t = parseFloat(document.getElementById('mTax').value) / 100 / 12;
-        
-        const loan = p * (1-d);
-        const pi = (loan * r) / (1 - Math.pow(1 + r, -360));
-        const tax = p * t;
-        const closing = p * 0.032;
+  // ✅ LWR NORTH (actual entrances)
+  const north=[
+    ["Lakewood National",27.42390,-82.39100],
+    ["Azario",27.42720,-82.38340],
+    ["Lorraine Lakes",27.41480,-82.36980],
+    ["Lake Club",27.40620,-82.38200],
+    ["Mallory Park",27.39160,-82.40350]
+  ];
 
-        document.getElementById('resMonthly').innerText = `$${Math.round(pi + tax).toLocaleString()} /mo`;
-        document.getElementById('resCash').innerText = `$${Math.round((p*d) + closing).toLocaleString()} Total Cash`;
-        document.getElementById('resDetails').innerHTML = `Includes ~$${Math.round(closing).toLocaleString()} in estimated closing costs & prepays. Principal & interest is $${Math.round(pi).toLocaleString()}.`;
-    }
+  // ✅ SOUTH
+  const south=[
+    ["Skye Ranch",27.31880,-82.39280]
+  ];
 
-    renderBrowse();
-    calc();
+  function plot(g,c){
+    g.forEach(x=>{
+      L.circleMarker([x[1],x[2]],{
+        radius:6,color:c,fillOpacity:0.9
+      }).addTo(map).bindPopup(x[0]);
+    });
+  }
+
+  plot(water,"orange");
+  plot(north,"blue");
+  plot(south,"green");
+
+  const all=[
+    FM,
+    ...water.map(x=>[x[1],x[2]]),
+    ...north.map(x=>[x[1],x[2]]),
+    ...south.map(x=>[x[1],x[2]])
+  ];
+
+  map.fitBounds(all,{padding:[40,40]});
+}
 </script>
+
 </body>
 </html>
