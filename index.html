@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="LWR Finder">
 <meta name="theme-color" content="#1a6b4a">
 <title>LWR Community Finder</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{--g:#1a6b4a;--g2:#2d9065;--gl:#e8f4f0;--b:#1a5c8a;--bl:#e6f1f8;--a:#c47f1a;--al:#fdf3e3;--r:#c0392b;--rl:#fde8e6;--p:#6b3fa0;--pl:#f2ecfb;--warn:#e67e22;--warnl:#fef5e7;--gray50:#f8f8f6;--gray100:#ebebea;--gray200:#d4d4d2;--gray400:#888785;--gray700:#3a3a38;--gray900:#1a1a18;--rad:10px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -540,9 +540,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 
 <!-- MAP -->
 <div id="tab-map" style="display: none; padding: 8px 10px;">
-  <div id="map" style="width:100%;height:calc(100vh - 136px);border-radius:10px;"></div>
-  <p class="map-info">📍 Tap any pin to see community details. ⭐ = Farmers Market at Waterside Place.</p>
+  <div id="map" style="width:100%;height:calc(100vh - 136px);border-radius:var(--rad)"></div>
+  <p class="map-info">⭐ Purple star = Farmers Market at Waterside Place · Tap any pin for details &amp; travel times · Satellite imagery via Esri</p>
 </div>
+
 <!-- COMPARE -->
 <div id="tab-compare" style="display: none;">
   <div class="content">
@@ -667,9 +668,9 @@ before making an offer.</p></div>
   <button class="clr2" onclick="clearCmp()">Clear</button>
 </div>
 
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const FM=[27.4279,-82.3804];
+const FM=[27.4310,-82.3830];
 
 const C=[
   {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
@@ -1275,16 +1276,30 @@ function cm(){
   document.getElementById('opmi').style.color=pmiMo>0?'var(--warn)':'var(--g)';
   const total=pi+tax+hoa+cdd+ins+pmiMo;
   const totalWithLot=lotPrem>0?`<div class="ms warn2"><div class="msl">Total w/ Lot Premium</div><div class="msv">$${Math.round(totalPrice).toLocaleString()}</div></div>`:'';
+  // Closing costs calculation
+  const closingCostsPct = 0.025; // ~2.5% of loan
+  const closingCosts = Math.round(loan * closingCostsPct);
+  const prepaids = Math.round(ins * 12 + tax * 3 + hoa * 2); // 12mo insurance + 3mo tax escrow + 2mo HOA
+  const inspectionAppraisal = 1200; // typical FL inspection + appraisal
+  const totalCashToClose = Math.round(down + closingCosts + prepaids + inspectionAppraisal);
+
   document.getElementById('mres').innerHTML=`
-    <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$${Math.round(total).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$${Math.round(pi).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">Down Payment</div><div class="msv">$${Math.round(down).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$${Math.round(loan).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">Est. Tax/Mo (${(taxRate*100).toFixed(2)}%)</div><div class="msv${taxRate>0.012?' warn2':''}">${'$'+Math.round(tax).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$${(hoa+cdd).toLocaleString()}</div></div>
-    ${pmiMo>0?`<div class="ms warn2"><div class="msl">PMI (${downPct}% down)</div><div class="msv">$${Math.round(pmiMo).toLocaleString()}</div></div>`:''}
-    ${totalWithLot}
-    <div class="ms"><div class="msl">Annual Cost</div><div class="msv">$${Math.round(total*12).toLocaleString()}</div></div>`;
+    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.5px;padding-bottom:3px;border-bottom:1px solid var(--gray100);margin-bottom:2px">📅 Monthly Payment Breakdown</div>
+    <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$\${Math.round(total).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$\${Math.round(pi).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Est. Tax/Mo (\${(taxRate*100).toFixed(2)}%)</div><div class="msv\${taxRate>0.012?' warn2':''}">$\${'$'+Math.round(tax).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$\${(hoa+cdd).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Insurance/Mo</div><div class="msv">$\${ins.toLocaleString()}</div></div>
+    \${pmiMo>0?`<div class="ms warn2"><div class="msl">PMI (\${downPct}% down)</div><div class="msv">$\${Math.round(pmiMo).toLocaleString()}</div></div>`:''}
+    \${totalWithLot}
+    <div class="ms"><div class="msl">Annual Cost</div><div class="msv">$\${Math.round(total*12).toLocaleString()}</div></div>
+    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--b);text-transform:uppercase;letter-spacing:.5px;padding-bottom:3px;border-bottom:1px solid var(--gray100);margin-top:6px;margin-bottom:2px">💵 Upfront Cash Required</div>
+    <div class="ms"><div class="msl">Down Payment</div><div class="msv">$\${Math.round(down).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$\${Math.round(loan).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Closing Costs (~2.5%)</div><div class="msv">$\${closingCosts.toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Prepaids & Escrow</div><div class="msv">$\${prepaids.toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">Inspection + Appraisal</div><div class="msv">$\${inspectionAppraisal.toLocaleString()}</div></div>
+    <div class="ms warn2"><div class="msl">Total Cash Required</div><div class="msv">$\${totalCashToClose.toLocaleString()}</div></div>`;
 }
 
 function loadMort(id){
@@ -1307,108 +1322,4 @@ render();
 </script>
 
 
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-// ── EXACT GPS COORDINATES (verified from Google Maps / official addresses) ──
-var communities = [
-  // WATERSIDE VILLAGE (Kingfisher Lake area, south of University Pkwy)
-  {id:'avanti',      name:'Avanti',            lat:27.3810, lng:-82.4010, color:'#1a6b4a', district:'waterside'},
-  {id:'bungalow',    name:'Bungalow Walk',      lat:27.3830, lng:-82.4020, color:'#1a6b4a', district:'waterside'},
-  {id:'emerald',     name:'Emerald Landing',    lat:27.3820, lng:-82.4030, color:'#1a6b4a', district:'waterside'},
-  {id:'nautique',    name:'Nautique',           lat:27.3800, lng:-82.4025, color:'#1a6b4a', district:'waterside'},
-  {id:'shellstone',  name:'Shellstone',         lat:27.3840, lng:-82.4015, color:'#1a6b4a', district:'waterside'},
-  {id:'shoreview',   name:'Shoreview',          lat:27.3815, lng:-82.4005, color:'#c47f1a', district:'waterside'},
-  {id:'alcove',      name:'The Alcove',         lat:27.3790, lng:-82.4035, color:'#c47f1a', district:'waterside'},
-  {id:'wildblue',    name:'Wild Blue',          lat:27.3760, lng:-82.4050, color:'#c0392b', district:'waterside'},
-  {id:'kingfisher',  name:'Kingfisher Estates', lat:27.3748, lng:-82.4038, color:'#c0392b', district:'waterside', lotWarning:true},
-  {id:'lakehouse',   name:'LakeHouse Cove',     lat:27.3798, lng:-82.4052, color:'#c47f1a', district:'waterside'},
-  {id:'windward',    name:'Windward',           lat:27.3870, lng:-82.3980, color:'#1a5c8a', district:'waterside'},
-
-  // LWR MAIN (north of University Pkwy, Manatee County)
-  {id:'azario',      name:'Esplanade at Azario',lat:27.4380, lng:-82.3720, color:'#1a5c8a', district:'lwr', lotWarning:true},
-  {id:'starfarms',   name:'Star Farms',         lat:27.4250, lng:-82.3780, color:'#1a6b4a', district:'lwr'},
-  {id:'lorraine',    name:'Lorraine Lakes',     lat:27.4480, lng:-82.3750, color:'#1a6b4a', district:'lwr'},
-  {id:'lakeclub',    name:'The Lake Club',      lat:27.4300, lng:-82.3900, color:'#c0392b', district:'lwr', lotWarning:true},
-  {id:'lwnational',  name:'Lakewood National',  lat:27.4420, lng:-82.3800, color:'#1a5c8a', district:'lwr'},
-  {id:'cresswind',   name:'Cresswind (55+)',    lat:27.4460, lng:-82.3680, color:'#6b3fa0', district:'lwr'},
-  {id:'mallory',     name:'Mallory Park',       lat:27.4350, lng:-82.3850, color:'#1a5c8a', district:'lwr'},
-
-  // SKYE RANCH (south Sarasota, near Clark Rd / Lorraine Rd)
-  {id:'cassia',      name:'Cassia at Skye Ranch',    lat:27.2050, lng:-82.4200, color:'#1a5c8a', district:'skye'},
-  {id:'esplanade-skye', name:'Esplanade Skye Ranch', lat:27.2020, lng:-82.4180, color:'#6b3fa0', district:'skye'},
-
-  // WELLEN PARK (Venice / North Port area)
-  {id:'solstice',    name:'Solstice at Wellen Park', lat:27.0550, lng:-82.3900, color:'#c47f1a', district:'wellen'},
-  {id:'beachwalk',   name:'BeachWalk at Wellen',     lat:27.0520, lng:-82.3850, color:'#1a5c8a', district:'wellen'},
-  {id:'wellengolf',  name:'Wellen Park Golf & CC',   lat:27.0480, lng:-82.3920, color:'#1a6b4a', district:'wellen'},
-
-  // PALMER RANCH / NOKOMIS
-  {id:'talon',       name:'Talon Preserve',          lat:27.1800, lng:-82.4100, color:'#1a5c8a', district:'palmer'},
-  {id:'esplanade-palmer', name:'Esplanade Palmer Ranch', lat:27.2200, lng:-82.4500, color:'#1a5c8a', district:'palmer'},
-];
-
-var mapInitialized = false;
-
-function initMap() {
-  if (mapInitialized) return;
-  mapInitialized = true;
-
-  var map = L.map('map', {zoomControl: true});
-
-  // Esri satellite tiles
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri',
-    maxZoom: 19
-  }).addTo(map);
-
-  // Esri labels overlay
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '',
-    maxZoom: 19,
-    opacity: 0.8
-  }).addTo(map);
-
-  // Farmers Market star marker at Waterside Place
-  var fmIcon = L.divIcon({
-    html: '<div style="background:#6b3fa0;border:2.5px solid #fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,.5)">⭐</div>',
-    iconSize:[26,26], iconAnchor:[13,13], className:''
-  });
-  L.marker([27.3746, -82.3995], {icon: fmIcon})
-    .addTo(map)
-    .bindPopup('<div class="lpu-name">🌟 Farmers Market</div><div class="lpu-dist">Waterside Place · Every Sunday</div><div class="lpu-row">7500 Island Cove Terrace</div><div class="lpu-row">Kingfisher Lake, Lakewood Ranch</div>');
-
-  // Community markers
-  var bounds = [];
-  communities.forEach(function(c) {
-    bounds.push([c.lat, c.lng]);
-    var dot = L.divIcon({
-      html: '<div style="background:' + c.color + ';border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.4);cursor:pointer' + (c.lotWarning ? ';outline:2px solid #e67e22' : '') + '"></div>',
-      iconSize:[16,16], iconAnchor:[8,8], className:''
-    });
-    L.marker([c.lat, c.lng], {icon: dot})
-      .addTo(map)
-      .bindPopup('<div class="lpu-name">' + c.name + '</div><div class="lpu-dist">' + c.district.toUpperCase() + '</div><button class="lpu-btn" onclick="openModal('' + c.id + '');document.querySelector('.overlay').classList.add('open')">View Details</button>');
-  });
-
-  // Fit map to show all markers
-  map.fitBounds(bounds, {padding: [30, 30]});
-}
-
-// Tab switching
-function showTab(t) {
-  ['browse','map','compare','mortgage','install'].forEach(function(id) {
-    var el = document.getElementById('tab-' + id);
-    if (el) el.style.display = (id === t) ? 'block' : 'none';
-  });
-  document.querySelectorAll('.tb').forEach(function(b) { b.classList.remove('on'); });
-  var activeBtn = document.querySelector('.tb[onclick*="' + t + '"]');
-  if (activeBtn) activeBtn.classList.add('on');
-  if (t === 'map') {
-    setTimeout(initMap, 50);
-  }
-}
-</script>
-
-</body>
-</html>
+</body></html>
