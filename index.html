@@ -8,88 +8,150 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-body { margin:0; font-family: Arial; }
-
-h1 { margin:0; padding:10px; }
-
-nav { display:flex; background:#1a1a1a; }
-nav button {
-  flex:1; padding:14px; border:none;
-  background:none; color:white; cursor:pointer;
+:root{
+  --bg:#f7f8fa;
+  --card:#ffffff;
+  --text:#111;
+  --sub:#666;
+  --accent:#0a84ff;
 }
-nav button.active { background:#333; }
 
-.tab { display:none; padding:15px; }
-.tab.active { display:block; }
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont;
+  background:var(--bg);
+  color:var(--text);
+}
 
-#map { height:75vh; }
+header{
+  background:#0f1115;
+  color:#fff;
+  padding:14px 18px;
+  font-weight:600;
+  font-size:18px;
+}
 
-.card {
-  border:1px solid #ccc;
-  padding:10px;
-  margin:8px 0;
+nav{
+  display:flex;
+  background:#171a21;
+}
+
+nav button{
+  flex:1;
+  padding:14px;
+  border:none;
+  background:none;
+  color:#aaa;
+  font-size:14px;
+  cursor:pointer;
+}
+
+nav button.active{
+  color:#fff;
+  border-bottom:2px solid var(--accent);
+}
+
+.tab{ display:none; padding:20px; }
+.tab.active{ display:block; }
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
+.card h3{
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.meta{
+  font-size:13px;
+  color:var(--sub);
+  margin-bottom:8px;
+}
+
+.button{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:8px 10px;
   border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+  margin-right:6px;
 }
 
-input, select {
-  padding:8px;
-  margin:5px 0;
+.secondary{
+  background:#e5e7eb;
+  color:#333;
+}
+
+#map{
+  height:75vh;
+  border-radius:12px;
+}
+
+input{
   width:100%;
+  padding:10px;
+  margin:6px 0 10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.result{
+  margin-top:12px;
+  background:#fff;
+  padding:14px;
+  border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<h1 style="background:red;color:white;">VERSION V9 (SAFE FULL APP)</h1>
+<header>LWR Finder</header>
 
 <nav>
   <button onclick="showTab(event,'browse')" class="active">Browse</button>
   <button onclick="showTab(event,'compare')">Compare</button>
   <button onclick="showTab(event,'mapTab')">Map</button>
   <button onclick="showTab(event,'mortgage')">Mortgage</button>
-  <button onclick="showTab(event,'install')">Install</button>
 </nav>
 
-<!-- BROWSE -->
-<div id="browse" class="tab active"></div>
-
-<!-- COMPARE -->
-<div id="compare" class="tab">
-  <h2>Compare</h2>
-  <div id="compareList"></div>
+<div id="browse" class="tab active">
+  <div class="grid" id="browseGrid"></div>
 </div>
 
-<!-- MAP -->
+<div id="compare" class="tab">
+  <div class="grid" id="compareGrid"></div>
+</div>
+
 <div id="mapTab" class="tab">
   <div id="map"></div>
 </div>
 
-<!-- MORTGAGE -->
 <div id="mortgage" class="tab">
-  <h2>Mortgage Calculator</h2>
+  <div class="card">
+    <h3>Mortgage Calculator</h3>
 
-  <label>Home Price</label>
-  <input id="price" type="number" value="600000">
+    <input id="price" value="600000">
+    <input id="down" value="20">
+    <input id="rate" value="6.5">
+    <input id="tax" value="1.2">
 
-  <label>Down Payment (%)</label>
-  <input id="down" type="number" value="20">
+    <button class="button" onclick="calcMortgage()">Calculate</button>
 
-  <label>Interest Rate (%)</label>
-  <input id="rate" type="number" value="6.5">
-
-  <label>Property Tax (%)</label>
-  <input id="tax" type="number" value="1.2">
-
-  <button onclick="calcMortgage()">Calculate</button>
-
-  <div id="mortgageResult"></div>
-</div>
-
-<!-- INSTALL -->
-<div id="install" class="tab">
-  <h2>Install</h2>
-  <p>App version info and notes.</p>
+    <div id="result"></div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -98,24 +160,23 @@ input, select {
 let map, mapInit=false;
 let selected=[];
 
-// ✅ COMMUNITY DATA (used everywhere)
+// ✅ REAL FIXED COORDS (no API, instant load)
 const communities=[
-  {name:"Waterside Place", addr:"7500 Island Cove Terrace Sarasota FL"},
-  {name:"LakeHouse Cove", addr:"8000 Lakehouse Cove Cir Sarasota FL"},
-  {name:"Kingfisher Estates", addr:"7980 Sunset Pines Dr Sarasota FL"},
-  {name:"Shellstone", addr:"8200 Santa Rosa Ct Sarasota FL"},
-  {name:"Wild Blue", addr:"8300 Santa Rosa Ct Sarasota FL"},
+ {name:"Waterside Place",price:700000,hoa:350,tax:1.2,lat:27.3746,lng:-82.3995},
+ {name:"LakeHouse Cove",price:800000,hoa:400,tax:1.2,lat:27.3789,lng:-82.4042},
+ {name:"Kingfisher Estates",price:900000,hoa:450,tax:1.2,lat:27.3749,lng:-82.4026},
+ {name:"Shellstone",price:650000,hoa:300,tax:1.2,lat:27.3719,lng:-82.3972},
+ {name:"Wild Blue",price:750000,hoa:320,tax:1.2,lat:27.3701,lng:-82.3942},
 
-  {name:"Lakewood National", addr:"17605 Lakewood National Pkwy"},
-  {name:"Azario", addr:"15930 Paynes Mill Dr"},
-  {name:"Lorraine Lakes", addr:"16300 Lorraine Rd"},
-  {name:"Lake Club", addr:"15804 Clearlake Ave"},
-  {name:"Mallory Park", addr:"3420 Wood Fern Trail"},
+ {name:"Lakewood National",price:600000,hoa:280,tax:1.2,lat:27.4239,lng:-82.3910},
+ {name:"Azario",price:700000,hoa:300,tax:1.2,lat:27.4269,lng:-82.3836},
+ {name:"Lorraine Lakes",price:550000,hoa:250,tax:1.2,lat:27.4148,lng:-82.3698},
+ {name:"Lake Club",price:1200000,hoa:600,tax:1.2,lat:27.4062,lng:-82.3820},
+ {name:"Mallory Park",price:500000,hoa:220,tax:1.2,lat:27.3916,lng:-82.4035},
 
-  {name:"Skye Ranch", addr:"10301 Skye Ranch Blvd"}
+ {name:"Skye Ranch",price:650000,hoa:200,tax:1.2,lat:27.3188,lng:-82.3928}
 ];
 
-// ✅ NAVIGATION
 function showTab(e,id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
@@ -129,21 +190,25 @@ function showTab(e,id){
   }
 }
 
-// ✅ BROWSE LIST
+// ✅ BROWSE
 function renderBrowse(){
-  const el=document.getElementById("browse");
-  el.innerHTML="<h2>Browse</h2>";
+  const grid=document.getElementById("browseGrid");
+  grid.innerHTML="";
 
   communities.forEach(c=>{
     const div=document.createElement("div");
     div.className="card";
 
     div.innerHTML=`
-      <strong>${c.name}</strong><br>
-      <button onclick="addCompare('${c.name}')">Compare</button>
+      <h3>${c.name}</h3>
+      <div class="meta">
+        $${c.price.toLocaleString()} • HOA $${c.hoa}/mo • ${c.tax}% tax
+      </div>
+      <button class="button" onclick="addCompare('${c.name}')">Compare</button>
+      <button class="button secondary" onclick="zoomTo('${c.name}')">View Map</button>
     `;
 
-    el.appendChild(div);
+    grid.appendChild(div);
   });
 }
 
@@ -156,63 +221,74 @@ function addCompare(name){
 }
 
 function renderCompare(){
-  const el=document.getElementById("compareList");
-  el.innerHTML=selected.map(s=>`<div class="card">${s}</div>`).join("");
+  const grid=document.getElementById("compareGrid");
+  grid.innerHTML="";
+
+  selected.forEach(n=>{
+    const c=communities.find(x=>x.name===n);
+
+    const div=document.createElement("div");
+    div.className="card";
+
+    div.innerHTML=`
+      <h3>${c.name}</h3>
+      $${c.price.toLocaleString()}<br>
+      HOA: $${c.hoa}<br>
+      Tax: ${c.tax}%
+    `;
+
+    grid.appendChild(div);
+  });
 }
 
-// ✅ MAP (WORKING VERSION PRESERVED)
-function initMap(){
+// ✅ MAP (instant)
+let markers={};
 
+function initMap(){
   map=L.map('map').setView([27.37,-82.40],11);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:19
-  }).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
 
-  function geocode(name,address){
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
-    .then(r=>r.json())
-    .then(data=>{
-      if(data && data[0]){
-        L.marker([data[0].lat,data[0].lon])
-          .addTo(map)
-          .bindPopup(name);
-      }
-    });
-  }
+  communities.forEach(c=>{
+    const m=L.marker([c.lat,c.lng]).addTo(map).bindPopup(c.name);
+    markers[c.name]=m;
+  });
+}
 
-  communities.forEach(c=>geocode(c.name,c.addr));
+// ✅ ZOOM
+function zoomTo(name){
+  showTab({target:document.querySelectorAll('nav button')[2]},"mapTab");
+
+  setTimeout(()=>{
+    map.setView([communities.find(c=>c.name===name).lat,
+                 communities.find(c=>c.name===name).lng],15);
+  },200);
 }
 
 // ✅ MORTGAGE
 function calcMortgage(){
+  const p=+price.value;
+  const d=+down.value/100;
+  const r=+rate.value/100/12;
+  const t=+tax.value/100;
 
-  const price=+document.getElementById("price").value;
-  const downPct=+document.getElementById("down").value/100;
-  const rate=+document.getElementById("rate").value/100/12;
-  const taxPct=+document.getElementById("tax").value/100;
+  const loan=p*(1-d);
+  const m=360;
 
-  const loan=price*(1-downPct);
-  const months=360;
+  const pay=loan*(r*(1+r)**m)/((1+r)**m-1);
+  const taxM=(p*t)/12;
+  const close=p*0.03;
 
-  const monthly = loan * (rate*(1+rate)**months)/((1+rate)**months-1);
-
-  const taxMonthly = (price*taxPct)/12;
-  const closing = price*0.03;
-
-  const totalCash = (price*downPct) + closing;
-
-  document.getElementById("mortgageResult").innerHTML=`
-    <div class="card">
-      Monthly Payment: $${monthly.toFixed(0)}<br>
-      Property Tax: $${taxMonthly.toFixed(0)}<br>
-      Closing Costs: $${closing.toFixed(0)}<br>
-      <strong>Total Cash Required: $${totalCash.toFixed(0)}</strong>
+  result.innerHTML=`
+    <div class="result">
+      Monthly: $${pay.toFixed(0)}<br>
+      Tax: $${taxM.toFixed(0)}<br>
+      Closing: $${close.toFixed(0)}<br>
+      <strong>Total Cash: $${(p*d+close).toFixed(0)}</strong>
     </div>
   `;
 }
 
-// INIT
 renderBrowse();
 </script>
 
