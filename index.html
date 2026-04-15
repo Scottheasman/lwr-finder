@@ -618,7 +618,7 @@ $150–$600/mo — factor into your budget.</em>
     <div class="sr"><label>CDD / Month</label><input type="range" id="sc" min="0" max="500" step="10" value="180" oninput="cm()"><span class="sv" id="oc">$180</span></div>
     <div class="sr"><label>Insurance / Mo</label><input type="range" id="si" min="100" max="900" step="25" value="275" oninput="cm()"><span class="sv" id="oi">$275</span></div>
     <div class="mres" id="mres">
-    <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$5,193</div></div>
+    <div class="ms hi"><div class="msl">Total Monthly Payment</div><div class="msv">$5,193</div></div>
     <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$3,651</div></div>
     <div class="ms"><div class="msl">Down Payment</div><div class="msv">$140,000</div></div>
     <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$560,000</div></div>
@@ -1285,7 +1285,7 @@ function cm(){
   const total=pi+tax+hoa+cdd+ins+pmiMo;
   const totalWithLot=lotPrem>0?`<div class="ms warn2"><div class="msl">Total w/ Lot Premium</div><div class="msv">$${Math.round(totalPrice).toLocaleString()}</div></div>`:'';
   document.getElementById('mres').innerHTML=`
-    <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$${Math.round(total).toLocaleString()}</div></div>
+    <div class="ms hi"><div class="msl">Total Monthly Payment</div><div class="msv">$${Math.round(total).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$${Math.round(pi).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Down Payment</div><div class="msv">$${Math.round(down).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$${Math.round(loan).toLocaleString()}</div></div>
