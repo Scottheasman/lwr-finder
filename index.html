@@ -1,4 +1,3 @@
-your latest attempt is rubbish and the maps is bad again.... this is a version of code (ignore maps) that had better other visuals
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,16 +74,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .td{font-size:8px;color:var(--gray400)}
 .am-list{display:flex;flex-wrap:wrap;gap:4px}
 .am-tag{padding:2px 8px;border-radius:12px;font-size:9.5px;background:var(--gl);color:var(--g);border:1px solid #b0d9c9}
-/* LOT PREMIUM CALLOUT */
 .lot-box{background:var(--warnl);border:1px solid #f0c878;border-radius:8px;padding:9px 11px;margin-top:0}
 .lot-box h4{font-size:10px;font-weight:700;color:var(--warn);margin-bottom:5px;display:flex;align-items:center;gap:5px}
 .lot-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:3px}
 .lot-k{font-size:9px;color:#8b6020}.lot-v{font-size:11.5px;font-weight:600;color:var(--warn)}
 .lot-note{font-size:9px;color:#8b6020;margin-top:5px;line-height:1.4;font-style:italic}
-/* FLOOR PLANS */
 .fp-links{display:flex;flex-wrap:wrap;gap:5px}
 .fp-link{padding:5px 11px;border-radius:7px;font-size:10.5px;font-weight:600;background:var(--b);color:#fff;text-decoration:none;display:inline-block}
-.fp-link:hover{background:#1249726}
 .abtn{display:block;width:calc(100% - 28px);margin:7px 14px 0;padding:9px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-align:center}
 .abtn.add-off{border:2px solid var(--g);background:#fff;color:var(--g)}
 .abtn.add-on{border:2px solid var(--g);background:var(--g);color:#fff}
@@ -100,7 +96,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ctab td{padding:5px 7px;border-bottom:1px solid var(--gray100);vertical-align:top}
 .ctab tr:hover td{background:var(--gray50)}
 .cremove{background:none;border:none;color:var(--r);cursor:pointer;font-size:13px}
-/* MORTGAGE */
 .mc{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);padding:12px;margin-bottom:8px}
 .mc h2{font-size:14px;font-weight:600;margin-bottom:9px}
 .mc h3{font-size:11px;font-weight:600;color:var(--gray700);margin:12px 0 6px;padding-top:10px;border-top:1px solid var(--gray100)}
@@ -114,7 +109,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ms .msv{font-size:14px;font-weight:700}
 .ms.hi{background:var(--gl)}.ms.hi .msv{color:var(--g)}
 .ms.warn2{background:var(--warnl)}.ms.warn2 .msv{color:var(--warn)}
-/* TAX & PMI INFO BOXES */
 .info-box{border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:11px;line-height:1.6}
 .info-box.tax{background:#e8f4f0;border:1px solid #b0d9c9}
 .info-box.pmi-box{background:var(--warnl);border:1px solid #f0c878}
@@ -162,7 +156,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 <div class="fp">
   <div class="fr"><span class="fl">Price Tier</span>
     <button class="ch on" onclick="sf('price','all',this)">All</button>
-    <button class="ch" onclick="sf('price','entry',this)">&lt;$500K</button>
+    <button class="ch" onclick="sf('price','entry',this)"><$500K</button>
     <button class="ch" onclick="sf('price','mid',this)">$500K–$1M</button>
     <button class="ch" onclick="sf('price','luxury',this)">$1M–$2M</button>
     <button class="ch" onclick="sf('price','ultra',this)">$2M+</button>
@@ -231,19 +225,15 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 <!-- MORTGAGE -->
 <div id="tab-mortgage" style="display:none">
 <div class="content">
-
-  <!-- TAX INFO BOX -->
   <div class="info-box tax">
     <h4>📋 2025 Florida Property Tax Rates — Sarasota & Manatee Counties</h4>
     <strong>Sarasota County (Waterside, Skye Ranch, Palmer Ranch):</strong> Total millage ~11.47 mills = effective rate <strong>~1.05–1.15%</strong> of assessed value. New construction assessed at purchase price (no homestead cap year 1). With $50K homestead exemption: saves ~$575/yr on county + school taxes.<br><br>
     <strong>Manatee County (LWR Main, most villages):</strong> Total millage ~14.5–16 mills depending on district = effective rate <strong>~1.25–1.45%</strong> of assessed value. Higher than Sarasota due to school district millage.<br><br>
     <em style="font-size:9.5px">⚠️ New construction buyers: year 1 taxes are calculated on full purchase price. Apply for Homestead Exemption by March 1 following your move-in to save ~$550–$900/yr from year 2 onward. CDD fees appear separately on your tax bill and are NOT included in the above rates.</em>
   </div>
-
-  <!-- PMI INFO BOX -->
   <div class="info-box pmi-box">
-    <h4>⚠️ 2025 PMI Rates — Required When Down Payment &lt; 20%</h4>
-    PMI protects the lender (not you) if you default. Required on conventional loans with &lt;20% down. Drops off automatically at 22% equity (or request at 20%).
+    <h4>⚠️ 2025 PMI Rates — Required When Down Payment < 20%</h4>
+    PMI protects the lender (not you) if you default. Required on conventional loans with <20% down. Drops off automatically at 22% equity (or request at 20%).
     <table class="pmi-table">
       <thead><tr><th>Credit Score</th><th>5% Down (95% LTV)</th><th>10% Down (90% LTV)</th><th>15% Down (85% LTV)</th></tr></thead>
       <tbody>
@@ -255,7 +245,6 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     </table>
     <em style="font-size:9px">Example: $700K home, 10% down ($70K), 720+ credit → PMI ≈ $218/mo. At 760+ → $127/mo. On LWR prices, PMI can add $150–$600/mo — factor into your budget.</em>
   </div>
-
   <div class="mc">
     <h2>Monthly Payment Estimator</h2>
     <div class="sr"><label>County</label>
@@ -284,7 +273,6 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <div class="sr"><label>Insurance / Mo</label><input type="range" id="si" min="100" max="900" step="25" value="275" oninput="cm()"><span class="sv" id="oi">$275</span></div>
     <div class="mres" id="mres"></div>
     <p class="mnote">Tax rates: Sarasota Co. ~1.10% / Manatee Co. ~1.35% of assessed value (2025 millage). PMI rates per Urban Institute 2025 data. Homestead exemption saves ~$550–$900/yr from year 2 — not included above. Verify all figures with a licensed lender and county appraiser before purchase.</p>
-
     <h3>Quick-Load Community Costs</h3>
     <p style="font-size:10px;color:var(--gray400);margin-bottom:7px">Tap a community to auto-fill HOA, CDD, lot premium & midpoint price.</p>
     <div id="qcoms" style="display:flex;flex-wrap:wrap;gap:4px"></div>
@@ -498,8 +486,8 @@ const C=[
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
    types:['townhome','villa','sfh'],builders:['Lennar Homes'],homes:'~600',
    floorPlanUrl:'https://www.lennar.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/lorraine-lakes',
-   amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
-   highlights:'Gated. Lennar Everything\'s Included. Lake views. Splash pad & waterslide.',
+   amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park',"Lennar Everything's Included"],
+   highlights:"Gated. Lennar Everything's Included. Lake views. Splash pad & waterslide.",
    pros:['Gated','Lennar Included package','Lake views','Splash pad & waterslide'],cons:['Lennar only','No golf'],
    tags:['gated','water'],lat:27.4680,lng:-82.3720,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
 
@@ -648,14 +636,14 @@ const C=[
    tags:['gated','maint'],lat:27.2060,lng:-82.4680,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// STATE
 let flt={price:'all',district:'all',type:'all',bed:'all'};
 let feats=new Set();
 let cmpList=[];
 let leafMap=null;
 
 const TAX={sarasota:0.011,manatee:0.0135};
-// PMI by (down%, credit) — annual % of loan
+
 function getPMI(downPct,creditVal,loanAmt){
   if(downPct>=20)return 0;
   const rate=parseFloat(creditVal)/100;
@@ -869,27 +857,21 @@ function showTab(t){
 
 function initMap(){
   if(leafMap){leafMap.invalidateSize();return;}
-  // Fit bounds to cover all communities from Wellen Park (~27.01) to LWR North (~27.48)
   leafMap=L.map('map',{center:[27.28,-82.42],zoom:10});
-  // Satellite base layer
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-    attribution:'Tiles &copy; Esri &mdash; Source: Esri, Maxar, GeoEye, Earthstar Geographics',
-    maxZoom:19
+    attribution:'Tiles © Esri — Source: Esri, Maxar, GeoEye, Earthstar Geographics',maxZoom:19
   }).addTo(leafMap);
-  // Road/label overlay — use the more reliable Hybrid label service
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}',{
     attribution:'',maxZoom:19,opacity:0.6
   }).addTo(leafMap);
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{
     attribution:'',maxZoom:19,opacity:0.8
   }).addTo(leafMap);
-  // Farmers Market star pin
   const fmIcon=L.divIcon({html:`<div style="background:#6b3fa0;border:2.5px solid #fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.5)">⭐</div>`,className:'',iconAnchor:[13,13]});
   L.marker(FM,{icon:fmIcon}).addTo(leafMap).bindPopup('<div class="lpu-name">⭐ Farmers Market</div><div class="lpu-dist">Waterside Place · Every Sunday 10am–2pm</div><div class="lpu-row">1560 Lakefront Dr, LWR FL 34240</div>');
-  // Community pins — colour-coded by tier, orange ring for lot-premium alert
   C.forEach(c=>{
     const col=tierColor(c.tier);
-    const ring=c.hasLotWarn?`outline:2.5px solid #e67e22;outline-offset:1px;`:'';
+    const ring=c.hasLotWarn?'outline:2.5px solid #e67e22;outline-offset:1px;':'';
     const icon=L.divIcon({
       html:`<div style="background:${col};border:2.5px solid #fff;border-radius:50%;width:18px;height:18px;box-shadow:0 2px 6px rgba(0,0,0,.4);cursor:pointer;${ring}"></div>`,
       className:'',iconAnchor:[9,9]
@@ -904,7 +886,6 @@ function initMap(){
        <button class="lpu-btn" onclick="openModal('${c.id}');document.querySelector('.leaflet-popup-close-button').click()">Full Details + Floor Plans</button>`
     );
   });
-  // Auto-fit to show all pins
   const allLatLngs=C.map(c=>[c.lat,c.lng]).concat([FM]);
   leafMap.fitBounds(L.latLngBounds(allLatLngs),{padding:[30,30]});
 }
@@ -945,7 +926,7 @@ function cm(){
   const totalWithLot=lotPrem>0?`<div class="ms warn2"><div class="msl">Total w/ Lot Premium</div><div class="msv">$${Math.round(totalPrice).toLocaleString()}</div></div>`:'';
   document.getElementById('mres').innerHTML=`
     <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$${Math.round(total).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$${Math.round(pi).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">P&I Payment</div><div class="msv">$${Math.round(pi).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Down Payment</div><div class="msv">$${Math.round(down).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$${Math.round(loan).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Est. Tax/Mo (${(taxRate*100).toFixed(2)}%)</div><div class="msv${taxRate>0.012?' warn2':''}">${'$'+Math.round(tax).toLocaleString()}</div></div>
