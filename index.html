@@ -2,96 +2,218 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>LWR App</title>
+<title>LWR Finder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
 body { margin:0; font-family: Arial; }
+
 h1 { margin:0; padding:10px; }
+
 nav { display:flex; background:#1a1a1a; }
-nav button { flex:1; padding:14px; border:none; background:none; color:white; cursor:pointer; }
+nav button {
+  flex:1; padding:14px; border:none;
+  background:none; color:white; cursor:pointer;
+}
 nav button.active { background:#333; }
 
 .tab { display:none; padding:15px; }
 .tab.active { display:block; }
 
-#map { height:80vh; width:100%; }
+#map { height:75vh; }
+
+.card {
+  border:1px solid #ccc;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+}
+
+input, select {
+  padding:8px;
+  margin:5px 0;
+  width:100%;
+}
 </style>
 </head>
 
 <body>
 
-<h1 style="background:red;color:white;">VERSION V8 (GOOGLE-BASED LOCATIONS)</h1>
+<h1 style="background:red;color:white;">VERSION V9 (SAFE FULL APP)</h1>
 
 <nav>
   <button onclick="showTab(event,'browse')" class="active">Browse</button>
+  <button onclick="showTab(event,'compare')">Compare</button>
   <button onclick="showTab(event,'mapTab')">Map</button>
   <button onclick="showTab(event,'mortgage')">Mortgage</button>
+  <button onclick="showTab(event,'install')">Install</button>
 </nav>
 
+<!-- BROWSE -->
 <div id="browse" class="tab active"></div>
-<div id="mapTab" class="tab"><div id="map"></div></div>
-<div id="mortgage" class="tab"></div>
+
+<!-- COMPARE -->
+<div id="compare" class="tab">
+  <h2>Compare</h2>
+  <div id="compareList"></div>
+</div>
+
+<!-- MAP -->
+<div id="mapTab" class="tab">
+  <div id="map"></div>
+</div>
+
+<!-- MORTGAGE -->
+<div id="mortgage" class="tab">
+  <h2>Mortgage Calculator</h2>
+
+  <label>Home Price</label>
+  <input id="price" type="number" value="600000">
+
+  <label>Down Payment (%)</label>
+  <input id="down" type="number" value="20">
+
+  <label>Interest Rate (%)</label>
+  <input id="rate" type="number" value="6.5">
+
+  <label>Property Tax (%)</label>
+  <input id="tax" type="number" value="1.2">
+
+  <button onclick="calcMortgage()">Calculate</button>
+
+  <div id="mortgageResult"></div>
+</div>
+
+<!-- INSTALL -->
+<div id="install" class="tab">
+  <h2>Install</h2>
+  <p>App version info and notes.</p>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-let map, init=false;
+let map, mapInit=false;
+let selected=[];
 
+// ✅ COMMUNITY DATA (used everywhere)
+const communities=[
+  {name:"Waterside Place", addr:"7500 Island Cove Terrace Sarasota FL"},
+  {name:"LakeHouse Cove", addr:"8000 Lakehouse Cove Cir Sarasota FL"},
+  {name:"Kingfisher Estates", addr:"7980 Sunset Pines Dr Sarasota FL"},
+  {name:"Shellstone", addr:"8200 Santa Rosa Ct Sarasota FL"},
+  {name:"Wild Blue", addr:"8300 Santa Rosa Ct Sarasota FL"},
+
+  {name:"Lakewood National", addr:"17605 Lakewood National Pkwy"},
+  {name:"Azario", addr:"15930 Paynes Mill Dr"},
+  {name:"Lorraine Lakes", addr:"16300 Lorraine Rd"},
+  {name:"Lake Club", addr:"15804 Clearlake Ave"},
+  {name:"Mallory Park", addr:"3420 Wood Fern Trail"},
+
+  {name:"Skye Ranch", addr:"10301 Skye Ranch Blvd"}
+];
+
+// ✅ NAVIGATION
 function showTab(e,id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+
   document.getElementById(id).classList.add('active');
   e.target.classList.add('active');
 
-  if(id==='mapTab' && !init){
+  if(id==="mapTab" && !mapInit){
     setTimeout(initMap,100);
-    init=true;
+    mapInit=true;
   }
 }
 
+// ✅ BROWSE LIST
+function renderBrowse(){
+  const el=document.getElementById("browse");
+  el.innerHTML="<h2>Browse</h2>";
+
+  communities.forEach(c=>{
+    const div=document.createElement("div");
+    div.className="card";
+
+    div.innerHTML=`
+      <strong>${c.name}</strong><br>
+      <button onclick="addCompare('${c.name}')">Compare</button>
+    `;
+
+    el.appendChild(div);
+  });
+}
+
+// ✅ COMPARE
+function addCompare(name){
+  if(!selected.includes(name)){
+    selected.push(name);
+    renderCompare();
+  }
+}
+
+function renderCompare(){
+  const el=document.getElementById("compareList");
+  el.innerHTML=selected.map(s=>`<div class="card">${s}</div>`).join("");
+}
+
+// ✅ MAP (WORKING VERSION PRESERVED)
 function initMap(){
+
   map=L.map('map').setView([27.37,-82.40],11);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19
   }).addTo(map);
 
-  // ✅ REAL ADDRESSES (Google-level accuracy)
-  const places=[
-    ["Waterside Place","7500 Island Cove Terrace, Sarasota, FL"],
-    ["LakeHouse Cove","8000 Lakehouse Cove Cir, Sarasota, FL"],
-    ["Kingfisher Estates","7980 Sunset Pines Dr, Sarasota, FL"],
-    ["Shellstone","8200 Santa Rosa Ct, Sarasota, FL"],
-    ["Wild Blue","8300 Santa Rosa Ct, Sarasota, FL"],
-
-    ["Lakewood National","17605 Lakewood National Pkwy, Lakewood Ranch, FL"],
-    ["Azario","15930 Paynes Mill Dr, Lakewood Ranch, FL"],
-    ["Lorraine Lakes","16300 Lorraine Rd, Lakewood Ranch, FL"],
-    ["Lake Club","15804 Clearlake Ave, Lakewood Ranch, FL"],
-    ["Mallory Park","3420 Wood Fern Trail, Lakewood Ranch, FL"],
-
-    ["Skye Ranch","10301 Skye Ranch Blvd, Sarasota, FL"]
-  ];
-
-  // ✅ FREE GEOCODER (uses real location lookup)
   function geocode(name,address){
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
     .then(r=>r.json())
     .then(data=>{
       if(data && data[0]){
-        const lat=data[0].lat;
-        const lon=data[0].lon;
-
-        L.marker([lat,lon]).addTo(map).bindPopup(name);
+        L.marker([data[0].lat,data[0].lon])
+          .addTo(map)
+          .bindPopup(name);
       }
     });
   }
 
-  places.forEach(p=>geocode(p[0],p[1]));
+  communities.forEach(c=>geocode(c.name,c.addr));
 }
+
+// ✅ MORTGAGE
+function calcMortgage(){
+
+  const price=+document.getElementById("price").value;
+  const downPct=+document.getElementById("down").value/100;
+  const rate=+document.getElementById("rate").value/100/12;
+  const taxPct=+document.getElementById("tax").value/100;
+
+  const loan=price*(1-downPct);
+  const months=360;
+
+  const monthly = loan * (rate*(1+rate)**months)/((1+rate)**months-1);
+
+  const taxMonthly = (price*taxPct)/12;
+  const closing = price*0.03;
+
+  const totalCash = (price*downPct) + closing;
+
+  document.getElementById("mortgageResult").innerHTML=`
+    <div class="card">
+      Monthly Payment: $${monthly.toFixed(0)}<br>
+      Property Tax: $${taxMonthly.toFixed(0)}<br>
+      Closing Costs: $${closing.toFixed(0)}<br>
+      <strong>Total Cash Required: $${totalCash.toFixed(0)}</strong>
+    </div>
+  `;
+}
+
+// INIT
+renderBrowse();
 </script>
 
 </body>
