@@ -8,143 +8,138 @@
 <meta name="apple-mobile-web-app-title" content="LWR Finder">
 <meta name="theme-color" content="#1a6b4a">
 <title>LWR Community Finder</title>
-<link rel="stylesheet" href="LWR%20Community%20Finder_files/leaflet.css">
+<link rel="stylesheet" href="index_files/leaflet.css">
 <style>
-:root{--g:#1a6b4a;--g2:#2d9065;--gl:#e8f4f0;--b:#1a5c8a;--bl:#e6f1f8;--a:#c47f1a;--al:#fdf3e3;--r:#c0392b;--rl:#fde8e6;--p:#6b3fa0;--pl:#f2ecfb;--gray50:#f8f8f6;--gray100:#ebebea;--gray200:#d4d4d2;--gray400:#888785;--gray700:#3a3a38;--gray900:#1a1a18;--rad:10px}
+:root{--g:#1a6b4a;--g2:#2d9065;--gl:#e8f4f0;--b:#1a5c8a;--bl:#e6f1f8;--a:#c47f1a;--al:#fdf3e3;--r:#c0392b;--rl:#fde8e6;--p:#6b3fa0;--pl:#f2ecfb;--warn:#e67e22;--warnl:#fef5e7;--gray50:#f8f8f6;--gray100:#ebebea;--gray200:#d4d4d2;--gray400:#888785;--gray700:#3a3a38;--gray900:#1a1a18;--rad:10px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--gray50);color:var(--gray900);font-size:15px;line-height:1.5;overflow-x:hidden}
-.hdr{background:var(--g);color:#fff;padding:12px 14px 8px;position:sticky;top:0;z-index:500}
-.hdr h1{font-size:16px;font-weight:600}.hdr p{font-size:10px;opacity:.75;margin-top:1px}
-.tabs{display:flex;background:#fff;border-bottom:1px solid var(--gray100);position:sticky;top:54px;z-index:499;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.hdr{background:var(--g);color:#fff;padding:11px 14px 7px;position:sticky;top:0;z-index:500}
+.hdr h1{font-size:15px;font-weight:600}.hdr p{font-size:10px;opacity:.75;margin-top:1px}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--gray100);position:sticky;top:52px;z-index:499;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tb{flex:1;min-width:68px;padding:8px 5px;font-size:10.5px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--gray400);border-bottom:2.5px solid transparent;white-space:nowrap}
+.tb{flex:1;min-width:66px;padding:8px 4px;font-size:10px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--gray400);border-bottom:2.5px solid transparent;white-space:nowrap}
 .tb.on{color:var(--g);border-bottom-color:var(--g)}
-.fp{background:#fff;padding:9px 12px;border-bottom:1px solid var(--gray100)}
-.fr{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.fp{background:#fff;padding:8px 12px;border-bottom:1px solid var(--gray100)}
+.fr{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:5px}
 .fr:last-child{margin-bottom:0}
-.fl{font-size:9.5px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px;width:100%;margin-bottom:2px}
-.ch{padding:3px 10px;border-radius:16px;border:1px solid var(--gray200);background:var(--gray50);font-size:10.5px;cursor:pointer;color:var(--gray700);white-space:nowrap;transition:all .15s}
+.fl{font-size:9px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px;width:100%;margin-bottom:2px}
+.ch{padding:3px 9px;border-radius:14px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700);white-space:nowrap;transition:all .15s}
 .ch.on{background:var(--g);color:#fff;border-color:var(--g)}
 .clrb{margin-left:auto;font-size:10px;color:var(--g);background:none;border:none;cursor:pointer;text-decoration:underline}
-.content{padding:10px 11px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:9px}
-.card{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);cursor:pointer;transition:box-shadow .2s;overflow:hidden}
-.card:hover,.card.sel{box-shadow:0 2px 14px rgba(0,0,0,.1)}
+.content{padding:9px 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:8px}
+.card{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);cursor:pointer;transition:box-shadow .2s}
+.card:hover,.card.sel{box-shadow:0 2px 12px rgba(0,0,0,.09)}
 .card.sel{border:2px solid var(--g)}
-.ch2{padding:10px 12px 6px;border-bottom:1px solid var(--gray100);display:flex;justify-content:space-between;align-items:flex-start;gap:7px}
-.cn{font-size:13.5px;font-weight:600}.cs{font-size:9.5px;color:var(--gray400);margin-top:1px}
-.badge{font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:14px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+.ch2{padding:10px 11px 6px;border-bottom:1px solid var(--gray100);display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.cn{font-size:13px;font-weight:600}.cs{font-size:9px;color:var(--gray400);margin-top:1px}
+.badge{font-size:8px;font-weight:700;padding:2px 6px;border-radius:12px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
 .badge.entry{background:var(--gl);color:#1a6b4a}
 .badge.mid{background:var(--bl);color:#1a5c8a}
 .badge.luxury{background:var(--al);color:#c47f1a}
 .badge.ultra{background:var(--rl);color:#9b2c1e}
 .badge.active55{background:var(--pl);color:#6b3fa0}
-.cb{padding:8px 12px}
-.cm{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.mk{font-size:8.5px;color:var(--gray400);text-transform:uppercase;letter-spacing:.3px}
-.mv{font-size:11.5px;font-weight:500}
-.ctags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;padding-top:6px;border-top:1px solid var(--gray100)}
-.tag{font-size:8.5px;padding:1px 6px;border-radius:10px;background:var(--gray50);border:1px solid var(--gray200);color:var(--gray700)}
+.cb{padding:7px 11px}
+.cm{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.mk{font-size:8px;color:var(--gray400);text-transform:uppercase;letter-spacing:.3px}
+.mv{font-size:11px;font-weight:500}
+.ctags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;padding-top:5px;border-top:1px solid var(--gray100)}
+.tag{font-size:8px;padding:1px 6px;border-radius:10px;background:var(--gray50);border:1px solid var(--gray200);color:var(--gray700)}
 .tag.golf{background:var(--gl);color:var(--g);border-color:#b0d9c9}
 .tag.water{background:var(--bl);color:var(--b);border-color:#b0cce0}
 .tag.gated{background:var(--pl);color:var(--p);border-color:#d4b8ef}
 .tag.maint{background:var(--al);color:var(--a);border-color:#e8c87a}
-.tag.nocdd{background:#e8f4e8;color:#1a6b1a;border-color:#b0d9b0}
-.tag.age55{background:var(--rl);color:#9b2c1e;border-color:#f0b0a8}
-.noR{text-align:center;padding:36px 16px;color:var(--gray400);grid-column:1/-1}
-.rc{font-size:10.5px;color:var(--gray400);margin-bottom:7px}
-
-/* MAP */
-#map{width:100%;height:calc(100vh - 140px);border-radius:var(--rad);overflow:hidden}
-.map-info{font-size:10px;color:var(--gray400);margin-top:6px;padding:0 2px}
-
-/* OVERLAY / SHEET */
+.tag.warn{background:var(--warnl);color:var(--warn);border-color:#f0c878}
+.noR{text-align:center;padding:34px 14px;color:var(--gray400);grid-column:1/-1}
+.rc{font-size:10px;color:var(--gray400);margin-bottom:6px}
+#map{width:100%;height:calc(100vh - 136px);border-radius:var(--rad)}
+.map-info{font-size:9.5px;color:var(--gray400);margin-top:5px;padding:0 2px}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:600;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
-.sheet{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:660px;max-height:92vh;overflow-y:auto;padding-bottom:28px}
-.sh{width:34px;height:4px;background:var(--gray200);border-radius:2px;margin:8px auto 0}
-.shdr{padding:10px 14px 8px;border-bottom:1px solid var(--gray100);position:relative}
-.stitle{font-size:18px;font-weight:700}
-.ssub{font-size:11px;color:var(--gray400)}
-.sclose{position:absolute;top:11px;right:13px;background:var(--gray100);border:none;border-radius:50%;width:26px;height:26px;font-size:14px;cursor:pointer;color:var(--gray700);display:flex;align-items:center;justify-content:center}
-.sec{padding:9px 14px;border-bottom:1px solid var(--gray100)}
-.sec h3{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray400);margin-bottom:6px}
-.dg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.dk{font-size:9.5px;color:var(--gray400)}.dv{font-size:13px;font-weight:500}
-.dv.green{color:var(--g)}.dv.amber{color:var(--a)}.dv.red{color:var(--r)}.dv.blue{color:var(--b)}
-.bl2{list-style:none}
-.bl2 li{padding:4px 0;border-bottom:1px solid var(--gray100);font-size:12px;display:flex;align-items:center;gap:5px}
-.bl2 li:last-child{border:none}
-.bd{width:5px;height:5px;border-radius:50%;background:var(--g);flex-shrink:0}
-.pc{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.pros2{background:var(--gl);border-radius:8px;padding:7px}
-.cons2{background:var(--rl);border-radius:8px;padding:7px}
-.pros2 h4{color:var(--g);font-size:9.5px;font-weight:700;margin-bottom:3px}
-.cons2 h4{color:#9b2c1e;font-size:9.5px;font-weight:700;margin-bottom:3px}
-.pros2 li,.cons2 li{font-size:10.5px;margin-left:11px;margin-bottom:2px}
-
-/* TRAVEL TIMES */
-.travel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.travel-card{background:var(--gray50);border-radius:8px;padding:8px;text-align:center;border:1px solid var(--gray100)}
-.travel-icon{font-size:20px;display:block;margin-bottom:3px}
-.travel-mode{font-size:9px;color:var(--gray400);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-.travel-time{font-size:16px;font-weight:700;color:var(--gray900)}
-.travel-dist{font-size:9px;color:var(--gray400)}
-
-/* AMENITIES */
-.amenity-list{display:flex;flex-wrap:wrap;gap:5px}
-.am-tag{padding:3px 9px;border-radius:14px;font-size:10px;background:var(--gl);color:var(--g);border:1px solid #b0d9c9}
-
-/* ACTION BUTTONS */
-.abtn{display:block;width:calc(100% - 28px);margin:8px 14px 0;padding:10px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
+.sheet{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:660px;max-height:92vh;overflow-y:auto;padding-bottom:24px}
+.sh{width:34px;height:4px;background:var(--gray200);border-radius:2px;margin:7px auto 0}
+.shdr{padding:9px 14px 7px;border-bottom:1px solid var(--gray100);position:relative}
+.stitle{font-size:17px;font-weight:700}.ssub{font-size:10px;color:var(--gray400)}
+.sclose{position:absolute;top:10px;right:12px;background:var(--gray100);border:none;border-radius:50%;width:25px;height:25px;font-size:13px;cursor:pointer;color:var(--gray700);display:flex;align-items:center;justify-content:center}
+.sec{padding:8px 14px;border-bottom:1px solid var(--gray100)}
+.sec h3{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray400);margin-bottom:5px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dk{font-size:9px;color:var(--gray400)}.dv{font-size:12.5px;font-weight:500}
+.dv.green{color:var(--g)}.dv.amber{color:var(--a)}.dv.red{color:var(--r)}.dv.blue{color:var(--b)}.dv.warn{color:var(--warn)}
+.travel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.tc{background:var(--gray50);border-radius:7px;padding:7px;text-align:center;border:1px solid var(--gray100)}
+.ti{font-size:18px;display:block;margin-bottom:2px}
+.tm{font-size:8px;color:var(--gray400);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.tv{font-size:15px;font-weight:700}
+.td{font-size:8px;color:var(--gray400)}
+.am-list{display:flex;flex-wrap:wrap;gap:4px}
+.am-tag{padding:2px 8px;border-radius:12px;font-size:9.5px;background:var(--gl);color:var(--g);border:1px solid #b0d9c9}
+/* LOT PREMIUM CALLOUT */
+.lot-box{background:var(--warnl);border:1px solid #f0c878;border-radius:8px;padding:9px 11px;margin-top:0}
+.lot-box h4{font-size:10px;font-weight:700;color:var(--warn);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.lot-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:3px}
+.lot-k{font-size:9px;color:#8b6020}.lot-v{font-size:11.5px;font-weight:600;color:var(--warn)}
+.lot-note{font-size:9px;color:#8b6020;margin-top:5px;line-height:1.4;font-style:italic}
+/* FLOOR PLANS */
+.fp-links{display:flex;flex-wrap:wrap;gap:5px}
+.fp-link{padding:5px 11px;border-radius:7px;font-size:10.5px;font-weight:600;background:var(--b);color:#fff;text-decoration:none;display:inline-block}
+.fp-link:hover{background:#1249726}
+.abtn{display:block;width:calc(100% - 28px);margin:7px 14px 0;padding:9px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-align:center}
 .abtn.add-off{border:2px solid var(--g);background:#fff;color:var(--g)}
 .abtn.add-on{border:2px solid var(--g);background:var(--g);color:#fff}
 .abtn.mort-btn{border:2px solid var(--b);background:#fff;color:var(--b);margin-top:5px}
-
-/* COMPARE BAR */
-.cbar{position:fixed;bottom:0;left:0;right:0;background:var(--g);color:#fff;padding:8px 13px;display:flex;align-items:center;gap:7px;z-index:550;transform:translateY(100%);transition:transform .3s}
+.cbar{position:fixed;bottom:0;left:0;right:0;background:var(--g);color:#fff;padding:7px 12px;display:flex;align-items:center;gap:7px;z-index:550;transform:translateY(100%);transition:transform .3s}
 .cbar.show{transform:translateY(0)}
 .cbar span{flex:1;font-size:11px}
-.cbar button{background:#fff;color:var(--g);border:none;padding:5px 11px;border-radius:16px;font-size:10.5px;font-weight:700;cursor:pointer}
-.cbar .clr2{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35)}
-
-/* COMPARE TABLE */
+.cbar button{background:#fff;color:var(--g);border:none;padding:5px 10px;border-radius:14px;font-size:10px;font-weight:700;cursor:pointer}
+.cbar .clr2{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)}
 .ctwrap{overflow-x:auto}
-.ctab{border-collapse:collapse;width:100%;min-width:340px;font-size:11px}
-.ctab th{background:var(--gray50);padding:6px 8px;text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--gray400);border-bottom:1px solid var(--gray200)}
-.ctab td{padding:6px 8px;border-bottom:1px solid var(--gray100);vertical-align:top}
+.ctab{border-collapse:collapse;width:100%;min-width:320px;font-size:11px}
+.ctab th{background:var(--gray50);padding:5px 7px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.3px;color:var(--gray400);border-bottom:1px solid var(--gray200)}
+.ctab td{padding:5px 7px;border-bottom:1px solid var(--gray100);vertical-align:top}
 .ctab tr:hover td{background:var(--gray50)}
-.cremove{background:none;border:none;color:var(--r);cursor:pointer;font-size:14px}
-
+.cremove{background:none;border:none;color:var(--r);cursor:pointer;font-size:13px}
 /* MORTGAGE */
-.mc{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);padding:13px;margin-bottom:9px}
-.mc h2{font-size:14px;font-weight:600;margin-bottom:10px}
-.sr{display:flex;align-items:center;gap:9px;margin-bottom:9px}
-.sr label{font-size:10.5px;color:var(--gray400);min-width:120px}
+.mc{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);padding:12px;margin-bottom:8px}
+.mc h2{font-size:14px;font-weight:600;margin-bottom:9px}
+.mc h3{font-size:11px;font-weight:600;color:var(--gray700);margin:12px 0 6px;padding-top:10px;border-top:1px solid var(--gray100)}
+.sr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sr label{font-size:10px;color:var(--gray400);min-width:115px}
 .sr input[type=range]{flex:1}
-.sv{font-size:11.5px;font-weight:600;min-width:75px;text-align:right}
-.mres{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;margin-top:10px}
-.ms{background:var(--gray50);border-radius:8px;padding:9px;text-align:center}
-.ms .msl{font-size:9px;color:var(--gray400);margin-bottom:2px}
-.ms .msv{font-size:15px;font-weight:700}
+.sv{font-size:11px;font-weight:600;min-width:72px;text-align:right}
+.mres{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px;margin-top:10px}
+.ms{background:var(--gray50);border-radius:7px;padding:8px;text-align:center}
+.ms .msl{font-size:8.5px;color:var(--gray400);margin-bottom:2px}
+.ms .msv{font-size:14px;font-weight:700}
 .ms.hi{background:var(--gl)}.ms.hi .msv{color:var(--g)}
-.mnote{font-size:9.5px;color:var(--gray400);margin-top:7px;line-height:1.5}
-
-/* ABOUT */
-.ac{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);padding:13px;margin-bottom:9px}
-.ac h2{font-size:13px;font-weight:600;margin-bottom:7px;color:var(--g)}
-.ac ol,.ac ul{font-size:12.5px;color:var(--gray700);padding-left:15px;line-height:2}
-.ac p{font-size:11.5px;color:var(--gray700);line-height:1.6;margin-top:5px}
-code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5px}
-
-/* LEAFLET overrides */
-.leaflet-popup-content-wrapper{border-radius:10px!important;font-family:-apple-system,sans-serif!important;font-size:12px!important}
-.leaflet-popup-content{margin:10px 13px!important}
-.lpu-name{font-size:14px;font-weight:700;color:var(--gray900)}
-.lpu-dist{font-size:10px;color:var(--gray400);margin-bottom:5px}
-.lpu-row{font-size:11px;margin-bottom:2px}
-.lpu-btn{margin-top:8px;width:100%;padding:7px;border-radius:7px;border:none;background:var(--g);color:#fff;font-size:11px;font-weight:600;cursor:pointer}
-
+.ms.warn2{background:var(--warnl)}.ms.warn2 .msv{color:var(--warn)}
+/* TAX & PMI INFO BOXES */
+.info-box{border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:11px;line-height:1.6}
+.info-box.tax{background:#e8f4f0;border:1px solid #b0d9c9}
+.info-box.pmi-box{background:var(--warnl);border:1px solid #f0c878}
+.info-box h4{font-size:10px;font-weight:700;margin-bottom:4px}
+.info-box.tax h4{color:var(--g)}.info-box.pmi-box h4{color:var(--warn)}
+.pmi-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:6px}
+.pmi-table th{background:rgba(0,0,0,.05);padding:3px 6px;text-align:left;font-weight:600}
+.pmi-table td{padding:3px 6px;border-top:1px solid rgba(0,0,0,.06)}
+.mnote{font-size:9px;color:var(--gray400);margin-top:6px;line-height:1.5}
+.ac{background:#fff;border-radius:var(--rad);border:1px solid var(--gray100);padding:12px;margin-bottom:8px}
+.ac h2{font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--g)}
+.ac ol,.ac ul{font-size:12px;color:var(--gray700);padding-left:14px;line-height:1.9}
+.ac p{font-size:11px;color:var(--gray700);line-height:1.6;margin-top:4px}
+code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pros2{background:var(--gl);border-radius:7px;padding:7px}
+.cons2{background:var(--rl);border-radius:7px;padding:7px}
+.pros2 h4{color:var(--g);font-size:9px;font-weight:700;margin-bottom:3px}
+.cons2 h4{color:#9b2c1e;font-size:9px;font-weight:700;margin-bottom:3px}
+.pros2 li,.cons2 li{font-size:10px;margin-left:10px;margin-bottom:2px}
+.leaflet-popup-content-wrapper{border-radius:9px!important;font-family:-apple-system,sans-serif!important;font-size:11px!important}
+.leaflet-popup-content{margin:9px 12px!important}
+.lpu-name{font-size:13px;font-weight:700;color:var(--gray900)}
+.lpu-dist{font-size:9.5px;color:var(--gray400);margin-bottom:4px}
+.lpu-row{font-size:10.5px;margin-bottom:2px}
+.lpu-btn{margin-top:7px;width:100%;padding:6px;border-radius:6px;border:none;background:var(--g);color:#fff;font-size:10.5px;font-weight:600;cursor:pointer}
 @media(max-width:480px){.grid{grid-template-columns:1fr}.dg{grid-template-columns:1fr}.pc{grid-template-columns:1fr}.mres{grid-template-columns:1fr 1fr}.travel-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -162,18 +157,16 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
 </div>
 
 <!-- BROWSE -->
-<div id="tab-browse">
+<div id="tab-browse" style="display: block;">
 <div class="fp">
-  <div class="fr">
-    <span class="fl">Price Tier</span>
+  <div class="fr"><span class="fl">Price Tier</span>
     <button class="ch on" onclick="sf('price','all',this)">All</button>
     <button class="ch" onclick="sf('price','entry',this)">&lt;$500K</button>
     <button class="ch" onclick="sf('price','mid',this)">$500K–$1M</button>
     <button class="ch" onclick="sf('price','luxury',this)">$1M–$2M</button>
     <button class="ch" onclick="sf('price','ultra',this)">$2M+</button>
   </div>
-  <div class="fr">
-    <span class="fl">District</span>
+  <div class="fr"><span class="fl">District</span>
     <button class="ch on" onclick="sf('district','all',this)">All</button>
     <button class="ch" onclick="sf('district','waterside',this)">Waterside</button>
     <button class="ch" onclick="sf('district','lwr',this)">LWR Main</button>
@@ -181,8 +174,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
     <button class="ch" onclick="sf('district','wellen',this)">Wellen Park</button>
     <button class="ch" onclick="sf('district','palmer',this)">Palmer Ranch</button>
   </div>
-  <div class="fr">
-    <span class="fl">Home Type</span>
+  <div class="fr"><span class="fl">Home Type</span>
     <button class="ch on" onclick="sf('type','all',this)">All</button>
     <button class="ch" onclick="sf('type','sfh',this)">Single-Family</button>
     <button class="ch" onclick="sf('type','villa',this)">Villa</button>
@@ -190,8 +182,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
     <button class="ch" onclick="sf('type','bungalow',this)">Bungalow</button>
     <button class="ch" onclick="sf('type','custom',this)">Custom / Estate</button>
   </div>
-  <div class="fr">
-    <span class="fl">Amenities</span>
+  <div class="fr"><span class="fl">Amenities</span>
     <button class="ch" onclick="tf('golf',this)">⛳ Golf</button>
     <button class="ch" onclick="tf('gated',this)">🔒 Gated</button>
     <button class="ch" onclick="tf('maint',this)">✓ Maint-Free</button>
@@ -205,15 +196,15 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
     <button class="ch" onclick="tf('theater',this)">🎬 Theater</button>
     <button class="ch" onclick="tf('nocdd',this)">No CDD</button>
     <button class="ch" onclick="tf('age55',this)">55+</button>
+    <button class="ch" onclick="tf('lotwarning',this)">⚠️ Lot Premium Alert</button>
+    <button class="clrb" onclick="clearAll()">Clear all</button>
   </div>
-  <div class="fr">
-    <span class="fl">Min Beds</span>
+  <div class="fr"><span class="fl">Min Beds</span>
     <button class="ch on" onclick="sf('bed','all',this)">Any</button>
     <button class="ch" onclick="sf('bed','2',this)">2+</button>
     <button class="ch" onclick="sf('bed','3',this)">3+</button>
     <button class="ch" onclick="sf('bed','4',this)">4+</button>
     <button class="ch" onclick="sf('bed','5',this)">5+</button>
-    <button class="clrb" onclick="clearAll()">Clear all</button>
   </div>
 </div>
 <div class="content">
@@ -226,7 +217,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,300–1,600</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200–$300/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–3 BD / 2–2 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">4 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">4 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">8 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Pulte Homes</span></div>
@@ -239,7 +230,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,696–2,557</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–4 BD / 2–3 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">5 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">5 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">10 min</div></div>
         </div>
         <div class="ctags"><span class="tag">Dream Finders Homes</span></div>
@@ -252,7 +243,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,496–3,249</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$250–$400/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">2 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">2 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">3 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag maint">✓ Maint-Free</span><span class="tag">David Weekley Homes</span></div>
@@ -265,7 +256,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,702–1,850</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$172–$200/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–3 BD / 2–2 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">6 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">6 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">12 min</div></div>
         </div>
         <div class="ctags"><span class="tag maint">✓ Maint-Free</span><span class="tag">M/I Homes</span></div>
@@ -278,7 +269,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,078–4,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$396–$429/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–6 BD / 2–5 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">7 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">7 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">14 min</div></div>
         </div>
         <div class="ctags"><span class="tag">Neal Signature Homes</span></div>
@@ -291,7 +282,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,000–3,900</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">~$300/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">8 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">8 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">16 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag">Pulte Homes</span></div>
@@ -304,7 +295,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,764–3,426</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">~$200/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">3 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">3 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">4 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Homes by Towne</span></div>
@@ -317,7 +308,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,426–3,334</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">~$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">7 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">7 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">14 min</div></div>
         </div>
         <div class="ctags"><span class="tag maint">✓ Maint-Free</span><span class="tag">Neal Signature Homes</span></div>
@@ -330,7 +321,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,400–4,575</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$800–$900/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–6 BD / 3–6 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">7 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">7 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">15 min</div></div>
         </div>
         <div class="ctags"><span class="tag golf">⛳ Golf</span><span class="tag water">⛵ Water</span><span class="tag">Stock Luxury Homes</span></div>
@@ -343,10 +334,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">3,600–8,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">~$700–$900/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">4–7 BD / 3–7 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">9 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">9 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">17 min</div></div>
         </div>
-        <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag">Anchor Builders</span></div>
+        <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag warn">⚠️ Lot Premium Alert</span><span class="tag">Anchor Builders</span></div>
       </div>
     </div><div class="card" onclick="openModal('windward')">
       <div class="ch2"><div><div class="cn">Windward</div><div class="cs">LWR · Sarasota County</div></div><span class="badge mid">Mid-Range</span></div>
@@ -356,7 +347,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,434–3,500</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200–$400/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">4 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">4 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">7 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag">Neal Communities</span></div>
@@ -369,10 +360,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,500–4,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$336–$612/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–5 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">14 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">14 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">28 min</div></div>
         </div>
-        <div class="ctags"><span class="tag golf">⛳ Golf</span><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Taylor Morrison</span></div>
+        <div class="ctags"><span class="tag golf">⛳ Golf</span><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag warn">⚠️ Lot Premium Alert</span><span class="tag">Taylor Morrison</span></div>
       </div>
     </div><div class="card" onclick="openModal('starfarms')">
       <div class="ch2"><div><div class="cn">Star Farms</div><div class="cs">LWR · Manatee County</div></div><span class="badge entry">Entry</span></div>
@@ -382,7 +373,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,500–5,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200–$350/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–6 BD / 2–5 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">18 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">18 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">36 min</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag">D.R. Horton</span></div>
@@ -395,7 +386,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,400–3,500</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200–$350/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">15 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">15 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">30 min</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag">Lennar Homes</span></div>
@@ -408,10 +399,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,500–8,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$600–$900/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–7 BD / 3–7 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">12 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">12 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">25 min</div></div>
         </div>
-        <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag">Multiple Luxury Custom</span></div>
+        <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag gated">🔒 Gated</span><span class="tag warn">⚠️ Lot Premium Alert</span><span class="tag">Multiple Luxury Custom</span></div>
       </div>
     </div><div class="card" onclick="openModal('lwnational')">
       <div class="ch2"><div><div class="cn">Lakewood National</div><div class="cs">LWR · Manatee County</div></div><span class="badge mid">Mid-Range</span></div>
@@ -421,7 +412,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,500–3,500</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$600–$800/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">11 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">11 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">22 min</div></div>
         </div>
         <div class="ctags"><span class="tag golf">⛳ Golf</span><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Lennar Homes</span></div>
@@ -434,10 +425,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,500–3,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$350–$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–4 BD / 2–3 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">17 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">17 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">33 min</div></div>
         </div>
-        <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag age55">55+</span><span class="tag">Kolter Homes</span></div>
+        <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Kolter Homes</span></div>
       </div>
     </div><div class="card" onclick="openModal('mallory')">
       <div class="ch2"><div><div class="cn">Mallory Park</div><div class="cs">LWR · Manatee County</div></div><span class="badge mid">Mid-Range</span></div>
@@ -447,7 +438,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,700–3,200</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$200–$300/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">14 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">14 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">28 min</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag">Neal Communities</span></div>
@@ -460,7 +451,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,790–3,835</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">~$140/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">28 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">28 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag">Taylor Morrison</span></div>
@@ -473,10 +464,10 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,533–3,145</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$350–$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–4 BD / 2–3 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">28 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">28 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
-        <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag age55">55+</span><span class="tag">Taylor Morrison</span></div>
+        <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Taylor Morrison</span></div>
       </div>
     </div><div class="card" onclick="openModal('solstice')">
       <div class="ch2"><div><div class="cn">Solstice at Wellen Park</div><div class="cs">Wellen Park · Venice</div></div><span class="badge luxury">Luxury</span></div>
@@ -486,7 +477,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">2,000–4,500</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$300–$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">3–6 BD / 2–5 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">40 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">40 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag">Toll Brothers</span></div>
@@ -499,7 +490,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,500–3,200</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$300–$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">44 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">44 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag water">⛵ Water</span><span class="tag">DiVosta (Pulte)</span></div>
@@ -512,7 +503,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,600–4,000</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$400–$700/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">40 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">40 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag golf">⛳ Golf</span><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">DiVosta (Pulte)</span></div>
@@ -525,7 +516,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,700–3,600</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$300–$500/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">34 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">34 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag">DiVosta (Pulte)</span></div>
@@ -538,7 +529,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
           <div><div class="mk">Sq Ft</div><div class="mv">1,533–3,200</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">$400–$600/mo</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">2–5 BD / 2–4 BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">30 min</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">30 min</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">N/A</div></div>
         </div>
         <div class="ctags"><span class="tag gated">🔒 Gated</span><span class="tag maint">✓ Maint-Free</span><span class="tag">Taylor Morrison</span></div>
@@ -548,431 +539,466 @@ code{background:var(--gray100);padding:1px 4px;border-radius:4px;font-size:10.5p
 </div>
 
 <!-- MAP -->
-<div id="tab-map" style="display:none;padding:9px 11px">
-  <div id="map"></div>
-  <p class="map-info">📍 Purple star = Farmers Market at Waterside Place. Tap any pin for details &amp; travel times. Satellite view enabled.</p>
+<div id="tab-map" style="display: none; padding: 8px 10px;">
+  <div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="position: relative;" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-1270px, -586px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="index_files/555_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/555_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/554_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/556_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/554_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/556.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/555_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/555.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/554_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/556_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/554_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/556_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/553_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/557_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/553_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/557.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/555_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/553_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/557_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/553_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/557_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/555_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/554.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/556_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/554_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/556_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/552_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/558.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/552_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/558_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/553.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/557_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/553_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/557_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/552_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/558_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/552_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/558_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/552_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/558_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/552.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/558_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/551_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/559_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/551_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/559_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/551_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/559.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/551.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/559_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/551_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/559_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/551_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/559_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/550_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/560_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/550_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/560_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/550_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/560_003.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/550.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/560.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/550_002.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/560_005.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/550_006.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/560_004.jpg" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 1111px, 0px); opacity: 1;"></div></div><div class="leaflet-layer " style="z-index: 1; opacity: 0.7;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="index_files/555_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/555.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/554_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/556.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/554_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/556_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/555_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/555_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/554_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/556_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/554_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/556_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/553_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/557.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/553.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/557_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/555_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/553_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/557_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/553_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/557_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/555_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1195px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/554_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/556_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/554.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(939px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/556_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1451px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/552_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/558_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/552_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/558_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/553_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/557_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/553_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(683px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/557_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1707px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/552_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/558_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/552_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/558.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/552_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/558_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/552.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(427px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/558_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1963px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/551_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/559_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/551_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/559_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/551_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/559.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/551.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/559_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/551_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/559_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/551_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(171px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/559_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2219px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/550.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/560_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 343px, 0px); opacity: 1;"><img alt="" src="index_files/550_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/560_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 599px, 0px); opacity: 1;"><img alt="" src="index_files/550_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/560_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 87px, 0px); opacity: 1;"><img alt="" src="index_files/550_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/560.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 855px, 0px); opacity: 1;"><img alt="" src="index_files/550_006.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/560_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, -169px, 0px); opacity: 1;"><img alt="" src="index_files/550_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-85px, 1111px, 0px); opacity: 1;"><img alt="" src="index_files/560_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2475px, 1111px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -12px; width: 12px; height: 12px; transform: translate3d(1284px, 507px, 0px); z-index: 507;" tabindex="0" role="button"><div style="background:#6b3fa0;border:2.5px solid #fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.4)">⭐</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1292px, 506px, 0px); z-index: 506;" tabindex="0" role="button"><div style="background:#1a6b4a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1298px, 512px, 0px); z-index: 512;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1280px, 502px, 0px); z-index: 502;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1290px, 517px, 0px); z-index: 517;" tabindex="0" role="button"><div style="background:#1a6b4a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1302px, 521px, 0px); z-index: 521;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1306px, 495px, 0px); z-index: 495;" tabindex="0" role="button"><div style="background:#c47f1a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1283px, 499px, 0px); z-index: 499;" tabindex="0" role="button"><div style="background:#c47f1a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1296px, 525px, 0px); z-index: 525;" tabindex="0" role="button"><div style="background:#c47f1a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1290px, 527px, 0px); z-index: 527;" tabindex="0" role="button"><div style="background:#c0392b;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1283px, 532px, 0px); z-index: 532;" tabindex="0" role="button"><div style="background:#c0392b;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer;outline:2px solid #e67e22"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1302px, 508px, 0px); z-index: 508;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1287px, 446px, 0px); z-index: 446;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer;outline:2px solid #e67e22"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1267px, 423px, 0px); z-index: 423;" tabindex="0" role="button"><div style="background:#1a6b4a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1296px, 441px, 0px); z-index: 441;" tabindex="0" role="button"><div style="background:#1a6b4a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1308px, 458px, 0px); z-index: 458;" tabindex="0" role="button"><div style="background:#c0392b;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer;outline:2px solid #e67e22"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1319px, 467px, 0px); z-index: 467;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1279px, 431px, 0px); z-index: 431;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1277px, 451px, 0px); z-index: 451;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1200px, 612px, 0px); z-index: 612;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1196px, 608px, 0px); z-index: 608;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1276px, 1124px, 0px); z-index: 1124;" tabindex="0" role="button"><div style="background:#c47f1a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1252px, 1178px, 0px); z-index: 1178;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1290px, 1116px, 0px); z-index: 1116;" tabindex="0" role="button"><div style="background:#c47f1a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1159px, 912px, 0px); z-index: 912;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -8px; margin-top: -8px; width: 12px; height: 12px; transform: translate3d(1156px, 871px, 0px); z-index: 871;" tabindex="0" role="button"><div style="background:#1a5c8a;border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(142155px, 220659px, 0px) scale(1024);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> Tiles © Esri</div></div></div></div>
+  <p class="map-info">⭐ Purple star = Farmers Market at Waterside Place · Tap any pin for details &amp; travel times · Satellite imagery via Esri</p>
 </div>
 
 <!-- COMPARE -->
-<div id="tab-compare" style="display:none">
+<div id="tab-compare" style="display: none;">
   <div class="content">
-    <p style="font-size:11.5px;color:var(--gray400);margin-bottom:9px">Tap "+ Add to Compare" on any community (max 4) for side-by-side view.</p>
-    <div id="cmp"></div>
+    <p style="font-size:11px;color:var(--gray400);margin-bottom:8px">Tap "+ Add to Compare" on any community card (max 4).</p>
+    <div id="cmp"><div class="noR"><p style="font-size:1.8em">⚖️</p><p style="margin-top:6px">No communities selected.<br>Tap "+ Add to Compare".</p></div></div>
   </div>
 </div>
 
 <!-- MORTGAGE -->
-<div id="tab-mortgage" style="display:none">
-  <div class="content">
-    <div class="mc">
-      <h2>Monthly Payment Estimator</h2>
-      <div class="sr"><label>Home Price</label><input type="range" id="sp" min="300000" max="5000000" step="25000" value="650000" oninput="cm()"><span class="sv" id="op">$650,000</span></div>
-      <div class="sr"><label>Down Payment %</label><input type="range" id="sd" min="3" max="60" step="1" value="20" oninput="cm()"><span class="sv" id="od">20%</span></div>
-      <div class="sr"><label>Interest Rate %</label><input type="range" id="sr2" min="4.5" max="9" step="0.1" value="6.8" oninput="cm()"><span class="sv" id="or2">6.8%</span></div>
-      <div class="sr"><label>Loan Term</label><input type="range" id="st" min="10" max="30" step="5" value="30" oninput="cm()"><span class="sv" id="ot">30 yr</span></div>
-      <div class="sr"><label>HOA / Month</label><input type="range" id="sh" min="0" max="1100" step="25" value="300" oninput="cm()"><span class="sv" id="oh">$300</span></div>
-      <div class="sr"><label>CDD / Month</label><input type="range" id="sc" min="0" max="500" step="10" value="180" oninput="cm()"><span class="sv" id="oc">$175</span></div>
-      <div class="sr"><label>Insurance / Mo</label><input type="range" id="si" min="100" max="800" step="25" value="250" oninput="cm()"><span class="sv" id="oi">$250</span></div>
-      <div class="mres" id="mres"></div>
-      <p class="mnote">Estimates only. Taxes ~1.25% assessed. PMI ~0.5% if &lt;20% down. Always verify with a licensed lender before purchase.</p>
-    </div>
-    <div class="mc">
-      <h2>Quick-Load Community Costs</h2>
-      <p style="font-size:11px;color:var(--gray400);margin-bottom:8px">Tap a community to auto-fill HOA, CDD &amp; midpoint price above.</p>
-      <div id="qcoms" style="display:flex;flex-wrap:wrap;gap:5px"></div>
-    </div>
+<div id="tab-mortgage" style="display: none;">
+<div class="content">
+
+  <!-- TAX INFO BOX -->
+  <div class="info-box tax">
+    <h4>📋 2025 Florida Property Tax Rates — Sarasota &amp; Manatee Counties</h4>
+    <strong>Sarasota County (Waterside, Skye Ranch, Palmer Ranch):</strong> Total millage ~11.47 mills = effective rate <strong>~1.05–1.15%</strong>
+ of assessed value. New construction assessed at purchase price (no 
+homestead cap year 1). With $50K homestead exemption: saves ~$575/yr on 
+county + school taxes.<br><br>
+    <strong>Manatee County (LWR Main, most villages):</strong> Total millage ~14.5–16 mills depending on district = effective rate <strong>~1.25–1.45%</strong> of assessed value. Higher than Sarasota due to school district millage.<br><br>
+    <em style="font-size:9.5px">⚠️ New construction buyers: year 1 taxes
+ are calculated on full purchase price. Apply for Homestead Exemption by
+ March 1 following your move-in to save ~$550–$900/yr from year 2 
+onward. CDD fees appear separately on your tax bill and are NOT included
+ in the above rates.</em>
   </div>
+
+  <!-- PMI INFO BOX -->
+  <div class="info-box pmi-box">
+    <h4>⚠️ 2025 PMI Rates — Required When Down Payment &lt; 20%</h4>
+    PMI protects the lender (not you) if you default. Required on 
+conventional loans with &lt;20% down. Drops off automatically at 22% 
+equity (or request at 20%).
+    <table class="pmi-table">
+      <thead><tr><th>Credit Score</th><th>5% Down (95% LTV)</th><th>10% Down (90% LTV)</th><th>15% Down (85% LTV)</th></tr></thead>
+      <tbody>
+        <tr><td>760+ (Excellent)</td><td>0.32%/yr</td><td>0.26%/yr</td><td>0.19%/yr</td></tr>
+        <tr><td>720–759 (Good)</td><td>0.60%/yr</td><td>0.44%/yr</td><td>0.32%/yr</td></tr>
+        <tr><td>680–719 (Fair-Good)</td><td>0.96%/yr</td><td>0.72%/yr</td><td>0.52%/yr</td></tr>
+        <tr><td>640–679 (Fair)</td><td>1.44%/yr</td><td>1.08%/yr</td><td>0.84%/yr</td></tr>
+      </tbody>
+    </table>
+    <em style="font-size:9px">Example: $700K home, 10% down ($70K), 720+
+ credit → PMI ≈ $218/mo. At 760+ → $127/mo. On LWR prices, PMI can add 
+$150–$600/mo — factor into your budget.</em>
+  </div>
+
+  <div class="mc">
+    <h2>Monthly Payment Estimator</h2>
+    <div class="sr"><label>County</label>
+      <select id="scounty" onchange="cm()" style="flex:1;padding:5px 8px;border-radius:7px;border:1px solid var(--gray200);font-size:11px">
+        <option value="sarasota">Sarasota County (~1.10%)</option>
+        <option value="manatee" selected="selected">Manatee County (~1.35%)</option>
+      </select>
+      <span class="sv" id="otax" style="font-size:9.5px;color:var(--gray400)">1.35%</span>
+    </div>
+    <div class="sr"><label>Home Price</label><input type="range" id="sp" min="300000" max="5000000" step="25000" value="700000" oninput="cm()"><span class="sv" id="op">$700,000</span></div>
+    <div class="sr"><label>Down Payment %</label><input type="range" id="sd" min="3" max="60" step="1" value="20" oninput="cm()"><span class="sv" id="od">20%</span></div>
+    <div class="sr"><label>Lot Premium</label><input type="range" id="slp" min="0" max="400000" step="5000" value="0" oninput="cm()"><span class="sv" id="olp" style="color: var(--gray400);">$0 lot</span></div>
+    <div class="sr"><label>Interest Rate %</label><input type="range" id="sr2" min="4.5" max="9" step="0.1" value="6.8" oninput="cm()"><span class="sv" id="or2">6.8%</span></div>
+    <div class="sr"><label>Loan Term</label><input type="range" id="st" min="10" max="30" step="5" value="30" oninput="cm()"><span class="sv" id="ot">30 yr</span></div>
+    <div class="sr"><label>Credit Score</label>
+      <select id="scredit" onchange="cm()" style="flex:1;padding:5px 8px;border-radius:7px;border:1px solid var(--gray200);font-size:11px">
+        <option value="0.19">760+ Excellent</option>
+        <option value="0.32" selected="selected">720–759 Good</option>
+        <option value="0.72">680–719 Fair-Good</option>
+        <option value="1.08">640–679 Fair</option>
+      </select>
+      <span class="sv" id="opmi" style="font-size: 9.5px; color: var(--g);">None</span>
+    </div>
+    <div class="sr"><label>HOA / Month</label><input type="range" id="sh" min="0" max="1100" step="25" value="300" oninput="cm()"><span class="sv" id="oh">$300</span></div>
+    <div class="sr"><label>CDD / Month</label><input type="range" id="sc" min="0" max="500" step="10" value="180" oninput="cm()"><span class="sv" id="oc">$180</span></div>
+    <div class="sr"><label>Insurance / Mo</label><input type="range" id="si" min="100" max="900" step="25" value="275" oninput="cm()"><span class="sv" id="oi">$275</span></div>
+    <div class="mres" id="mres">
+    <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$5,193</div></div>
+    <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$3,651</div></div>
+    <div class="ms"><div class="msl">Down Payment</div><div class="msv">$140,000</div></div>
+    <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$560,000</div></div>
+    <div class="ms"><div class="msl">Est. Tax/Mo (1.35%)</div><div class="msv warn2">$788</div></div>
+    <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$480</div></div>
+    
+    
+    <div class="ms"><div class="msl">Annual Cost</div><div class="msv">$62,319</div></div></div>
+    <p class="mnote">Tax rates: Sarasota Co. ~1.10% / Manatee Co. ~1.35%
+ of assessed value (2025 millage). PMI rates per Urban Institute 2025 
+data. Homestead exemption saves ~$550–$900/yr from year 2 — not included
+ above. Verify all figures with a licensed lender and county appraiser 
+before purchase.</p>
+
+    <h3>Quick-Load Community Costs</h3>
+    <p style="font-size:10px;color:var(--gray400);margin-bottom:7px">Tap a community to auto-fill HOA, CDD, lot premium &amp; midpoint price.</p>
+    <div id="qcoms" style="display:flex;flex-wrap:wrap;gap:4px"><button onclick="loadMort('avanti')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Avanti</button><button onclick="loadMort('bungalow')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Bungalow Walk</button><button onclick="loadMort('emerald')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Emerald Landing</button><button onclick="loadMort('nautique')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Nautique</button><button onclick="loadMort('shellstone')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Shellstone</button><button onclick="loadMort('shoreview')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Shoreview</button><button onclick="loadMort('lakehouse')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> LakeHouse Cove</button><button onclick="loadMort('alcove')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> The Alcove</button><button onclick="loadMort('wildblue')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Wild Blue</button><button onclick="loadMort('kingfisher')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  Kingfisher Estates</button><button onclick="loadMort('windward')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Windward</button><button onclick="loadMort('azario')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  Esplanade at Azario</button><button onclick="loadMort('starfarms')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Star Farms</button><button onclick="loadMort('lorraine')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Lorraine Lakes</button><button onclick="loadMort('lakeclub')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  The Lake Club</button><button onclick="loadMort('lwnational')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Lakewood National</button><button onclick="loadMort('cresswind')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Cresswind (55+)</button><button onclick="loadMort('mallory')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Mallory Park</button><button onclick="loadMort('cassia')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Cassia at Skye Ranch</button><button onclick="loadMort('esplanade-skye')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Esplanade Skye Ranch</button><button onclick="loadMort('solstice')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Solstice at Wellen Park</button><button onclick="loadMort('beachwalk')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> BeachWalk at Wellen</button><button onclick="loadMort('wellengolf')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Wellen Park Golf &amp; CC</button><button onclick="loadMort('talon')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Talon Preserve</button><button onclick="loadMort('esplanade-palmer')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Esplanade Palmer Ranch</button></div>
+  </div>
+</div>
 </div>
 
 <!-- INSTALL -->
 <div id="tab-install" style="display:none">
-  <div class="content">
-    <div class="ac"><h2>📱 iPhone / iPad — Add to Home Screen</h2>
-      <ol><li>Open in <strong>Safari</strong></li><li>Tap Share icon → <strong>"Add to Home Screen"</strong></li><li>Tap <strong>Add</strong> — launches full-screen like a native app</li></ol></div>
-    <div class="ac"><h2>💻 GitHub Pages (Free Hosting)</h2>
-      <ol><li>Create a public repo (e.g. <code>lwr-finder</code>)</li><li>Upload <code>index.html</code> to root</li><li>Settings → Pages → Source: <strong>main / root</strong></li><li>Live at <code>https://yourname.github.io/lwr-finder</code></li></ol>
-      <p>Free forever. One file, no server needed.</p></div>
-    <div class="ac"><h2>🖥️ Desktop Bookmark / Install</h2>
-      <p><strong>Ctrl+D / Cmd+D</strong> to bookmark. In Chrome, install as desktop app via the ⊕ icon in the address bar.</p></div>
-    <div class="ac"><h2>📊 Data Notes</h2>
-      <p>HOA/CDD figures are estimates from public sources as of early 
-2025. Travel times are approximations based on typical road conditions. 
-Always verify all fees with builder/HOA before making an offer.</p></div>
-  </div>
+<div class="content">
+  <div class="ac"><h2>📱 iPhone / iPad — Add to Home Screen</h2>
+    <ol><li>Open in <strong>Safari</strong></li><li>Tap Share → <strong>"Add to Home Screen"</strong></li><li>Tap <strong>Add</strong> — full-screen app icon appears</li></ol></div>
+  <div class="ac"><h2>💻 GitHub Pages (Free Hosting)</h2>
+    <ol><li>Create public repo e.g. <code>lwr-finder</code></li><li>Upload <code>index.html</code> to root</li><li>Settings → Pages → Source: main/root</li><li>Live at <code>https://yourname.github.io/lwr-finder</code></li></ol>
+    <p>Free forever. One file, no server needed.</p></div>
+  <div class="ac"><h2>📊 Data Sources &amp; Notes</h2>
+    <p>Tax rates: Sarasota County Tax Collector 2025 millage schedule + 
+Manatee County PAO. PMI rates: Urban Institute Housing Finance Policy 
+Center 2025. HOA/CDD: builder disclosures &amp; community databases. Lot
+ premiums: builder price lists &amp; buyer reports. Travel times: 
+estimated via Google Maps typical conditions. Always verify all figures 
+before making an offer.</p></div>
+</div>
 </div>
 
 <!-- MODAL -->
 <div class="overlay" id="ov" onclick="closeM(event)">
   <div class="sheet" id="sheet"><div class="sh"></div><div id="sbody"></div></div>
 </div>
-<!-- COMPARE BAR -->
 <div class="cbar" id="cbar">
   <span id="cbartxt">0 selected</span>
   <button onclick="showTab('compare')">Compare ↗</button>
   <button class="clr2" onclick="clearCmp()">Clear</button>
 </div>
 
-<script src="LWR%20Community%20Finder_files/leaflet.js"></script>
+<script src="index_files/leaflet.js"></script>
 <script>
-// ─── FARMERS MARKET coords (Waterside Place)
-const FM = [27.4279, -82.3804];
+const FM=[27.4279,-82.3804];
 
-// ─── COMMUNITY DATA ──────────────────────────────────────────────────────────
-const C = [
-  // WATERSIDE
-  {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',
+const C=[
+  {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
    pMin:300000,pMax:500000,pLabel:'$300s–$500s',sqMin:1300,sqMax:1600,bdMin:2,bdMax:3,baMin:2,baMax:2,
    hoa:'$200–$300/mo',hoaN:250,cdd:'Yes (~$125–$200/mo)',cddN:162,hasCDD:true,
+   lotPremMin:0,lotPremMax:35000,lotPremNote:'Modest lot premiums $0–$35K for corner/lake-view sites.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],
-   builders:['Pulte Homes'],homes:'~200',
-   amenities:['Resort pool','Pickleball courts','Dog park','Water taxi to Waterside Place','Maintenance-free yard','Walking trails'],
-   highlights:'Most affordable Waterside entry. Low-maintenance with water taxi access to Farmers Market.',
-   pros:['Lowest price in Waterside','Maintenance-free','Water taxi','Close to Farmers Market'],
-   cons:['Smallest sq footage','Not gated','No golf'],
-   tags:['maint','water'],lat:27.4285,lng:-82.3750,
-   travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
+   types:['villa','sfh'],builders:['Pulte Homes'],homes:'~200',
+   floorPlanUrl:'https://www.pulte.com/homes/florida/sarasota/lakewood-ranch',
+   amenities:['Resort pool','Pickleball','Dog park','Water taxi to Farmers Market','Maintenance-free yard','Walking trails'],
+   highlights:'Most affordable Waterside entry. Low-maintenance with water taxi to Farmers Market.',
+   pros:['Lowest price in Waterside','Maintenance-free','Water taxi','Close to Farmers Market'],cons:['Smallest homes','Not gated','No golf'],
+   tags:['maint','water'],lat:27.4285,lng:-82.3750,travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
 
-  {id:'bungalow',name:'Bungalow Walk',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',
+  {id:'bungalow',name:'Bungalow Walk',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:700000,pLabel:'$500s–$700s',sqMin:1696,sqMax:2557,bdMin:3,bdMax:4,baMin:2,baMax:3,
    hoa:'$200/mo',hoaN:200,cdd:'Yes (~$150–$200/mo)',cddN:175,hasCDD:true,
+   lotPremMin:0,lotPremMax:45000,lotPremNote:'Corner/pond lots typically $15K–$45K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:false,pool:true,dogpark:false,theater:false,
-   types:['bungalow','sfh'],
-   builders:['Dream Finders Homes'],homes:'225',
-   amenities:['Community pool','Pickleball courts','Front porch bungalow design','Primary bed on main floor','Low HOA'],
+   types:['bungalow','sfh'],builders:['Dream Finders Homes'],homes:'225',
+   floorPlanUrl:'https://www.dreamfindershomes.com/new-homes/florida/sarasota/lakewood-ranch/bungalow-walk-at-waterside',
+   amenities:['Community pool','Pickleball','Primary bed on main floor','Low HOA'],
    highlights:'Charming bungalow community. Primary bed on main floor. Lowest HOA in mid-tier Waterside.',
-   pros:['Low HOA ($200/mo)','Primary bed on main floor','Bungalow charm','Intimate 225 homes'],
-   cons:['Not gated','No golf','No water taxi direct'],
-   tags:[],lat:27.4248,lng:-82.3710,
-   travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
+   pros:['Low HOA ($200/mo)','Primary bed on main floor','Bungalow charm'],cons:['Not gated','No golf'],
+   tags:[],lat:27.4248,lng:-82.3710,travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
 
-  {id:'emerald',name:'Emerald Landing',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',
+  {id:'emerald',name:'Emerald Landing',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1496,sqMax:3249,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$250–$400/mo',hoaN:325,cdd:'Yes (~$165–$290/mo)',cddN:225,hasCDD:true,
+   lotPremMin:0,lotPremMax:60000,lotPremNote:'Lake-view city home lots $25K–$60K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['townhome','sfh'],
-   builders:['David Weekley Homes'],homes:'193',
-   amenities:['Boat dock','Kayak launch','Pool','Pickleball','Dog park','Water taxi to Farmers Market','Maintenance included (attached)','3-story city homes with lake views'],
-   highlights:'Unique 3-story city homes with lake views. Boat dock & kayak launch. Water taxi to Farmers Market.',
-   pros:['Rare 3-story city homes','Boat dock & kayak','Maintenance included','Best water connectivity','Walk/boat to Farmers Market'],
-   cons:['Small community (193)','Not gated','Higher HOA attached'],
-   tags:['maint','water'],lat:27.4310,lng:-82.3830,
-   travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
+   types:['townhome','sfh'],builders:['David Weekley Homes'],homes:'193',
+   floorPlanUrl:'https://www.davidweekleyhomes.com/new-homes/fl/sarasota-bradenton-area/lakewood-ranch/emerald-landing',
+   amenities:['Boat dock','Kayak launch','Pool','Pickleball','Dog park','Water taxi','Maintenance included (attached)'],
+   highlights:'Unique 3-story city homes. Boat dock & kayak launch. Water taxi to Farmers Market.',
+   pros:['Rare 3-story city homes','Boat dock & kayak','Walk/boat to Farmers Market'],cons:['Small 193-home community','Not gated'],
+   tags:['maint','water'],lat:27.4310,lng:-82.3830,travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
 
-  {id:'nautique',name:'Nautique',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',
+  {id:'nautique',name:'Nautique',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
    pMin:400000,pMax:600000,pLabel:'$400s–$600s',sqMin:1702,sqMax:1850,bdMin:2,bdMax:3,baMin:2,baMax:2,
    hoa:'$172–$200/mo',hoaN:186,cdd:'Yes (~$125–$200/mo)',cddN:162,hasCDD:true,
+   lotPremMin:0,lotPremMax:25000,lotPremNote:'Minimal lot premiums — mostly standard pricing.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:false,pool:true,dogpark:true,theater:false,
-   types:['townhome','sfh'],
-   builders:['M/I Homes'],homes:'222',
-   amenities:['Community pool','Pickleball courts','Dog park','Playground','Maintenance included'],
-   highlights:'Lowest HOA in all of Waterside ($172–$200/mo). Maritime-inspired design. Best value in district.',
-   pros:['Lowest HOA in Waterside','Maintenance included','Pool & pickleball','Dog park'],
-   cons:['Smallest homes','Not gated','No golf'],
-   tags:['maint'],lat:27.4220,lng:-82.3760,
-   travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
+   types:['townhome','sfh'],builders:['M/I Homes'],homes:'222',
+   floorPlanUrl:'https://www.mihomes.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/nautique',
+   amenities:['Pool','Pickleball','Dog park','Playground','Maintenance included'],
+   highlights:'Lowest HOA in all of Waterside. Maritime design. Best value per dollar in district.',
+   pros:['Lowest HOA in Waterside ($172–$200)','Maintenance included'],cons:['Smallest homes','Not gated'],
+   tags:['maint'],lat:27.4220,lng:-82.3760,travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
 
-  {id:'shellstone',name:'Shellstone',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',
+  {id:'shellstone',name:'Shellstone',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:2000000,pLabel:'$500s–$2M+',sqMin:2078,sqMax:4000,bdMin:3,bdMax:6,baMin:2,baMax:5,
    hoa:'$396–$429/mo',hoaN:412,cdd:'Yes (~$200–$333/mo)',cddN:265,hasCDD:true,
+   lotPremMin:20000,lotPremMax:120000,lotPremNote:'Lake/preserve lots $20K–$120K premium. Larger homesite selections carry significant premiums.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],
-   builders:['Neal Signature Homes','Pulte Homes'],homes:'682',
-   amenities:['Community parks','Resort pool','Fitness center','Tennis courts','Pickleball','Dog park','Walking trails'],
-   highlights:'Largest Waterside neighborhood (682 homes). Two builders across wide price range.',
-   pros:['Largest community','Wide price range','Two quality builders','Family parks'],
-   cons:['Higher HOA ($400+)','Not gated','No golf'],
-   tags:[],lat:27.4195,lng:-82.3680,
-   travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
+   types:['villa','sfh'],builders:['Neal Signature Homes','Pulte Homes'],homes:'682',
+   floorPlanUrl:'https://www.nealsignaturehomes.com',
+   amenities:['Parks','Resort pool','Fitness center','Tennis','Pickleball','Dog park','Trails'],
+   highlights:'Largest Waterside village (682 homes). Two builders with wide price range.',
+   pros:['Largest community','Wide price range','Two builders'],cons:['Higher HOA $400+','Not gated'],
+   tags:[],lat:27.4195,lng:-82.3680,travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
 
-  {id:'shoreview',name:'Shoreview',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',
+  {id:'shoreview',name:'Shoreview',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:900000,pMax:1800000,pLabel:'$900s–$1.8M',sqMin:2000,sqMax:3900,bdMin:3,bdMax:5,baMin:2,baMax:4,
    hoa:'~$300/mo',hoaN:300,cdd:'Yes (~$200–$290/mo)',cddN:245,hasCDD:true,
+   lotPremMin:30000,lotPremMax:150000,lotPremNote:'Lake-front lots carry $30K–$150K premiums over standard.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh'],
-   builders:['Pulte Homes'],homes:'~300',
-   amenities:['Gated entrance','Panoramic lake views','Kayak launch','Tennis courts','Pickleball','Resort pool','Fitness center','Bocce ball'],
-   highlights:'Gated lakeside with panoramic water views. Lower HOA for luxury gated community.',
-   pros:['Gated','Panoramic lake views','Low HOA for luxury ($300)','Kayak launch','Tennis & pickleball'],
-   cons:['Single builder (Pulte)','No golf','$900K+ floor'],
-   tags:['gated','water'],lat:27.4350,lng:-82.3650,
-   travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
+   types:['sfh'],builders:['Pulte Homes'],homes:'~300',
+   floorPlanUrl:'https://www.pulte.com/homes/florida/sarasota/lakewood-ranch/shoreview-at-waterside',
+   amenities:['Gated','Lake views','Kayak launch','Tennis','Pickleball','Resort pool','Fitness center','Bocce ball'],
+   highlights:'Gated lakeside with panoramic water views. Lower HOA for a luxury gated community.',
+   pros:['Gated','Lake views','Low HOA for luxury ($300)','Kayak launch'],cons:['Single builder','No golf'],
+   tags:['gated','water'],lat:27.4350,lng:-82.3650,travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
 
-  {id:'lakehouse',name:'LakeHouse Cove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',
+  {id:'lakehouse',name:'LakeHouse Cove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:4000000,pLabel:'$800s–$4M+',sqMin:1764,sqMax:3426,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'~$200/mo',hoaN:200,cdd:'Yes (~$200–$375/mo)',cddN:290,hasCDD:true,
+   lotPremMin:25000,lotPremMax:200000,lotPremNote:'Waterfront/premium sites $25K–$200K above base. Custom lots on lake can exceed $200K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh','custom'],
-   builders:['Homes by Towne'],homes:'~400',
-   amenities:['Gated','Water taxi ferry to Farmers Market','Kayak dock & storage','Bocce ball','Fire pit','Resort pool & spa','Fitness center','Tennis','Pickleball','Dog park','Lifestyle director','Maintenance-free'],
-   highlights:'First & most established Waterside village. Gated + maintenance-free. Water taxi directly to Farmers Market.',
-   pros:['Gated + maint-free','Water taxi to Farmers Market','Kayak dock','Lifestyle director','Established community'],
-   cons:['Single builder','Prices to $4M+','High CDD'],
-   tags:['gated','maint','water'],lat:27.4330,lng:-82.3810,
-   travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
+   types:['sfh','custom'],builders:['Homes by Towne'],homes:'~400',
+   floorPlanUrl:'https://www.homesbytowne.com/communities/lakehouse-cove',
+   amenities:['Gated','Water taxi ferry to Farmers Market','Kayak dock & storage','Bocce','Fire pit','Resort pool & spa','Tennis','Pickleball','Dog park','Lifestyle director','Maintenance-free'],
+   highlights:'First & most established Waterside village. Gated + maint-free. Water taxi directly to Farmers Market.',
+   pros:['Gated + maint-free','Water taxi to Farmers Market','Kayak dock','Lifestyle director'],cons:['Single builder','Prices to $4M+'],
+   tags:['gated','maint','water'],lat:27.4330,lng:-82.3810,travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
 
-  {id:'alcove',name:'The Alcove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',
+  {id:'alcove',name:'The Alcove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:1800000,pLabel:'$800s–$1.8M',sqMin:2426,sqMax:3334,bdMin:3,bdMax:5,baMin:2,baMax:4,
    hoa:'~$500/mo',hoaN:500,cdd:'Yes (~$200–$333/mo)',cddN:265,hasCDD:true,
+   lotPremMin:20000,lotPremMax:80000,lotPremNote:'Premium homesites $20K–$80K above base price.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:false,fitness:false,pool:false,dogpark:false,theater:false,
-   types:['sfh'],
-   builders:['Neal Signature Homes'],homes:'47',
-   amenities:['No shared amenity center (private & quiet)','Maintenance included in HOA','Neal Signature craftsmanship','Boutique 47-home community'],
+   types:['sfh'],builders:['Neal Signature Homes'],homes:'47',
+   floorPlanUrl:'https://www.nealsignaturehomes.com',
+   amenities:['Boutique 47-home community','Maintenance included in HOA','Neal Signature craftsmanship'],
    highlights:'Only 47 homes — most exclusive boutique village. HOA covers maintenance. No shared amenity center.',
-   pros:['Only 47 homes','Maintenance included','Neal Signature quality','Very private'],
-   cons:['$500/mo HOA with no amenities','No clubhouse','Not gated','Very limited inventory'],
-   tags:['maint'],lat:27.4170,lng:-82.3720,
-   travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
+   pros:['Only 47 homes','Maintenance included','Very private'],cons:['$500/mo HOA with no amenities','No clubhouse','Not gated'],
+   tags:['maint'],lat:27.4170,lng:-82.3720,travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
 
-  {id:'wildblue',name:'Wild Blue',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',
+  {id:'wildblue',name:'Wild Blue',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:1500000,pMax:5000000,pLabel:'$1.5M–$5M+',sqMin:2400,sqMax:4575,bdMin:3,bdMax:6,baMin:3,baMax:6,
    hoa:'$800–$900/mo',hoaN:850,cdd:'Yes (~$250–$416/mo)',cddN:330,hasCDD:true,
+   lotPremMin:80000,lotPremMax:500000,lotPremNote:'Waterfront/golf-view lots $80K–$500K+ premium. Premium homesites are a major cost driver at this tier.',hasLotWarn:false,
    golf:true,golfT:'9-hole putting + indoor simulator',gated:false,maint:false,water:true,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:true,
-   types:['sfh','custom'],
-   builders:['Stock Luxury Homes','Anchor Builders','Custom Builders'],homes:'505',
-   amenities:['25,000 sf resort clubhouse','Fiji lagoon pool','Full-service restaurant & bar','Private theater','Indoor golf simulator','9-hole putting course','Tennis courts','Pickleball','Fitness center','Dog park','Kayaking','Lifestyle director'],
-   highlights:'Crown jewel of Waterside. 25K sf clubhouse with Fiji pool, restaurant, theater, golf sim.',
-   pros:['Best amenity package in LWR','Golf sim + putting course','On-site restaurant','Private theater','Multiple luxury builders'],
-   cons:['Highest HOA ($800–$900)','$1.5M+ floor','High CDD','Not gated'],
-   tags:['golf','water'],lat:27.4155,lng:-82.3760,
-   travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
+   types:['sfh','custom'],builders:['Stock Luxury Homes','Anchor Builders','Custom Builders'],homes:'505',
+   floorPlanUrl:'https://www.stockdevelopment.com/communities/wild-blue',
+   amenities:['25,000 sf clubhouse','Fiji lagoon pool','Full-service restaurant','Private theater','Indoor golf simulator','9-hole putting course','Tennis','Pickleball','Fitness','Dog park','Kayaking','Lifestyle director'],
+   highlights:'Crown jewel of Waterside. 25K sf clubhouse — Fiji pool, restaurant, theater, golf sim.',
+   pros:['Best amenity package in LWR','Golf sim + putting course','On-site restaurant','Private theater'],cons:['Highest HOA $800–$900','$1.5M+ floor','Not gated'],
+   tags:['golf','water'],lat:27.4155,lng:-82.3760,travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
 
-  {id:'kingfisher',name:'Kingfisher Estates',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',
+  {id:'kingfisher',name:'Kingfisher Estates',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:3000000,pMax:10000000,pLabel:'$3M–$10M+',sqMin:3600,sqMax:8000,bdMin:4,bdMax:7,baMin:3,baMax:7,
    hoa:'~$700–$900/mo',hoaN:800,cdd:'Yes (~$333–$500/mo)',cddN:416,hasCDD:true,
+   lotPremMin:200000,lotPremMax:800000,lotPremNote:'Estate lakefront lots $200K–$800K premium over base home price. Lot cost can rival or exceed structure cost.',hasLotWarn:true,
    golf:false,golfT:'None bundled',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:false,fitness:false,pool:false,dogpark:false,theater:false,
-   types:['custom'],
-   builders:['Anchor Builders','Multiple Custom'],homes:'~60',
-   amenities:['Gated estate access','Lakefront lots','Preserve views','Custom architecture','Trophy property addresses'],
+   types:['custom'],builders:['Anchor Builders','Multiple Custom'],homes:'~60',
+   floorPlanUrl:'https://www.anchorbuilders.com',
+   amenities:['Gated estate','Lakefront lots','Preserve views','Trophy property addresses'],
    highlights:'Most exclusive address in Waterside. Gated. Custom estate homes on premium lakefront lots.',
-   pros:['Most exclusive in LWR','Gated estate','Lakefront lots','Largest custom homes'],
-   cons:['Entry $3M+','Very limited inventory','Highest carrying costs'],
-   tags:['gated','water'],lat:27.4125,lng:-82.3810,
-   travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
+   pros:['Most exclusive in LWR','Gated','Lakefront lots','Largest custom homes'],cons:['Entry $3M+','Very limited inventory'],
+   tags:['gated','water'],lat:27.4125,lng:-82.3810,travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
 
-  // LWR MAIN
-  {id:'windward',name:'Windward',district:'lwr',distLabel:'LWR · Sarasota County',tier:'mid',
+  {id:'windward',name:'Windward',district:'lwr',distLabel:'LWR · Sarasota County',tier:'mid',county:'sarasota',
    pMin:400000,pMax:1100000,pLabel:'$400s–$1.1M',sqMin:1434,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$200–$400/mo',hoaN:300,cdd:'Yes (~$125–$250/mo)',cddN:190,hasCDD:true,
+   lotPremMin:0,lotPremMax:80000,lotPremNote:'Waterfront/preserve lots $30K–$80K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],
-   builders:['Neal Communities'],homes:'~600',
-   amenities:['Waterfront lots','Preserve views','Clubhouse','Resort pool','Tennis','Pickleball','Fitness center','Dog park','Nature trails','Activities director'],
-   highlights:'Waterfront & preserve views. Wide range villas to estates. 9-12 mi from downtown Sarasota.',
-   pros:['Waterfront & preserve lots','Wide price range','Neal Communities quality','Close to Waterside Place'],
-   cons:['No golf','Not gated','Ongoing construction'],
-   tags:['water'],lat:27.4270,lng:-82.3680,
-   travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
+   types:['villa','sfh'],builders:['Neal Communities'],homes:'~600',
+   floorPlanUrl:'https://www.nealcommunities.com/community/windward-at-lakewood-ranch',
+   amenities:['Waterfront lots','Preserve views','Clubhouse','Resort pool','Tennis','Pickleball','Fitness','Dog park','Nature trails'],
+   highlights:'Waterfront & preserve views. Wide range villas to estates.',
+   pros:['Waterfront & preserve lots','Wide price range','Neal quality'],cons:['No golf','Not gated'],
+   tags:['water'],lat:27.4270,lng:-82.3680,travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
 
-  {id:'azario',name:'Esplanade at Azario',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',
+  {id:'azario',name:'Esplanade at Azario',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1500000,pLabel:'$400s–$1.5M',sqMin:1500,sqMax:4000,bdMin:2,bdMax:5,baMin:2,baMax:5,
    hoa:'$336–$612/mo',hoaN:480,cdd:'Yes (~$130–$228/mo)',cddN:180,hasCDD:true,
-   golf:true,golfT:'18-hole championship (bundled)',gated:true,maint:true,water:false,age55:false,
+   lotPremMin:50000,lotPremMax:350000,lotPremNote:'⚠️ MAJOR LOT PREMIUM ALERT: Golf-front & lake lots run $50K–$350K+ above base home price. Homes advertised from $400K can reach $750K–$1.1M+ once lot premium and options are added. Golf-deeded lots are auctioned via "Highest & Best Offer" process and routinely exceed $200K premium.',hasLotWarn:true,
+   golf:true,golfT:'18-hole championship (bundled on golf lots)',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],
-   builders:['Taylor Morrison'],homes:'~1,400',
-   amenities:['18-hole Arnold Palmer championship golf (bundled)','Culinary center & restaurant','Bahama bar','Resort pool','Spa','Tennis courts','Pickleball','Fitness center','Dog park','Fire pit','Gated','Maintenance-free villas','Lifestyle director'],
-   highlights:'Only gated bundled-golf community with new construction in LWR. 18-hole championship + culinary center.',
-   pros:['Only new-build bundled golf LWR','Gated','18-hole championship','Culinary center & restaurant','Maint-free villas available'],
-   cons:['Golf HOA $600+/mo','Taylor Morrison only','North LWR location'],
-   tags:['golf','gated','maint'],lat:27.4650,lng:-82.3780,
-   travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
+   types:['villa','sfh'],builders:['Taylor Morrison'],homes:'~1,400',
+   floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/lakewood-ranch/esplanade-at-azario-lakewood-ranch',
+   amenities:['18-hole championship golf (bundled — golf lots)','Culinary center & restaurant','Bahama bar','Resort pool','Spa','Tennis','Pickleball','Fitness','Dog park','Fire pit','Gated','Maint-free villas','Lifestyle director'],
+   highlights:'Only gated bundled-golf new construction in LWR. Base prices look attractive but lot premiums on golf/lake sites can add $200K–$350K+ to total cost.',
+   pros:['Only new-build bundled golf LWR','Gated','18-hole championship','Culinary center & restaurant'],
+   cons:['⚠️ Golf lot premiums $200K–$350K+','Base price misleading — always get full homesite cost','Golf HOA $600+/mo','Taylor Morrison only'],
+   tags:['golf','gated','maint'],lat:27.4650,lng:-82.3780,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
 
-  {id:'starfarms',name:'Star Farms',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',
+  {id:'starfarms',name:'Star Farms',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:375000,pMax:2500000,pLabel:'$375s–$2.5M+',sqMin:1500,sqMax:5000,bdMin:2,bdMax:6,baMin:2,baMax:5,
    hoa:'$200–$350/mo',hoaN:275,cdd:'Yes (~$125–$250/mo)',cddN:190,hasCDD:true,
+   lotPremMin:0,lotPremMax:150000,lotPremNote:'Lake/preserve lots $20K–$150K premium. Custom estate lots significantly higher.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh','custom'],
-   builders:['D.R. Horton','Homes by WestBay','John Cannon Homes','Lee Wetherington','AR Homes','Perry Homes'],homes:'700+ planned',
-   amenities:['5 resort pool complexes','27,000 sf clubhouse','Restaurant & bar','Tennis courts','Pickleball','Fitness center','Dog park','Walking trails','Splash pad','Gated'],
+   types:['villa','sfh','custom'],builders:['D.R. Horton','Homes by WestBay','John Cannon Homes','Lee Wetherington','AR Homes','Perry Homes'],homes:'700+',
+   floorPlanUrl:'https://www.drhorton.com/florida/sarasota/lakewood-ranch/star-farms',
+   amenities:['5 resort pool complexes','27,000 sf clubhouse','Restaurant & bar','Tennis','Pickleball','Fitness','Dog park','Splash pad','Gated'],
    highlights:'6 builders — widest range in LWR. 5 pool complexes, 27K sf clubhouse with dining.',
-   pros:['6 builders = widest price range','5 resort pools','27K sf clubhouse','On-site dining','Gated'],
-   cons:['Farthest north from Farmers Market','Ongoing construction','No golf'],
-   tags:['gated'],lat:27.4790,lng:-82.3920,
-   travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
+   pros:['6 builders','5 resort pools','27K sf clubhouse','On-site dining','Gated'],cons:['Farthest from Farmers Market','No golf'],
+   tags:['gated'],lat:27.4790,lng:-82.3920,travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
 
-  {id:'lorraine',name:'Lorraine Lakes',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',
+  {id:'lorraine',name:'Lorraine Lakes',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:350000,pMax:900000,pLabel:'$350s–$900s',sqMin:1400,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$200–$350/mo',hoaN:275,cdd:'Yes (~$125–$230/mo)',cddN:180,hasCDD:true,
+   lotPremMin:0,lotPremMax:80000,lotPremNote:'Lakefront lots $20K–$80K premium. Most standard lots have no premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['townhome','villa','sfh'],
-   builders:['Lennar Homes'],homes:'~600',
-   amenities:['Gated','Lake views throughout','Resort pool with waterslide','Splash pad','Fitness center','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
-   highlights:'Gated. Lennar Everything\'s Included. Stunning lake views. Splash pad & waterslide.',
-   pros:['Gated','Lennar Incl. package','Lake views','Splash pad & waterslide','Slightly closer to Main St'],
-   cons:['Lennar only','No golf','HOA can increase with phases'],
-   tags:['gated','water'],lat:27.4680,lng:-82.3720,
-   travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
+   types:['townhome','villa','sfh'],builders:['Lennar Homes'],homes:'~600',
+   floorPlanUrl:'https://www.lennar.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/lorraine-lakes',
+   amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
+   highlights:'Gated. Lennar Everything\'s Included. Lake views. Splash pad & waterslide.',
+   pros:['Gated','Lennar Included package','Lake views','Splash pad & waterslide'],cons:['Lennar only','No golf'],
+   tags:['gated','water'],lat:27.4680,lng:-82.3720,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
 
-  {id:'lakeclub',name:'The Lake Club',district:'lwr',distLabel:'LWR · Manatee County',tier:'ultra',
+  {id:'lakeclub',name:'The Lake Club',district:'lwr',distLabel:'LWR · Manatee County',tier:'ultra',county:'manatee',
    pMin:1500000,pMax:6000000,pLabel:'$1.5M–$6M+',sqMin:2500,sqMax:8000,bdMin:3,bdMax:7,baMin:3,baMax:7,
    hoa:'$600–$900/mo',hoaN:750,cdd:'Yes (~$250–$450/mo)',cddN:350,hasCDD:true,
-   golf:false,golfT:'None (nearby courses avail.)',gated:true,maint:false,water:true,age55:false,
+   lotPremMin:100000,lotPremMax:600000,lotPremNote:'Lake estate lots $100K–$600K+ premium. Half-acre waterfront sites among most expensive in LWR.',hasLotWarn:true,
+   golf:false,golfT:'None (nearby courses available)',gated:true,maint:false,water:true,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['custom'],
-   builders:['Multiple Luxury Custom'],homes:'~500',
-   amenities:['Gated grand entrance','Tuscan-inspired clubhouse','Full-service restaurant','Resort pool','Fitness center','Tennis','Pickleball','Lakefront estate lots','Concierge services'],
+   types:['custom'],builders:['Multiple Luxury Custom'],homes:'~500',
+   floorPlanUrl:'https://www.lakeclub.com',
+   amenities:['Gated grand entrance','Tuscan clubhouse','Full restaurant','Resort pool','Fitness','Tennis','Pickleball','Lakefront estate lots','Concierge'],
    highlights:"LWR's original ultra-luxury community. Grand Tuscan clubhouse, restaurant, lakefront estates.",
-   pros:['LWR prestige address','Gated grand entrance','Multiple custom builders','Established','Restaurant on-site'],
-   cons:['$1.5M+ entry','High HOA + CDD','No bundled golf'],
-   tags:['gated','water'],lat:27.4580,lng:-82.3640,
-   travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
+   pros:['LWR prestige address','Gated','Multiple custom builders','Restaurant on-site'],cons:['$1.5M+ entry','High HOA + CDD','No bundled golf'],
+   tags:['gated','water'],lat:27.4580,lng:-82.3640,travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
 
-  {id:'lwnational',name:'Lakewood National',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',
+  {id:'lwnational',name:'Lakewood National',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1200000,pLabel:'$400s–$1.2M',sqMin:1500,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$600–$800/mo',hoaN:700,cdd:'Yes (~$125–$200/mo)',cddN:162,hasCDD:true,
+   lotPremMin:20000,lotPremMax:120000,lotPremNote:'Golf-front lots $40K–$120K premium. Lake lots $20K–$80K.',hasLotWarn:false,
    golf:true,golfT:'36-hole Arnold Palmer (bundled)',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],
-   builders:['Lennar Homes'],homes:'~1,200',
-   amenities:['36-hole Arnold Palmer golf (bundled)','Full-service clubhouse & restaurant','Resort pool','Fitness center','Tennis','Pickleball','Gated','Maintenance-free'],
+   types:['villa','sfh'],builders:['Lennar Homes'],homes:'~1,200',
+   floorPlanUrl:'https://www.lennar.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/lakewood-national',
+   amenities:['36-hole Arnold Palmer golf (bundled)','Full-service clubhouse & restaurant','Resort pool','Fitness','Tennis','Pickleball','Gated','Maintenance-free'],
    highlights:'36-hole Arnold Palmer bundled golf. Maintenance-free. Most accessible price golf community.',
-   pros:['36-hole AP bundled golf','Maint-free','Gated','Full resort amenities','More affordable than Azario'],
-   cons:['Lennar only','Highest HOA for tier ($700+)','Golf fees whether you play or not'],
-   tags:['golf','gated','maint'],lat:27.4520,lng:-82.3560,
-   travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
+   pros:['36-hole AP bundled golf','Maint-free','Gated','Full resort amenities'],cons:['Lennar only','HOA $700+/mo'],
+   tags:['golf','gated','maint'],lat:27.4520,lng:-82.3560,travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
 
-  {id:'cresswind',name:'Cresswind (55+)',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',
+  {id:'cresswind',name:'Cresswind (55+)',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:450000,pMax:900000,pLabel:'$450s–$900s',sqMin:1500,sqMax:3000,bdMin:2,bdMax:4,baMin:2,baMax:3,
    hoa:'$350–$500/mo',hoaN:425,cdd:'Yes (~$150–$250/mo)',cddN:200,hasCDD:true,
+   lotPremMin:0,lotPremMax:60000,lotPremNote:'Premium homesites $15K–$60K. Most lots standard pricing.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:false,age55:true,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],
-   builders:['Kolter Homes'],homes:'~600',
-   amenities:['Gated','Maintenance-free','Resort pool','Fitness center','Tennis','Pickleball','Social clubs','Dog park','Art studio','Active adult programming'],
-   highlights:'Age-restricted 55+ by Kolter. Resort active-adult lifestyle with gated, maint-free living.',
-   pros:['55+ community focus','Resort amenities','Gated + maint-free','Kolter quality','Active calendar'],
-   cons:['Age restricted 55+','No golf','Kolter only'],
-   tags:['gated','maint','age55'],lat:27.4740,lng:-82.3840,
-   travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
+   types:['sfh'],builders:['Kolter Homes'],homes:'~600',
+   floorPlanUrl:'https://www.kolter.com/cresswind-lakewood-ranch',
+   amenities:['Gated','Maintenance-free','Resort pool','Fitness','Tennis','Pickleball','Social clubs','Dog park','Art studio','Active 55+ programming'],
+   highlights:'Age-restricted 55+ by Kolter. Resort active-adult lifestyle — gated, maint-free.',
+   pros:['55+ focused','Resort amenities','Gated + maint-free','Kolter quality'],cons:['Age restricted','No golf'],
+   tags:['gated','maint','age55'],lat:27.4740,lng:-82.3840,travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
 
-  {id:'mallory',name:'Mallory Park',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',
+  {id:'mallory',name:'Mallory Park',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1700,sqMax:3200,bdMin:3,bdMax:5,baMin:2,baMax:4,
    hoa:'$200–$300/mo',hoaN:250,cdd:'Yes (~$150–$250/mo)',cddN:200,hasCDD:true,
+   lotPremMin:0,lotPremMax:50000,lotPremNote:'Corner/pond lots $10K–$50K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],
-   builders:['Neal Communities'],homes:'~400',
-   amenities:['Gated','Resort pool','Fitness center','Pickleball','Dog park','Playground','Tot lot','A-rated schools nearby'],
+   types:['sfh'],builders:['Neal Communities'],homes:'~400',
+   floorPlanUrl:'https://www.nealcommunities.com/community/mallory-park-at-lakewood-ranch',
+   amenities:['Gated','Resort pool','Fitness','Pickleball','Dog park','Playground','A-rated schools nearby'],
    highlights:'Gated family community. A-rated school zone. Neal quality at accessible prices.',
-   pros:['Gated','A-rated schools nearby','Neal quality','Family-friendly','Reasonable HOA'],
-   cons:['No golf','Neal only','No water features'],
-   tags:['gated'],lat:27.4620,lng:-82.3850,
-   travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
+   pros:['Gated','A-rated schools nearby','Reasonable HOA'],cons:['No golf','No water features'],
+   tags:['gated'],lat:27.4620,lng:-82.3850,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
 
-  // SKYE RANCH
-  {id:'cassia',name:'Cassia at Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',
+  {id:'cassia',name:'Cassia at Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:498000,pMax:1200000,pLabel:'$498K–$1.2M',sqMin:1790,sqMax:3835,bdMin:3,bdMax:5,baMin:2,baMax:4,
    hoa:'~$140/mo',hoaN:140,cdd:'Yes ($154–$197/mo)',cddN:175,hasCDD:true,
+   lotPremMin:10000,lotPremMax:80000,lotPremNote:'Conservation/water-view lots $10K–$80K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],
-   builders:['Taylor Morrison'],homes:'~900',
-   amenities:['Gated','K-8 Skye Ranch School (opened Aug 2025)','The Hub amenity center','Resort pool','Fitness center','Tennis','Pickleball','Dog park','35+ miles trails','Proximity to Siesta Key (10-11 mi)'],
-   highlights:'Gated. K-8 school onsite. 15-25% cheaper than comparable LWR. Closest to Siesta Key.',
-   pros:['Gated','K-8 school onsite 2025','Low HOA ($140/mo)','15-25% cheaper than LWR','Closest to Siesta Key'],
-   cons:['CDD moderate','Taylor Morrison only','Still building out amenities'],
-   tags:['gated'],lat:27.3640,lng:-82.4380,
-   travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   types:['sfh'],builders:['Taylor Morrison'],homes:'~900',
+   floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/cassia-at-skye-ranch',
+   amenities:['Gated','K-8 school onsite (2025)','The Hub amenity center','Resort pool','Fitness','Tennis','Pickleball','Dog park','35+ miles trails'],
+   highlights:'Gated. K-8 school onsite 2025. 15–25% cheaper than comparable LWR. Closest to Siesta Key.',
+   pros:['Gated','K-8 school onsite','Low HOA ($140/mo)','15-25% cheaper than LWR','10-11 mi to Siesta Key'],
+   cons:['CDD moderate ($154–$197/mo)','Taylor Morrison only','Still building amenities'],
+   tags:['gated'],lat:27.3640,lng:-82.4380,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
-  {id:'esplanade-skye',name:'Esplanade Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',
+  {id:'esplanade-skye',name:'Esplanade Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:495000,pMax:1028000,pLabel:'$495K–$1M+',sqMin:1533,sqMax:3145,bdMin:2,bdMax:4,baMin:2,baMax:3,
    hoa:'$350–$500/mo',hoaN:420,cdd:'Yes ($154–$197/mo)',cddN:175,hasCDD:true,
+   lotPremMin:10000,lotPremMax:60000,lotPremNote:'Premium sites $10K–$60K.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:false,age55:true,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],
-   builders:['Taylor Morrison'],homes:'~400',
-   amenities:['Gated','Maintenance-free','Single-story homes','55+ active adult','Resort pool','Adults-only pool','Fitness center','Tennis','Pickleball','Shared Skye Ranch amenities'],
+   types:['villa','sfh'],builders:['Taylor Morrison'],homes:'~400',
+   floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/esplanade-at-skye-ranch',
+   amenities:['Gated','Maintenance-free','Single-story homes','55+ active adult','Resort pool','Adults-only pool','Fitness','Tennis','Pickleball'],
    highlights:'55+ section of Skye Ranch. Single-story maint-free. Excellent value vs Esplanade Azario.',
-   pros:['55+ focused','Maint-free','Single-story','Shared Skye Ranch amenities','Near Siesta Key'],
-   cons:['Age restricted','Taylor Morrison only','No golf'],
-   tags:['gated','maint','age55'],lat:27.3660,lng:-82.4410,
-   travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   pros:['55+ focused','Maint-free','Single-story','Near Siesta Key'],cons:['Age restricted','Taylor Morrison only','No golf'],
+   tags:['gated','maint','age55'],lat:27.3660,lng:-82.4410,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
-  // WELLEN PARK
-  {id:'solstice',name:'Solstice at Wellen Park',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',
+  {id:'solstice',name:'Solstice at Wellen Park',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',county:'sarasota',
    pMin:680000,pMax:1500000,pLabel:'$680s–$1.5M',sqMin:2000,sqMax:4500,bdMin:3,bdMax:6,baMin:2,baMax:5,
    hoa:'$300–$500/mo',hoaN:400,cdd:'Yes (~$150–$250/mo)',cddN:200,hasCDD:true,
+   lotPremMin:0,lotPremMax:100000,lotPremNote:'Premium lots $20K–$100K. Toll Brothers incentives in 2025 sometimes offset lot premiums.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],
-   builders:['Toll Brothers'],homes:'~400',
-   amenities:['Gated','Resort pool','Fitness center','Tennis','Pickleball','Dog park','Golf-cart access to Wellen downtown','CoolToday Park (Braves) nearby','Walking trails'],
+   types:['sfh'],builders:['Toll Brothers'],homes:'~400',
+   floorPlanUrl:'https://www.tollbrothers.com/luxury-homes-for-sale/Florida/Solstice-at-Wellen-Park',
+   amenities:['Gated','Resort pool','Fitness','Tennis','Pickleball','Dog park','Golf-cart to Wellen downtown','CoolToday Park nearby'],
    highlights:'Toll Brothers luxury in Wellen Park. Golf-cart to downtown Wellen. Braves spring training nearby.',
-   pros:['Toll Brothers quality','Gated','Golf-cart to Wellen downtown','Big 2025 discounts','Close to beaches'],
-   cons:['No bundled golf','Toll Brothers only','Venice = older demographic'],
-   tags:['gated'],lat:27.0510,lng:-82.3860,
-   travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
+   pros:['Toll Brothers quality','Gated','Golf-cart to Wellen','Big 2025 discounts'],cons:['No bundled golf','Venice = older demographic'],
+   tags:['gated'],lat:27.0510,lng:-82.3860,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
 
-  {id:'beachwalk',name:'BeachWalk at Wellen',district:'wellen',distLabel:'Wellen Park · Englewood',tier:'mid',
+  {id:'beachwalk',name:'BeachWalk at Wellen',district:'wellen',distLabel:'Wellen Park · Englewood',tier:'mid',county:'sarasota',
    pMin:400000,pMax:900000,pLabel:'$400s–$900s',sqMin:1500,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$300–$500/mo',hoaN:400,cdd:'Yes (~$125–$200/mo)',cddN:160,hasCDD:true,
+   lotPremMin:0,lotPremMax:60000,lotPremNote:'Lake/preserve lots $15K–$60K.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:true,age55:false,
    restaurant:true,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh'],
-   builders:['DiVosta (Pulte)'],homes:'~800',
-   amenities:['2.5 miles to Manasota Key beach','Full-service resort restaurant','Resort pool','Pickleball','Fitness center','Coastal aesthetic'],
+   types:['sfh'],builders:['DiVosta (Pulte)'],homes:'~800',
+   floorPlanUrl:'https://www.divosta.com/new-homes/florida/venice/beachwalk',
+   amenities:['2.5 miles to Manasota Key beach','Full-service resort restaurant','Resort pool','Pickleball','Fitness','Coastal aesthetic'],
    highlights:'Closest new construction to Gulf beaches. Full-service restaurant. Rare beach proximity.',
-   pros:['Closest new build to Gulf beach','On-site restaurant','Resort pool','Coastal lifestyle'],
-   cons:['Englewood slower to mature','Not gated','No golf'],
-   tags:['water'],lat:27.0180,lng:-82.4020,
-   travel:{walk:'N/A',cart:'N/A',drive:'44 min',miles:22.0}},
+   pros:['Closest new build to Gulf beach','On-site restaurant','Coastal lifestyle'],cons:['Englewood slower to mature','Not gated','No golf'],
+   tags:['water'],lat:27.0180,lng:-82.4020,travel:{walk:'N/A',cart:'N/A',drive:'44 min',miles:22.0}},
 
-  {id:'wellengolf',name:'Wellen Park Golf & CC',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',
+  {id:'wellengolf',name:'Wellen Park Golf & CC',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',county:'sarasota',
    pMin:600000,pMax:2000000,pLabel:'$600s–$2M+',sqMin:1600,sqMax:4000,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$400–$700/mo',hoaN:550,cdd:'Yes (~$150–$250/mo)',cddN:200,hasCDD:true,
+   lotPremMin:30000,lotPremMax:120000,lotPremNote:'Golf-front lots $40K–$120K premium.',hasLotWarn:false,
    golf:true,golfT:'18-hole bundled',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],
-   builders:['DiVosta (Pulte)'],homes:'~600',
-   amenities:['18-hole bundled golf course','Gated','Maintenance-free','Clubhouse with restaurant & bar','Resort pool','Fitness center','Tennis','Pickleball'],
+   types:['villa','sfh'],builders:['DiVosta (Pulte)'],homes:'~600',
+   floorPlanUrl:'https://www.divosta.com/new-homes/florida/venice/wellen-park-golf-country-club',
+   amenities:['18-hole bundled golf','Gated','Maint-free','Clubhouse restaurant & bar','Resort pool','Fitness','Tennis','Pickleball'],
    highlights:'Bundled golf in Wellen Park. More affordable than LWR golf communities.',
-   pros:['Bundled 18-hole golf','Gated + maint-free','On-site restaurant','More affordable than LWR golf'],
-   cons:['Venice / older demographic','HOA high for golf','Limited to Wellen location'],
-   tags:['golf','gated','maint'],lat:27.0560,lng:-82.3760,
-   travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
+   pros:['Bundled 18-hole golf','Gated + maint-free','On-site restaurant'],cons:['Venice = older demographic','HOA high for golf'],
+   tags:['golf','gated','maint'],lat:27.0560,lng:-82.3760,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
 
-  // PALMER RANCH
-  {id:'talon',name:'Talon Preserve',district:'palmer',distLabel:'Palmer Ranch · Nokomis',tier:'mid',
+  {id:'talon',name:'Talon Preserve',district:'palmer',distLabel:'Palmer Ranch · Nokomis',tier:'mid',county:'sarasota',
    pMin:500000,pMax:1100000,pLabel:'$500s–$1.1M',sqMin:1700,sqMax:3600,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$300–$500/mo',hoaN:400,cdd:'Yes (~$125–$200/mo)',cddN:160,hasCDD:true,
+   lotPremMin:10000,lotPremMax:70000,lotPremNote:'Water/preserve lots $10K–$70K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],
-   builders:['DiVosta (Pulte)'],homes:'~600',
-   amenities:['Gated','Clubhouse','Resort pool','Fitness center','Pickleball','Dog park','Walking trails','7-8 miles to Siesta Key','Mature Palmer Ranch landscaping'],
-   highlights:'7-8 miles from Siesta Key. Gated. Part of established Palmer Ranch. Middle ground Sarasota/Venice.',
-   pros:['7-8 mi to Siesta Key','Gated','Palmer Ranch prestige','Resort amenities','Mature area'],
-   cons:['Not as new as LWR/Wellen','DiVosta only','No golf'],
-   tags:['gated'],lat:27.1810,lng:-82.4660,
-   travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
+   types:['sfh'],builders:['DiVosta (Pulte)'],homes:'~600',
+   floorPlanUrl:'https://www.divosta.com/new-homes/florida/nokomis/talon-preserve',
+   amenities:['Gated','Clubhouse','Resort pool','Fitness','Pickleball','Dog park','7-8 miles to Siesta Key','Mature Palmer Ranch landscaping'],
+   highlights:'7-8 miles from Siesta Key. Gated. Part of established Palmer Ranch.',
+   pros:['7-8 mi to Siesta Key','Gated','Palmer Ranch prestige'],cons:['Not as new as LWR/Wellen','DiVosta only'],
+   tags:['gated'],lat:27.1810,lng:-82.4660,travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
 
-  {id:'esplanade-palmer',name:'Esplanade Palmer Ranch',district:'palmer',distLabel:'Palmer Ranch · Sarasota',tier:'mid',
+  {id:'esplanade-palmer',name:'Esplanade Palmer Ranch',district:'palmer',distLabel:'Palmer Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:500000,pMax:1200000,pLabel:'$500s–$1.2M',sqMin:1533,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,
    hoa:'$400–$600/mo',hoaN:500,cdd:'Yes (~$125–$200/mo)',cddN:160,hasCDD:true,
+   lotPremMin:15000,lotPremMax:80000,lotPremNote:'Premium homesites $15K–$80K. Legacy Trail–adjacent lots carry higher premiums.',hasLotWarn:false,
    golf:false,golfT:'Legacy Trail nearby',gated:true,maint:true,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh','villa'],
-   builders:['Taylor Morrison'],homes:'~500',
-   amenities:['Gated','Maintenance-free','Resort pool','Spa','Bahama bar','Fitness center','Tennis','Pickleball','Legacy Trail nearby (cycling)','5-8 miles to Siesta Key'],
+   types:['sfh','villa'],builders:['Taylor Morrison'],homes:'~500',
+   floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/esplanade-at-palmer-ranch',
+   amenities:['Gated','Maint-free','Resort pool','Spa','Bahama bar','Fitness','Tennis','Pickleball','Legacy Trail nearby','5-8 miles to Siesta Key'],
    highlights:'Esplanade resort lifestyle on Palmer Ranch. Gated, maint-free. 5-8 mi to Siesta Key.',
-   pros:['Resort Esplanade amenities','Gated + maint-free','5-8 mi to Siesta Key','Taylor Morrison quality','Central Sarasota'],
-   cons:['No bundled golf','HOA $400–$600','Limited inventory'],
-   tags:['gated','maint'],lat:27.2060,lng:-82.4680,
-   travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
+   pros:['Gated + maint-free','5-8 mi to Siesta Key','Taylor Morrison quality'],cons:['No bundled golf','HOA $400–$600'],
+   tags:['gated','maint'],lat:27.2060,lng:-82.4680,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -980,6 +1006,17 @@ let flt={price:'all',district:'all',type:'all',bed:'all'};
 let feats=new Set();
 let cmpList=[];
 let leafMap=null;
+
+const TAX={sarasota:0.011,manatee:0.0135};
+// PMI by (down%, credit) — annual % of loan
+function getPMI(downPct,creditVal,loanAmt){
+  if(downPct>=20)return 0;
+  const rate=parseFloat(creditVal)/100;
+  return loanAmt*rate/12;
+}
+
+function tierColor(t){return{entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'}[t]||'#888'}
+function tierLabel(t){return{entry:'Entry',mid:'Mid-Range',luxury:'Luxury',ultra:'Ultra Luxury'}[t]||t}
 
 function getFiltered(){
   return C.filter(c=>{
@@ -1000,42 +1037,40 @@ function getFiltered(){
     if(feats.has('pool')&&!c.pool)return false;
     if(feats.has('dogpark')&&!c.dogpark)return false;
     if(feats.has('theater')&&!c.theater)return false;
+    if(feats.has('lotwarning')&&!c.hasLotWarn)return false;
     return true;
   });
 }
-
-function tierColor(t){return{entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'}[t]||'#888'}
-function tierLabel(t){return{entry:'Entry',mid:'Mid-Range',luxury:'Luxury',ultra:'Ultra Luxury'}[t]||t}
 
 function render(){
   const items=getFiltered();
   document.getElementById('rcount').textContent=items.length+' of '+C.length+' communities shown';
   if(!items.length){
-    document.getElementById('cards').innerHTML='<div class="noR"><p style="font-size:1.8em">🏡</p><p style="margin-top:7px">No communities match. Try clearing filters.</p></div>';
+    document.getElementById('cards').innerHTML='<div class="noR"><p style="font-size:1.8em">🏡</p><p style="margin-top:6px">No communities match your filters.</p></div>';
     return;
   }
   document.getElementById('cards').innerHTML=items.map(c=>{
     const sel=cmpList.includes(c.id);
-    const badgeCls=c.age55?'active55':c.tier;
-    const badgeTxt=c.age55?'55+':tierLabel(c.tier);
+    const bc=c.age55?'active55':c.tier;
+    const bt=c.age55?'55+':tierLabel(c.tier);
+    const lotTag=c.hasLotWarn?'<span class="tag warn">⚠️ Lot Premium Alert</span>':'';
     const tagHtml=[
       c.golf&&'<span class="tag golf">⛳ Golf</span>',
       c.water&&'<span class="tag water">⛵ Water</span>',
       c.gated&&'<span class="tag gated">🔒 Gated</span>',
       c.maint&&'<span class="tag maint">✓ Maint-Free</span>',
-      !c.hasCDD&&'<span class="tag nocdd">No CDD</span>',
-      c.age55&&'<span class="tag age55">55+</span>',
+      lotTag,
       `<span class="tag">${c.builders[0]}</span>`,
     ].filter(Boolean).join('');
     return`<div class="card${sel?' sel':''}" onclick="openModal('${c.id}')">
-      <div class="ch2"><div><div class="cn">${c.name}</div><div class="cs">${c.distLabel}</div></div><span class="badge ${badgeCls}">${badgeTxt}</span></div>
+      <div class="ch2"><div><div class="cn">${c.name}</div><div class="cs">${c.distLabel}</div></div><span class="badge ${bc}">${bt}</span></div>
       <div class="cb">
         <div class="cm">
           <div><div class="mk">Price</div><div class="mv">${c.pLabel}</div></div>
           <div><div class="mk">Sq Ft</div><div class="mv">${c.sqMin.toLocaleString()}–${c.sqMax.toLocaleString()}</div></div>
           <div><div class="mk">HOA/mo</div><div class="mv">${c.hoa}</div></div>
           <div><div class="mk">Beds/Baths</div><div class="mv">${c.bdMin}–${c.bdMax} BD / ${c.baMin}–${c.baMax} BA</div></div>
-          <div><div class="mk">🕐 Drive to Market</div><div class="mv">${c.travel.drive}</div></div>
+          <div><div class="mk">🚗 Drive to Market</div><div class="mv">${c.travel.drive}</div></div>
           <div><div class="mk">🛺 Golf Cart</div><div class="mv">${c.travel.cart}</div></div>
         </div>
         <div class="ctags">${tagHtml}</div>
@@ -1063,38 +1098,44 @@ function clearAll(){
 function openModal(id){
   const c=C.find(x=>x.id===id);if(!c)return;
   const sel=cmpList.includes(id);
+  const taxRate=TAX[c.county]||0.0125;
+  const midPrice=Math.round((c.pMin+c.pMax)/2);
+  const estTax=Math.round(midPrice*taxRate/12);
   const amHtml=c.amenities.map(a=>`<span class="am-tag">${a}</span>`).join('');
-  const tagHtml=[
-    c.golf&&'<span class="tag golf">⛳ Golf Included</span>',
-    c.water&&'<span class="tag water">⛵ Water Access</span>',
-    c.gated&&'<span class="tag gated">🔒 Gated</span>',
-    c.maint&&'<span class="tag maint">✓ Maint-Free</span>',
-  ].filter(Boolean).join(' ');
+  const lotHtml=`<div class="lot-box">
+    <h4>⚠️ Lot Premium Costs</h4>
+    <div class="lot-row">
+      <div><div class="lot-k">Min Lot Premium</div><div class="lot-v">$${c.lotPremMin.toLocaleString()}</div></div>
+      <div><div class="lot-k">Max Lot Premium</div><div class="lot-v">$${c.lotPremMax.toLocaleString()}</div></div>
+    </div>
+    <p class="lot-note">${c.lotPremNote}</p>
+  </div>`;
   document.getElementById('sbody').innerHTML=`
     <div class="shdr">
-      <div style="padding-right:34px"><div class="stitle">${c.name}</div><div class="ssub">${c.distLabel} · ${c.types.join(', ')}</div></div>
+      <div style="padding-right:32px"><div class="stitle">${c.name}</div><div class="ssub">${c.distLabel} · ${c.types.join(', ')}</div></div>
       <button class="sclose" onclick="closeM()">✕</button>
     </div>
     <div class="sec"><h3>Overview</h3>
       <div class="dg">
-        <div><div class="dk">Price</div><div class="dv">${c.pLabel}</div></div>
+        <div><div class="dk">Price Range (base)</div><div class="dv">${c.pLabel}</div></div>
         <div><div class="dk">Sq Footage</div><div class="dv">${c.sqMin.toLocaleString()}–${c.sqMax.toLocaleString()} sf</div></div>
         <div><div class="dk">Beds</div><div class="dv">${c.bdMin}–${c.bdMax}</div></div>
         <div><div class="dk">Baths</div><div class="dv">${c.baMin}–${c.baMax}</div></div>
         <div><div class="dk">Homes</div><div class="dv">${c.homes}</div></div>
         <div><div class="dk">Home Types</div><div class="dv">${c.types.join(', ')}</div></div>
-        <div><div class="dk">Age Restricted</div><div class="dv">${c.age55?'✓ 55+':'No'}</div></div>
-        <div><div class="dk">Builders</div><div class="dv">${c.builders.join(', ')}</div></div>
+        <div><div class="dk">County</div><div class="dv">${c.county.charAt(0).toUpperCase()+c.county.slice(1)}</div></div>
+        <div><div class="dk">Est. Tax/Mo (${(taxRate*100).toFixed(2)}%)</div><div class="dv amber">~$${estTax.toLocaleString()}</div></div>
       </div>
     </div>
-    <div class="sec"><h3>🧭 Distance to Farmers Market (Waterside Place)</h3>
+    <div class="sec"><h3>⚠️ Lot Premiums — True Cost Transparency</h3>${lotHtml}</div>
+    <div class="sec"><h3>🧭 Travel to Farmers Market (Waterside Place)</h3>
       <div class="travel-grid">
-        <div class="travel-card"><span class="travel-icon">🚶</span><div class="travel-mode">Walking</div><div class="travel-time">${c.travel.walk}</div><div class="travel-dist">${c.travel.miles} mi</div></div>
-        <div class="travel-card"><span class="travel-icon">🛺</span><div class="travel-mode">Golf Cart</div><div class="travel-time">${c.travel.cart}</div><div class="travel-dist">${c.travel.miles} mi</div></div>
-        <div class="travel-card"><span class="travel-icon">🚗</span><div class="travel-mode">Driving</div><div class="travel-time">${c.travel.drive}</div><div class="travel-dist">${c.travel.miles} mi</div></div>
+        <div class="tc"><span class="ti">🚶</span><div class="tm">Walking</div><div class="tv">${c.travel.walk}</div><div class="td">${c.travel.miles} mi</div></div>
+        <div class="tc"><span class="ti">🛺</span><div class="tm">Golf Cart</div><div class="tv">${c.travel.cart}</div><div class="td">${c.travel.miles} mi</div></div>
+        <div class="tc"><span class="ti">🚗</span><div class="tm">Driving</div><div class="tv">${c.travel.drive}</div><div class="td">${c.travel.miles} mi</div></div>
       </div>
     </div>
-    <div class="sec"><h3>Fees & Costs</h3>
+    <div class="sec"><h3>Fees & Monthly Costs</h3>
       <div class="dg">
         <div><div class="dk">HOA / Month</div><div class="dv ${c.hoaN>600?'red':c.hoaN>350?'amber':'green'}">${c.hoa}</div></div>
         <div><div class="dk">CDD / Month</div><div class="dv ${c.hasCDD?'amber':'green'}">${c.cdd}</div></div>
@@ -1104,8 +1145,14 @@ function openModal(id){
         <div><div class="dk">Water Access</div><div class="dv ${c.water?'blue':''}">${c.water?'✓ Yes':'No'}</div></div>
       </div>
     </div>
-    <div class="sec"><h3>Amenities</h3><div class="amenity-list">${amHtml}</div></div>
-    <div class="sec"><h3>Highlights</h3><p style="font-size:12px;color:var(--gray700);line-height:1.65">${c.highlights}</p></div>
+    <div class="sec"><h3>Amenities</h3><div class="am-list">${amHtml}</div></div>
+    <div class="sec"><h3>Floor Plans</h3>
+      <div class="fp-links">
+        <a class="fp-link" href="${c.floorPlanUrl}" target="_blank" rel="noopener">View Floor Plans →</a>
+        <a class="fp-link" href="https://www.newhomesource.com/search?keyword=${encodeURIComponent(c.name+' '+c.distLabel)}" target="_blank" rel="noopener" style="background:var(--a)">New Home Source ↗</a>
+      </div>
+      <p style="font-size:9.5px;color:var(--gray400);margin-top:6px">Links open the official builder website for current floor plans, availability & pricing. Always verify with builder rep.</p>
+    </div>
     <div class="sec"><h3>Pros & Cons</h3>
       <div class="pc">
         <div class="pros2"><h4>Pros</h4><ul>${c.pros.map(p=>`<li>${p}</li>`).join('')}</ul></div>
@@ -1125,8 +1172,8 @@ function toggleCmp(id,btn){
   if(cmpList.includes(id)){
     cmpList=cmpList.filter(x=>x!==id);
     if(btn){btn.className='abtn add-off';btn.textContent='+ Add to Compare';}
-  } else {
-    if(cmpList.length>=4){alert('Max 4 for comparison.');return;}
+  }else{
+    if(cmpList.length>=4){alert('Max 4 communities for comparison.');return;}
     cmpList.push(id);
     if(btn){btn.className='abtn add-on';btn.textContent='✓ Added to Compare';}
   }
@@ -1141,23 +1188,25 @@ function updateCbar(){
 
 function renderCmp(){
   const el=document.getElementById('cmp');
-  if(!cmpList.length){el.innerHTML='<div class="noR"><p style="font-size:1.8em">⚖️</p><p style="margin-top:7px">No communities selected yet.<br>Browse and tap "+ Add to Compare".</p></div>';return;}
+  if(!cmpList.length){el.innerHTML='<div class="noR"><p style="font-size:1.8em">⚖️</p><p style="margin-top:6px">No communities selected.<br>Tap "+ Add to Compare".</p></div>';return;}
   const items=cmpList.map(id=>C.find(c=>c.id===id)).filter(Boolean);
   const rows=[
-    ['Price',c=>c.pLabel],['Sq Ft',c=>c.sqMin.toLocaleString()+'–'+c.sqMax.toLocaleString()],
+    ['Price (base)',c=>c.pLabel],['Lot Prem.',c=>'$'+c.lotPremMin.toLocaleString()+'–$'+c.lotPremMax.toLocaleString()],
+    ['Sq Ft',c=>c.sqMin.toLocaleString()+'–'+c.sqMax.toLocaleString()],
     ['Beds',c=>c.bdMin+'–'+c.bdMax],['Baths',c=>c.baMin+'–'+c.baMax],
     ['HOA/Mo',c=>c.hoa],['CDD/Mo',c=>c.cdd],
-    ['🚗 Drive to Market',c=>c.travel.drive],['🛺 Golf Cart',c=>c.travel.cart],
+    ['County Tax',c=>(TAX[c.county]*100).toFixed(2)+'%'],
+    ['🚗 Drive',c=>c.travel.drive],['🛺 Golf Cart',c=>c.travel.cart],['🚶 Walk',c=>c.travel.walk],
     ['⛳ Golf',c=>c.golf?'✅ '+c.golfT:'—'],['🔒 Gated',c=>c.gated?'✅':'—'],
     ['✓ Maint',c=>c.maint?'✅':'—'],['⛵ Water',c=>c.water?'✅':'—'],
     ['55+',c=>c.age55?'✅':'—'],['🍽 Restaurant',c=>c.restaurant?'✅':'—'],
     ['🎾 Tennis',c=>c.tennis?'✅':'—'],['🏓 Pickleball',c=>c.pickleball?'✅':'—'],
     ['🏊 Pool',c=>c.pool?'✅':'—'],['🐕 Dog Park',c=>c.dogpark?'✅':'—'],
-    ['Builders',c=>c.builders.join(', ')],['Homes',c=>c.homes],['Types',c=>c.types.join(', ')],
+    ['Builders',c=>c.builders.join(', ')],
   ];
   el.innerHTML=`<div class="ctwrap"><table class="ctab">
     <thead><tr><th>Feature</th>${items.map(c=>`<th>${c.name} <button class="cremove" onclick="toggleCmp('${c.id}')">×</button></th>`).join('')}</tr></thead>
-    <tbody>${rows.map(([lbl,fn])=>`<tr><td style="color:var(--gray400);font-weight:500;white-space:nowrap;font-size:10.5px">${lbl}</td>${items.map(c=>`<td>${fn(c)}</td>`).join('')}</tr>`).join('')}</tbody>
+    <tbody>${rows.map(([lbl,fn])=>`<tr><td style="color:var(--gray400);font-weight:500;white-space:nowrap;font-size:10px">${lbl}</td>${items.map(c=>`<td>${fn(c)}</td>`).join('')}</tr>`).join('')}</tbody>
   </table></div>`;
 }
 
@@ -1171,72 +1220,71 @@ function showTab(t){
   if(t==='mortgage'){cm();renderQC();}
 }
 
-// ─── MAP ─────────────────────────────────────────────────────────────────────
 function initMap(){
   if(leafMap){leafMap.invalidateSize();return;}
   leafMap=L.map('map',{center:[27.38,-82.39],zoom:11});
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-    attribution:'Tiles &copy; Esri',maxZoom:19
-  }).addTo(leafMap);
-  // Labels overlay
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{
-    attribution:'',maxZoom:19,opacity:0.7
-  }).addTo(leafMap);
-
-  // Farmers Market pin (star)
-  const fmIcon=L.divIcon({html:`<div style="background:#6b3fa0;border:2px solid #fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4)">⭐</div>`,className:'',iconAnchor:[11,11]});
-  L.marker(FM,{icon:fmIcon}).addTo(leafMap).bindPopup('<div class="lpu-name">🌟 Farmers Market</div><div class="lpu-dist">Waterside Place · Every Sunday 10am–2pm</div><div class="lpu-row">1560 Lakefront Dr, LWR FL 34240</div>');
-
-  // Community pins
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles &copy; Esri',maxZoom:19}).addTo(leafMap);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{attribution:'',maxZoom:19,opacity:0.7}).addTo(leafMap);
+  const fmIcon=L.divIcon({html:`<div style="background:#6b3fa0;border:2.5px solid #fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.4)">⭐</div>`,className:'',iconAnchor:[12,12]});
+  L.marker(FM,{icon:fmIcon}).addTo(leafMap).bindPopup('<div class="lpu-name">⭐ Farmers Market</div><div class="lpu-dist">Waterside Place · Every Sunday 10am–2pm</div><div class="lpu-row">1560 Lakefront Dr, LWR FL 34240</div>');
   C.forEach(c=>{
     const col=tierColor(c.tier);
-    const icon=L.divIcon({
-      html:`<div style="background:${col};border:2px solid #fff;border-radius:50%;width:18px;height:18px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer"></div>`,
-      className:'',iconAnchor:[9,9]
-    });
+    const icon=L.divIcon({html:`<div style="background:${col};border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer${c.hasLotWarn?';outline:2px solid #e67e22':''}"></div>`,className:'',iconAnchor:[8,8]});
     L.marker([c.lat,c.lng],{icon}).addTo(leafMap).bindPopup(
-      `<div class="lpu-name">${c.name}</div>
+      `<div class="lpu-name">${c.name}${c.hasLotWarn?' ⚠️':''}</div>
        <div class="lpu-dist">${c.distLabel}</div>
-       <div class="lpu-row"><b>Price:</b> ${c.pLabel}</div>
+       <div class="lpu-row"><b>Base Price:</b> ${c.pLabel}</div>
+       <div class="lpu-row"><b>Lot Premiums:</b> $${c.lotPremMin.toLocaleString()}–$${c.lotPremMax.toLocaleString()}</div>
        <div class="lpu-row"><b>HOA:</b> ${c.hoa}</div>
-       <div class="lpu-row">🚗 ${c.travel.drive} · 🛺 ${c.travel.cart} · 🚶 ${c.travel.walk}</div>
-       <button class="lpu-btn" onclick="openModal('${c.id}');document.querySelector('.leaflet-popup-close-button').click()">View Full Details</button>`
+       <div class="lpu-row">🚗 ${c.travel.drive} · 🛺 ${c.travel.cart}</div>
+       <button class="lpu-btn" onclick="openModal('${c.id}');document.querySelector('.leaflet-popup-close-button').click()">Full Details + Floor Plans</button>`
     );
   });
 }
 
-// ─── MORTGAGE ────────────────────────────────────────────────────────────────
 function cm(){
+  const county=document.getElementById('scounty').value;
+  const taxRate=TAX[county]||0.0135;
+  document.getElementById('otax').textContent=(taxRate*100).toFixed(2)+'%';
   const price=+document.getElementById('sp').value;
-  const downP=+document.getElementById('sd').value;
+  const downPct=+document.getElementById('sd').value;
+  const lotPrem=+document.getElementById('slp').value;
   const rate=+document.getElementById('sr2').value;
   const term=+document.getElementById('st').value;
+  const creditVal=document.getElementById('scredit').value;
   const hoa=+document.getElementById('sh').value;
   const cdd=+document.getElementById('sc').value;
   const ins=+document.getElementById('si').value;
+  const totalPrice=price+lotPrem;
   document.getElementById('op').textContent='$'+price.toLocaleString();
-  document.getElementById('od').textContent=downP+'%';
+  document.getElementById('olp').textContent=lotPrem>0?'+$'+lotPrem.toLocaleString()+' lot':'$0 lot';
+  document.getElementById('olp').style.color=lotPrem>0?'var(--warn)':'var(--gray400)';
+  document.getElementById('od').textContent=downPct+'%';
   document.getElementById('or2').textContent=rate.toFixed(1)+'%';
   document.getElementById('ot').textContent=term+' yr';
   document.getElementById('oh').textContent='$'+hoa;
   document.getElementById('oc').textContent='$'+cdd;
   document.getElementById('oi').textContent='$'+ins;
-  const down=price*(downP/100);
-  const loan=price-down;
+  const down=totalPrice*(downPct/100);
+  const loan=totalPrice-down;
   const mo=rate/100/12;
   const n=term*12;
   const pi=loan*(mo*Math.pow(1+mo,n))/(Math.pow(1+mo,n)-1);
-  const tax=price*0.0125/12;
-  const pmi=downP<20?loan*0.005/12:0;
-  const total=pi+tax+hoa+cdd+ins+pmi;
+  const tax=totalPrice*taxRate/12;
+  const pmiMo=getPMI(downPct,creditVal,loan);
+  document.getElementById('opmi').textContent=pmiMo>0?'$'+Math.round(pmiMo)+'/mo':'None';
+  document.getElementById('opmi').style.color=pmiMo>0?'var(--warn)':'var(--g)';
+  const total=pi+tax+hoa+cdd+ins+pmiMo;
+  const totalWithLot=lotPrem>0?`<div class="ms warn2"><div class="msl">Total w/ Lot Premium</div><div class="msv">$${Math.round(totalPrice).toLocaleString()}</div></div>`:'';
   document.getElementById('mres').innerHTML=`
     <div class="ms hi"><div class="msl">Total / Month</div><div class="msv">$${Math.round(total).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">P&amp;I Payment</div><div class="msv">$${Math.round(pi).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Down Payment</div><div class="msv">$${Math.round(down).toLocaleString()}</div></div>
     <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$${Math.round(loan).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">Est. Tax/Mo</div><div class="msv">$${Math.round(tax).toLocaleString()}</div></div>
-    <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$${hoa+cdd}</div></div>
-    ${pmi>0?`<div class="ms"><div class="msl">PMI</div><div class="msv">$${Math.round(pmi).toLocaleString()}</div></div>`:''}
+    <div class="ms"><div class="msl">Est. Tax/Mo (${(taxRate*100).toFixed(2)}%)</div><div class="msv${taxRate>0.012?' warn2':''}">${'$'+Math.round(tax).toLocaleString()}</div></div>
+    <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$${(hoa+cdd).toLocaleString()}</div></div>
+    ${pmiMo>0?`<div class="ms warn2"><div class="msl">PMI (${downPct}% down)</div><div class="msv">$${Math.round(pmiMo).toLocaleString()}</div></div>`:''}
+    ${totalWithLot}
     <div class="ms"><div class="msl">Annual Cost</div><div class="msv">$${Math.round(total*12).toLocaleString()}</div></div>`;
 }
 
@@ -1246,15 +1294,16 @@ function loadMort(id){
   document.getElementById('sp').value=mid;
   document.getElementById('sh').value=c.hoaN;
   document.getElementById('sc').value=c.cddN;
+  document.getElementById('slp').value=c.lotPremMax>0?Math.round((c.lotPremMin+c.lotPremMax)/2/5000)*5000:0;
+  document.getElementById('scounty').value=c.county;
   document.getElementById('ov').classList.remove('open');
   showTab('mortgage');
 }
 
 function renderQC(){
-  document.getElementById('qcoms').innerHTML=C.map(c=>`<button onclick="loadMort('${c.id}')" style="padding:3px 9px;border-radius:14px;border:1px solid var(--gray200);background:var(--gray50);font-size:10.5px;cursor:pointer;color:var(--gray700)">${c.name}</button>`).join('');
+  document.getElementById('qcoms').innerHTML=C.map(c=>`<button onclick="loadMort('${c.id}')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:${c.hasLotWarn?'var(--warnl)':'var(--gray50)'};font-size:10px;cursor:pointer;color:${c.hasLotWarn?'var(--warn)':'var(--gray700)'}">${c.hasLotWarn?'⚠️ ':''} ${c.name}</button>`).join('');
 }
 
-// init
 render();
 </script>
 
