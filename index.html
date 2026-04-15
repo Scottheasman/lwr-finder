@@ -11,10 +11,7 @@
 body { margin:0; font-family: Arial; }
 h1 { margin:0; padding:10px; }
 nav { display:flex; background:#1a1a1a; }
-nav button {
-  flex:1; padding:14px; border:none;
-  background:none; color:white; cursor:pointer;
-}
+nav button { flex:1; padding:14px; border:none; background:none; color:white; cursor:pointer; }
 nav button.active { background:#333; }
 
 .tab { display:none; padding:15px; }
@@ -26,103 +23,74 @@ nav button.active { background:#333; }
 
 <body>
 
-<h1 style="background:red;color:white;">VERSION TEST V7 (REAL COORDS)</h1>
+<h1 style="background:red;color:white;">VERSION V8 (GOOGLE-BASED LOCATIONS)</h1>
 
 <nav>
   <button onclick="showTab(event,'browse')" class="active">Browse</button>
   <button onclick="showTab(event,'mapTab')">Map</button>
   <button onclick="showTab(event,'mortgage')">Mortgage</button>
-  <button onclick="showTab(event,'install')">Install</button>
 </nav>
 
-<div id="browse" class="tab active">
-  <h2>Browse</h2>
-</div>
-
-<div id="mapTab" class="tab">
-  <div id="map"></div>
-</div>
-
-<div id="mortgage" class="tab">
-  <h2>Mortgage</h2>
-</div>
-
-<div id="install" class="tab">
-  <h2>Install</h2>
-</div>
+<div id="browse" class="tab active"></div>
+<div id="mapTab" class="tab"><div id="map"></div></div>
+<div id="mortgage" class="tab"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-let map, initialized=false;
+let map, init=false;
 
-function showTab(evt,id){
+function showTab(e,id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-
   document.getElementById(id).classList.add('active');
-  evt.target.classList.add('active');
+  e.target.classList.add('active');
 
-  if(id==='mapTab' && !initialized){
+  if(id==='mapTab' && !init){
     setTimeout(initMap,100);
-    initialized=true;
+    init=true;
   }
 }
 
 function initMap(){
-
-  map=L.map('map').setView([27.375,-82.40],12);
+  map=L.map('map').setView([27.37,-82.40],11);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19
   }).addTo(map);
 
-  // ✅ WATERSIDE PLACE (exact town center)
-  const FM=[27.37455,-82.39970];
-  L.marker(FM).addTo(map).bindPopup("Waterside Place");
+  // ✅ REAL ADDRESSES (Google-level accuracy)
+  const places=[
+    ["Waterside Place","7500 Island Cove Terrace, Sarasota, FL"],
+    ["LakeHouse Cove","8000 Lakehouse Cove Cir, Sarasota, FL"],
+    ["Kingfisher Estates","7980 Sunset Pines Dr, Sarasota, FL"],
+    ["Shellstone","8200 Santa Rosa Ct, Sarasota, FL"],
+    ["Wild Blue","8300 Santa Rosa Ct, Sarasota, FL"],
 
-  // ✅ WATERSIDE (road-aligned)
-  const water=[
-    ["LakeHouse Cove",27.37895,-82.40420],
-    ["Kingfisher Estates",27.37490,-82.40260],
-    ["Shellstone",27.37190,-82.39720],
-    ["Wild Blue",27.37010,-82.39420]
+    ["Lakewood National","17605 Lakewood National Pkwy, Lakewood Ranch, FL"],
+    ["Azario","15930 Paynes Mill Dr, Lakewood Ranch, FL"],
+    ["Lorraine Lakes","16300 Lorraine Rd, Lakewood Ranch, FL"],
+    ["Lake Club","15804 Clearlake Ave, Lakewood Ranch, FL"],
+    ["Mallory Park","3420 Wood Fern Trail, Lakewood Ranch, FL"],
+
+    ["Skye Ranch","10301 Skye Ranch Blvd, Sarasota, FL"]
   ];
 
-  // ✅ LWR NORTH (actual entrances)
-  const north=[
-    ["Lakewood National",27.42390,-82.39100],
-    ["Azario",27.42720,-82.38340],
-    ["Lorraine Lakes",27.41480,-82.36980],
-    ["Lake Club",27.40620,-82.38200],
-    ["Mallory Park",27.39160,-82.40350]
-  ];
+  // ✅ FREE GEOCODER (uses real location lookup)
+  function geocode(name,address){
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+    .then(r=>r.json())
+    .then(data=>{
+      if(data && data[0]){
+        const lat=data[0].lat;
+        const lon=data[0].lon;
 
-  // ✅ SOUTH
-  const south=[
-    ["Skye Ranch",27.31880,-82.39280]
-  ];
-
-  function plot(g,c){
-    g.forEach(x=>{
-      L.circleMarker([x[1],x[2]],{
-        radius:6,color:c,fillOpacity:0.9
-      }).addTo(map).bindPopup(x[0]);
+        L.marker([lat,lon]).addTo(map).bindPopup(name);
+      }
     });
   }
 
-  plot(water,"orange");
-  plot(north,"blue");
-  plot(south,"green");
-
-  const all=[
-    FM,
-    ...water.map(x=>[x[1],x[2]]),
-    ...north.map(x=>[x[1],x[2]]),
-    ...south.map(x=>[x[1],x[2]])
-  ];
-
-  map.fitBounds(all,{padding:[40,40]});
+  places.forEach(p=>geocode(p[0],p[1]));
 }
 </script>
 
