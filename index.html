@@ -676,6 +676,24 @@ before making an offer.</p></div>
 
 <script>
 const FM=[27.3905,-82.3855];
+
+// Global calibration state
+let _calibrating=false;
+function toggleCalibrate(){
+  _calibrating=!_calibrating;
+  const btn=document.getElementById('cal-btn');
+  const hint=document.getElementById('cal-hint');
+  const mapEl=document.getElementById('map');
+  if(_calibrating){
+    if(btn){btn.textContent='❌ Cancel';btn.style.background='#fde8e6';btn.style.color='#c0392b';btn.style.borderColor='#c0392b';}
+    if(hint)hint.style.display='inline-block';
+    if(mapEl)mapEl.style.cursor='crosshair';
+  } else {
+    if(btn){btn.textContent='📍 Calibrate ⭐';btn.style.background='#fdf3e3';btn.style.color='#c47f1a';btn.style.borderColor='#c47f1a';}
+    if(hint)hint.style.display='none';
+    if(mapEl)mapEl.style.cursor='grab';
+  }
+}
 window._FM_LIVE={lat:27.3905,lng:-82.3855};; // Waterside Place / Farmers Market
 
 const C=[
@@ -1231,438 +1249,324 @@ function initMap(){
   if(el._mapInit)return;
   el._mapInit=true;
   el.innerHTML='';
-  // Runtime geocode ALL communities + Farmers Market via Nominatim
-  function setGeoStatus(msg){ const el=document.getElementById('geo-status'); if(el)el.textContent=msg; }
-  async function geocodeAll(){
-    const cached = {};
-    try{
-      const s=localStorage.getItem('lwr_geocache');
-      if(s){
-        Object.assign(cached,JSON.parse(s));
-        // Apply all cached coords IMMEDIATELY before first draw
-        if(cached['lwr_fm']){
-          window._FM_LIVE={lat:cached['lwr_fm'][0],lng:cached['lwr_fm'][1]};
-          state.lat=cached['lwr_fm'][0]; state.lng=cached['lwr_fm'][1];
-        }
-        C.forEach(c=>{ if(cached[c.id]){c.lat=cached[c.id][0];c.lng=cached[c.id][1];} });
-        setGeoStatus('⚡ From cache');
-        draw(); // draw immediately with cached positions
-        setTimeout(()=>setGeoStatus(''),2000);
-      }
-    }catch(e){}
-
-    setGeoStatus('📍 Loading locations...');
-    // Geocode Farmers Market first
-    const fmKey='lwr_fm';
-    if(cached[fmKey]){
-      window._FM_LIVE={lat:cached[fmKey][0],lng:cached[fmKey][1]};
-      state.lat=cached[fmKey][0]; state.lng=cached[fmKey][1];
-      draw();
-    } else {
-      try{
-        const r=await fetch('https://nominatim.openstreetmap.org/search?q=7500+Island+Cove+Terrace+Sarasota+FL+34240&format=json&limit=1',{headers:{'User-Agent':'LWR-Finder/1.0 contact@example.com'}});
-        const d=await r.json();
-        if(d&&d[0]){
-          const lat=parseFloat(d[0].lat),lng=parseFloat(d[0].lon);
-          window._FM_LIVE={lat,lng}; state.lat=lat; state.lng=lng;
-          cached[fmKey]=[lat,lng];
-          draw();
-        }
-      }catch(e){}
-    }
-
-    let done=0,total=C.filter(c=>c.geocodeAddr).length;
-    setGeoStatus('📍 Geocoding 0/'+total+'...');
-    // Geocode each community with 1s delay between requests (Nominatim rate limit)
-    for(const c of C){
-      if(!c.geocodeAddr) continue;
-      if(cached[c.id]){
-        c.lat=cached[c.id][0]; c.lng=cached[c.id][1];
-        draw(); continue;
-      }
-      await new Promise(r=>setTimeout(r,1100));
-      try{
-        const q=encodeURIComponent(c.geocodeAddr);
-        const r=await fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&limit=1',{headers:{'User-Agent':'LWR-Finder/1.0 contact@example.com'}});
-        const d=await r.json();
-        if(d&&d[0]){
-          c.lat=parseFloat(d[0].lat); c.lng=parseFloat(d[0].lon);
-          cached[c.id]=[c.lat,c.lng];
-          done++;setGeoStatus('📍 '+done+'/'+total+' located');draw();
-        }
-      }catch(e){ console.log('geocode fail',c.id,e); }
-    }
-    try{ localStorage.setItem('lwr_geocache',JSON.stringify(cached)); }catch(e){}
-    setGeoStatus('✅ All locations loaded');
-    setTimeout(()=>setGeoStatus(''),3000);
-    draw();
-  }
-  geocodeAll();
   el.style.position='relative';
   el.style.overflow='hidden';
   el.style.background='#c8dff0';
-  el.style.cursor='grab';
 
-  // Map state
-  let state={lat:27.3649666,lng:-82.3855,zoom:13,
-    dragging:false, lastX:0, lastY:0
-  };
+  // ── State ──────────────────────────────────────────────────────────────────
+  const startLat=window._FM_LIVE?window._FM_LIVE.lat:FM[0];
+  const startLng=window._FM_LIVE?window._FM_LIVE.lng:FM[1];
+  const state={lat:startLat, lng:startLng, zoom:13};
 
+  // ── Canvas ─────────────────────────────────────────────────────────────────
   const canvas=document.createElement('canvas');
-  canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;touch-action:none';
+  canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;touch-action:none;cursor:grab';
   el.appendChild(canvas);
 
-  // Popup div
+  // ── Popup ──────────────────────────────────────────────────────────────────
   const popup=document.createElement('div');
-  popup.style.cssText='display:none;position:absolute;background:#fff;border-radius:10px;padding:10px 13px;font-size:11px;box-shadow:0 3px 14px rgba(0,0,0,.25);z-index:100;max-width:220px;min-width:180px;font-family:-apple-system,sans-serif';
+  popup.style.cssText='display:none;position:absolute;background:#fff;border-radius:12px;padding:12px 14px;font-size:11px;box-shadow:0 4px 20px rgba(0,0,0,.22);z-index:100;max-width:240px;min-width:200px;font-family:-apple-system,sans-serif;pointer-events:auto';
   el.appendChild(popup);
 
   function closePopup(){popup.style.display='none';}
-  el.addEventListener('click',function(e){if(e.target===canvas||e.target===el)closePopup();});
+  window._closeMapPopup=closePopup;
 
-  // Tile math helpers
-  function lat2tile(lat,z){return Math.floor((1-Math.log(Math.tan(lat*Math.PI/180)+1/Math.cos(lat*Math.PI/180))/Math.PI)/2*Math.pow(2,z));}
-  function lng2tile(lng,z){return Math.floor((lng+180)/360*Math.pow(2,z));}
-  function tile2lat(y,z){var n=Math.PI-2*Math.PI*y/Math.pow(2,z);return 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n)));}
-  function tile2lng(x,z){return x/Math.pow(2,z)*360-180;}
-
-  // Project lat/lng to canvas pixel
+  // ── Geo helpers ────────────────────────────────────────────────────────────
   function project(lat,lng){
     const W=canvas.width,H=canvas.height;
-    const z=state.zoom;
-    const scale=Math.pow(2,z)*256;
-    const centerX=(state.lng+180)/360*scale;
-    const sinLat=Math.sin(state.lat*Math.PI/180);
-    const centerY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
+    const scale=Math.pow(2,state.zoom)*256;
+    const sinC=Math.sin(state.lat*Math.PI/180);
+    const cX=(state.lng+180)/360*scale;
+    const cY=(0.5-Math.log((1+sinC)/(1-sinC))/(4*Math.PI))*scale;
     const sinL=Math.sin(lat*Math.PI/180);
-    const px=(lng+180)/360*scale-centerX+W/2;
-    const py=(0.5-Math.log((1+sinL)/(1-sinL))/(4*Math.PI))*scale-centerY+H/2;
-    return {x:px,y:py};
+    return {
+      x:(lng+180)/360*scale - cX + W/2,
+      y:(0.5-Math.log((1+sinL)/(1-sinL))/(4*Math.PI))*scale - cY + H/2
+    };
   }
 
-  // Tile cache
+  function pixelToLatLng(mx,my){
+    const W=canvas.width,H=canvas.height;
+    const scale=Math.pow(2,state.zoom)*256;
+    const sinC=Math.sin(state.lat*Math.PI/180);
+    const cX=(state.lng+180)/360*scale;
+    const cY=(0.5-Math.log((1+sinC)/(1-sinC))/(4*Math.PI))*scale;
+    const px=cX+(mx-W/2), py=cY+(my-H/2);
+    return {
+      lat:Math.atan(Math.sinh((0.5-py/scale)*2*Math.PI))*180/Math.PI,
+      lng:(px/scale)*360-180
+    };
+  }
+
+  // ── Tile cache & draw ──────────────────────────────────────────────────────
   const tileCache={};
   function getTile(x,y,z){
     const key=z+'/'+x+'/'+y;
-    if(tileCache[key])return tileCache[key];
-    const img=new Image();
-    img.crossOrigin='anonymous';
-    // Use OpenStreetMap tiles (works in sandboxes)
+    if(tileCache[key]) return tileCache[key];
+    const img=new Image(); img.crossOrigin='anonymous';
     img.src='https://tile.openstreetmap.org/'+z+'/'+x+'/'+y+'.png';
     img.onload=()=>{tileCache[key]=img;draw();};
     img.onerror=()=>{
-      // Fallback: Esri World Imagery
-      const img2=new Image();
-      img2.crossOrigin='anonymous';
+      const img2=new Image(); img2.crossOrigin='anonymous';
       img2.src='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/'+z+'/'+y+'/'+x;
       img2.onload=()=>{tileCache[key]=img2;draw();};
       tileCache[key]=img2;
     };
-    tileCache[key]=img;
-    return img;
+    return (tileCache[key]=img);
   }
 
-  const tierColors={entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'};
+  const TIER_COL={entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'};
 
   function draw(){
-    const W=el.clientWidth||400;
-    const H=el.clientHeight||500;
+    const W=el.clientWidth||400, H=el.clientHeight||500;
+    if(W<10||H<10) return;
     canvas.width=W; canvas.height=H;
     const ctx=canvas.getContext('2d');
     ctx.clearRect(0,0,W,H);
 
-    // Draw tiles
-    const z=state.zoom;
-    const tileSize=256;
-    const scale=Math.pow(2,z)*tileSize;
-    const sinLat=Math.sin(state.lat*Math.PI/180);
+    // Tiles
+    const z=Math.round(state.zoom), tSz=256;
+    const scale=Math.pow(2,z)*tSz;
+    const sinC=Math.sin(state.lat*Math.PI/180);
     const cX=(state.lng+180)/360*scale;
-    const cY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
-    const tileX0=Math.floor((cX-W/2)/tileSize);
-    const tileY0=Math.floor((cY-H/2)/tileSize);
-    const maxTile=Math.pow(2,z)-1;
-
-    for(let tx=tileX0;tx<=(cX+W/2)/tileSize;tx++){
-      for(let ty=tileY0;ty<=(cY+H/2)/tileSize;ty++){
-        if(tx<0||ty<0||tx>maxTile||ty>maxTile)continue;
-        const img=getTile(tx,ty,z);
-        const px=tx*tileSize-cX+W/2;
-        const py=ty*tileSize-cY+H/2;
-        if(img.complete&&img.naturalWidth>0){
-          ctx.drawImage(img,Math.round(px),Math.round(py),tileSize,tileSize);
-        } else {
-          ctx.fillStyle='#d8e8f4';
-          ctx.fillRect(Math.round(px),Math.round(py),tileSize,tileSize);
-        }
-      }
+    const cY=(0.5-Math.log((1+sinC)/(1-sinC))/(4*Math.PI))*scale;
+    const maxT=Math.pow(2,z)-1;
+    const tx0=Math.floor((cX-W/2)/tSz), tx1=Math.floor((cX+W/2)/tSz);
+    const ty0=Math.floor((cY-H/2)/tSz), ty1=Math.floor((cY+H/2)/tSz);
+    for(let tx=tx0;tx<=tx1;tx++) for(let ty=ty0;ty<=ty1;ty++){
+      if(tx<0||ty<0||tx>maxT||ty>maxT) continue;
+      const img=getTile(tx,ty,z);
+      const px=Math.round(tx*tSz-cX+W/2), py=Math.round(ty*tSz-cY+H/2);
+      if(img.complete&&img.naturalWidth>0) ctx.drawImage(img,px,py,tSz,tSz);
+      else{ctx.fillStyle='#dbe8f4';ctx.fillRect(px,py,tSz,tSz);}
     }
 
-    // Draw community pins
+    // Community pins
+    ctx.textAlign='center'; ctx.textBaseline='middle';
     C.forEach(c=>{
       const {x,y}=project(c.lat,c.lng);
-      if(x<-20||x>W+20||y<-20||y>H+20)return;
-      const col=tierColors[c.tier]||'#888';
-      // Drop shadow
-      ctx.shadowColor='rgba(0,0,0,0.3)';
-      ctx.shadowBlur=4;
-      ctx.shadowOffsetY=2;
-      // Lot warning ring
+      if(x<-30||x>W+30||y<-30||y>H+30) return;
+      const col=TIER_COL[c.tier]||'#555';
+      ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=5; ctx.shadowOffsetY=2;
       if(c.hasLotWarn){
-        ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);
-        ctx.strokeStyle='#e67e22';ctx.lineWidth=2.5;ctx.stroke();
+        ctx.beginPath(); ctx.arc(x,y,13,0,Math.PI*2);
+        ctx.strokeStyle='#e67e22'; ctx.lineWidth=2.5; ctx.stroke();
       }
-      // Pin circle
-      ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);
-      ctx.fillStyle=col;ctx.fill();
-      ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
-      // Label
+      ctx.beginPath(); ctx.arc(x,y,10,0,Math.PI*2);
+      ctx.fillStyle=col; ctx.fill();
+      ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
       ctx.font='bold 7px -apple-system,sans-serif';
       ctx.fillStyle='#fff';
-      ctx.textAlign='center';
-      ctx.textBaseline='middle';
-      const words=c.name.replace('Esplanade ','Esp.').replace(' at Waterside','').replace(' at Wellen Park','').split(' ');
-      ctx.fillText(words[0],x,y);
+      const label=c.name.replace('Esplanade at ','').replace(' at Waterside','').replace(' at Wellen Park','').split(' ')[0];
+      ctx.fillText(label,x,y);
     });
 
-    // Farmers Market star pin
-    const _fml=window._FM_LIVE||{lat:FM[0],lng:FM[1]}; const fm=project(_fml.lat,_fml.lng);
+    // Farmers Market star
+    const fmLL=window._FM_LIVE||{lat:FM[0],lng:FM[1]};
+    const fm=project(fmLL.lat,fmLL.lng);
     if(fm.x>-20&&fm.x<W+20&&fm.y>-20&&fm.y<H+20){
-      ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;
-      ctx.beginPath();ctx.arc(fm.x,fm.y,12,0,Math.PI*2);
-      ctx.fillStyle='#6b3fa0';ctx.fill();
-      ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
-      ctx.font='bold 12px sans-serif';
-      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur=7; ctx.shadowOffsetY=2;
+      ctx.beginPath(); ctx.arc(fm.x,fm.y,13,0,Math.PI*2);
+      ctx.fillStyle='#6b3fa0'; ctx.fill();
+      ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+      ctx.font='13px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText('⭐',fm.x,fm.y);
     }
 
     // Attribution
-    ctx.font='9px sans-serif';
-    ctx.fillStyle='rgba(0,0,0,0.5)';
-    ctx.textAlign='right';
-    ctx.textBaseline='bottom';
-    ctx.fillRect(W-160,H-16,160,16);
-    ctx.fillStyle='rgba(0,0,0,0)';
-    ctx.fillStyle='rgba(0,0,0,0.55)';
+    ctx.font='9px sans-serif'; ctx.fillStyle='rgba(0,0,0,.5)';
+    ctx.textAlign='right'; ctx.textBaseline='bottom';
     ctx.fillText('© OpenStreetMap contributors',W-4,H-3);
   }
 
-  // Zoom controls
-  const zoomDiv=document.createElement('div');
-  zoomDiv.style.cssText='position:absolute;top:10px;right:10px;z-index:50;display:flex;flex-direction:column;gap:2px';
-  ['+','−'].forEach((sym,i)=>{
-    const btn=document.createElement('button');
-    btn.textContent=sym;
-    btn.style.cssText='width:30px;height:30px;background:#fff;border:1px solid #ccc;border-radius:4px;font-size:18px;cursor:pointer;line-height:1;font-weight:300;display:flex;align-items:center;justify-content:center';
-    btn.onclick=(e)=>{
-      e.stopPropagation();
-      state.zoom=Math.min(18,Math.max(5,state.zoom+(i===0?1:-1)));
-      draw();
-    };
-    zoomDiv.appendChild(btn);
+  // ── Zoom buttons ───────────────────────────────────────────────────────────
+  const zDiv=document.createElement('div');
+  zDiv.style.cssText='position:absolute;top:10px;right:10px;z-index:50;display:flex;flex-direction:column;gap:3px';
+  ['+','−'].forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.textContent=s;
+    b.style.cssText='width:32px;height:32px;background:#fff;border:1px solid #bbb;border-radius:6px;font-size:20px;cursor:pointer;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.15)';
+    b.onclick=e=>{e.stopPropagation();state.zoom=Math.min(18,Math.max(5,state.zoom+(i===0?1:-1)));draw();};
+    zDiv.appendChild(b);
   });
-  el.appendChild(zoomDiv);
+  el.appendChild(zDiv);
 
-  // ─── Input handling (Pointer Events API - works for mouse + touch) ───
-  let _pd={x:0,y:0,moved:false,active:false};  // pointer down state
-
-  function _pixelToLatLng(mx,my){
-    const W=canvas.width,H=canvas.height;
-    const scale=Math.pow(2,state.zoom)*256;
-    const sinLat=Math.sin(state.lat*Math.PI/180);
-    const cX=(state.lng+180)/360*scale;
-    const cY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
-    const px=cX+(mx-W/2), py=cY+(my-H/2);
-    return {
-      lat: Math.atan(Math.sinh((0.5-py/scale)*2*Math.PI))*180/Math.PI,
-      lng: (px/scale)*360-180
-    };
-  }
-
-  function _handleTap(mx,my){
-    // Calibration mode
-    if(_calibrating){
-      const {lat,lng}=_pixelToLatLng(mx,my);
-      window._FM_LIVE={lat,lng};
-      try{localStorage.setItem('lwr_fm_lat',lat.toFixed(6));localStorage.setItem('lwr_fm_lng',lng.toFixed(6));}catch(e){}
-      _calibrating=false; toggleCalibrate();
-      state.lat=lat; state.lng=lng;
-      draw();
-      alert('✅ Farmers Market pinned at '+lat.toFixed(5)+', '+lng.toFixed(5)+'\n\nSaved to this browser.');
-      return;
-    }
-
-    // Close existing popup if clicking away
-    popup.style.display='none';
-
-    // Check Farmers Market star first
-    const fmLat=window._FM_LIVE?window._FM_LIVE.lat:FM[0];
-    const fmLng=window._FM_LIVE?window._FM_LIVE.lng:FM[1];
-    const fm=project(fmLat,fmLng);
-    if(Math.hypot(mx-fm.x,my-fm.y)<20){
-      showPopup(mx,my,null); return;
-    }
-
-    // Check community pins - find closest within 28px
-    let hit=null, minD=28;
-    C.forEach(c=>{
-      const {x,y}=project(c.lat,c.lng);
-      const d=Math.hypot(mx-x,my-y);
-      if(d<minD){minD=d;hit=c;}
-    });
-    if(hit) showPopup(mx,my,hit);
-  }
-
-  canvas.style.touchAction='none'; // prevent browser scroll/zoom interfering
-
-  canvas.addEventListener('pointerdown',function(e){
-    if(e.button>0)return; // ignore right-click
-    canvas.setPointerCapture(e.pointerId);
-    const rect=canvas.getBoundingClientRect();
-    _pd={x:e.clientX-rect.left, y:e.clientY-rect.top, moved:false, active:true,
-         mapLat:state.lat, mapLng:state.lng,
-         rawX:e.clientX, rawY:e.clientY};
-    canvas.style.cursor=_calibrating?'crosshair':'grabbing';
-  });
-
-  canvas.addEventListener('pointermove',function(e){
-    if(!_pd.active)return;
-    const dx=e.clientX-_pd.rawX, dy=e.clientY-_pd.rawY;
-    if(Math.abs(dx)>5||Math.abs(dy)>5) _pd.moved=true;
-    if(_pd.moved){
-      // Pan the map
-      const scale=Math.pow(2,state.zoom)*256;
-      const totalDx=e.clientX-(_pd.rawX+(e.clientX-_pd.rawX-dx));
-      // simpler: track current vs last
-      if(!_pd.prevX){_pd.prevX=e.clientX;_pd.prevY=e.clientY;}
-      const pdx=e.clientX-_pd.prevX, pdy=e.clientY-_pd.prevY;
-      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
-      state.lng-=pdx/scale*360;
-      const sinLat=Math.sin(state.lat*Math.PI/180);
-      const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
-      state.lat=Math.atan(Math.sinh(2*Math.PI*(mercY+pdy/scale)))*180/Math.PI;
-      draw();
-    }
-  });
-
-  canvas.addEventListener('pointerup',function(e){
-    if(!_pd.active)return;
-    canvas.releasePointerCapture(e.pointerId);
-    canvas.style.cursor=_calibrating?'crosshair':'grab';
-    if(!_pd.moved){
-      // It was a TAP - handle it
-      _handleTap(_pd.x,_pd.y);
-    }
-    _pd={x:0,y:0,moved:false,active:false};
-  });
-
-  canvas.addEventListener('pointercancel',function(){
-    _pd={x:0,y:0,moved:false,active:false};
-    canvas.style.cursor='grab';
-  });
-
-  // Pinch-to-zoom via touch events (pointer events don't expose multi-touch well)
-  let _pinchDist=0;
-  canvas.addEventListener('touchstart',function(e){
-    if(e.touches.length===2){
-      _pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
-                            e.touches[0].clientY-e.touches[1].clientY);
-    }
-  },{passive:true});
-  canvas.addEventListener('touchmove',function(e){
-    if(e.touches.length===2){
-      e.preventDefault();
-      const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
-                         e.touches[0].clientY-e.touches[1].clientY);
-      if(_pinchDist>0){
-        state.zoom=Math.min(18,Math.max(5,state.zoom+(d>_pinchDist?0.12:-0.12)));
-        draw();
-      }
-      _pinchDist=d;
-    }
-  },{passive:false});
-  canvas.addEventListener('touchend',()=>{_pinchDist=0;},{passive:true});
-
-  // Scroll wheel zoom
-  canvas.addEventListener('wheel',function(e){
-    e.preventDefault();
-    state.zoom=Math.min(18,Math.max(5,state.zoom+(e.deltaY<0?1:-1)));
-    draw();
-  },{passive:false});
-
-  // Click on map background closes popup
-  el.addEventListener('click',function(e){
-    if(e.target===el) popup.style.display='none';
-  });
-
-  el._mapState=state;
-  el._mapDraw=draw;
-  window._closeMapPopup=closePopup;
-  // Load saved calibration
-  try{
-    const savedLat=localStorage.getItem('lwr_fm_lat');
-    const savedLng=localStorage.getItem('lwr_fm_lng');
-    if(savedLat&&savedLng){
-      const lat=parseFloat(savedLat), lng=parseFloat(savedLng);
-      window._FM_LIVE={lat,lng};
-      state.lat=lat; state.lng=lng;
-    }
-  }catch(e){}
-  draw();
-
+  // ── Popup helper ───────────────────────────────────────────────────────────
   function showPopup(mx,my,c){
     const W=el.clientWidth,H=el.clientHeight;
     if(!c){
-      popup.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:4px">⭐ Farmers Market</div><div style="color:#6b3fa0;font-size:10px;font-weight:600;margin-bottom:5px">Waterside Place · Every Sunday 10am–2pm</div><div style="font-size:11px;color:#555">1560 Lakefront Dr, Sarasota FL 34240</div>';
+      popup.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:3px">⭐ Farmers Market</div><div style="color:#6b3fa0;font-size:10px;font-weight:600;margin-bottom:4px">Waterside Place · Every Sunday 10am–2pm</div><div style="font-size:11px;color:#555">1560 Lakefront Dr, Sarasota FL 34240</div>';
     } else {
-      const tierColors={entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'};
-      const col=tierColors[c.tier]||'#555';
+      const col=TIER_COL[c.tier]||'#555';
       const tags=[];
       if(c.golf)tags.push('⛳ Golf');
       if(c.gated)tags.push('🔒 Gated');
       if(c.maint)tags.push('🌿 Maint-Free');
       if(c.water)tags.push('💧 Water');
       if(c.age55)tags.push('55+');
-      const tagHtml=tags.map(t=>`<span style="display:inline-block;padding:2px 7px;border-radius:10px;background:#f0f0f0;font-size:9px;margin:1px">${t}</span>`).join('');
+      const tHTML=tags.map(t=>`<span style="display:inline-block;padding:2px 7px;border-radius:10px;background:#f0f0ee;font-size:9px;margin:1px">${t}</span>`).join('');
       popup.innerHTML=`
         <div style="font-weight:700;font-size:14px;color:${col};margin-bottom:2px">${c.name}${c.hasLotWarn?' ⚠️':''}</div>
-        <div style="color:#888;font-size:9px;margin-bottom:6px">${c.distLabel}</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px">
-          <div style="font-size:10.5px"><span style="color:#888;font-size:9px">Price</span><br><b>${c.pLabel}</b></div>
-          <div style="font-size:10.5px"><span style="color:#888;font-size:9px">HOA</span><br><b>${c.hoa}</b></div>
-          <div style="font-size:10.5px"><span style="color:#888;font-size:9px">🚗 Drive to Market</span><br><b>${c.travel.drive}</b></div>
-          <div style="font-size:10.5px"><span style="color:#888;font-size:9px">📐 Size</span><br><b>${c.sqMin}–${c.sqMax} sqft</b></div>
+        <div style="color:#999;font-size:9px;margin-bottom:7px">${c.distLabel}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;font-size:10.5px">
+          <div><span style="color:#aaa;font-size:8px;display:block">PRICE</span><b>${c.pLabel}</b></div>
+          <div><span style="color:#aaa;font-size:8px;display:block">HOA/MO</span><b>${c.hoa.split('–')[0].replace('$','$')}</b></div>
+          <div><span style="color:#aaa;font-size:8px;display:block">🚗 TO MARKET</span><b>${c.travel.drive}</b></div>
+          <div><span style="color:#aaa;font-size:8px;display:block">SIZE</span><b>${c.sqMin}–${c.sqMax} sf</b></div>
         </div>
-        ${tagHtml?`<div style="margin-bottom:7px">${tagHtml}</div>`:''}
-        <button onclick="closePopup();showTab('browse');setTimeout(()=>openModal('${c.id}'),150)" 
-          style="width:100%;padding:8px;border-radius:8px;border:none;background:${col};color:#fff;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px">
+        ${tHTML?`<div style="margin-bottom:8px;line-height:1.8">${tHTML}</div>`:''}
+        <button onclick="closePopup();showTab('browse');setTimeout(()=>openModal('${c.id}'),200)"
+          style="width:100%;padding:8px;border-radius:8px;border:none;background:${col};color:#fff;font-size:11px;font-weight:700;cursor:pointer">
           View Full Details →
         </button>`;
     }
     popup.style.display='block';
-    let px=mx+16,py=my-80;
-    if(px+240>W)px=mx-254;
-    if(py<10)py=my+16;
-    if(py+260>H)py=H-265;
+    let px=mx+16, py=my-90;
+    if(px+245>W) px=mx-259;
+    if(py<8) py=my+16;
+    if(py+270>H) py=H-275;
     popup.style.left=px+'px';
     popup.style.top=py+'px';
   }
-}
 
-let _calibrating=false;
-function toggleCalibrate(){
-  _calibrating=!_calibrating;
-  const btn=document.getElementById('cal-btn');
-  const hint=document.getElementById('cal-hint');
-  if(_calibrating){
-    btn.textContent='❌ Cancel';btn.style.background='#fde8e6';btn.style.color='#c0392b';btn.style.borderColor='#c0392b';
-    hint.style.display='inline-block';
-    document.getElementById('map').style.cursor='crosshair';
-  } else {
-    btn.textContent='📍 Calibrate ⭐';btn.style.background='#fdf3e3';btn.style.color='#c47f1a';btn.style.borderColor='#c47f1a';
-    hint.style.display='none';
-    document.getElementById('map').style.cursor='grab';
-  }
+  // ── Tap detection (Pointer Events - works for mouse + touch) ───────────────
+  let _pd={active:false,sx:0,sy:0,moved:false,prevX:0,prevY:0};
+  canvas.style.touchAction='none';
+
+  canvas.addEventListener('pointerdown',e=>{
+    if(e.button>0) return;
+    canvas.setPointerCapture(e.pointerId);
+    const r=canvas.getBoundingClientRect();
+    _pd={active:true,sx:e.clientX-r.left,sy:e.clientY-r.top,
+         moved:false,prevX:e.clientX,prevY:e.clientY};
+    canvas.style.cursor='grabbing';
+  });
+
+  canvas.addEventListener('pointermove',e=>{
+    if(!_pd.active) return;
+    const dx=e.clientX-_pd.prevX, dy=e.clientY-_pd.prevY;
+    if(Math.abs(e.clientX-(_pd.prevX+(e.clientX-_pd.prevX-dx)))>0||
+       Math.hypot(e.clientX-(_pd.sx+(e.clientX-_pd.sx)),e.clientY-(_pd.sy+(e.clientY-_pd.sy)))>6)
+      _pd.moved=true;
+    if(_pd.moved&&(Math.abs(dx)>0||Math.abs(dy)>0)){
+      const scale=Math.pow(2,state.zoom)*256;
+      state.lng-=dx/scale*360;
+      const sL=Math.sin(state.lat*Math.PI/180);
+      const mY=Math.log((1+sL)/(1-sL))/(4*Math.PI);
+      state.lat=Math.atan(Math.sinh(2*Math.PI*(mY+dy/scale)))*180/Math.PI;
+      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
+      draw();
+    } else {
+      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
+    }
+  });
+
+  canvas.addEventListener('pointerup',e=>{
+    if(!_pd.active) return;
+    canvas.releasePointerCapture(e.pointerId);
+    canvas.style.cursor='grab';
+    if(!_pd.moved){
+      // TAP: check pins
+      const mx=_pd.sx, my=_pd.sy;
+      closePopup();
+      if(_calibrating){
+        const ll=pixelToLatLng(mx,my);
+        window._FM_LIVE={lat:ll.lat,lng:ll.lng};
+        try{localStorage.setItem('lwr_fm_lat',ll.lat.toFixed(6));localStorage.setItem('lwr_fm_lng',ll.lng.toFixed(6));}catch(x){}
+        _calibrating=false; toggleCalibrate();
+        state.lat=ll.lat; state.lng=ll.lng; draw();
+        alert('✅ Pinned at '+ll.lat.toFixed(5)+', '+ll.lng.toFixed(5));
+      } else {
+        // Check FM star
+        const fmLL=window._FM_LIVE||{lat:FM[0],lng:FM[1]};
+        const fm=project(fmLL.lat,fmLL.lng);
+        if(Math.hypot(mx-fm.x,my-fm.y)<20){showPopup(mx,my,null);}
+        else {
+          let hit=null,minD=26;
+          C.forEach(c=>{const p=project(c.lat,c.lng);const d=Math.hypot(mx-p.x,my-p.y);if(d<minD){minD=d;hit=c;}});
+          if(hit) showPopup(mx,my,hit);
+        }
+      }
+    }
+    _pd.active=false;
+  });
+
+  canvas.addEventListener('pointercancel',()=>{_pd.active=false;canvas.style.cursor='grab';});
+
+  // Pinch zoom (touch)
+  let _pt=0;
+  canvas.addEventListener('touchstart',e=>{if(e.touches.length===2)_pt=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
+  canvas.addEventListener('touchmove',e=>{if(e.touches.length===2){e.preventDefault();const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(_pt>0){state.zoom=Math.min(18,Math.max(5,state.zoom+(d>_pt?.1:-.1)));draw();}_pt=d;}},{passive:false});
+  canvas.addEventListener('touchend',()=>{_pt=0;},{passive:true});
+
+  // Scroll wheel zoom
+  canvas.addEventListener('wheel',e=>{e.preventDefault();state.zoom=Math.min(18,Math.max(5,state.zoom+(e.deltaY<0?1:-1)));draw();},{passive:false});
+
+  // ── Geocoding ──────────────────────────────────────────────────────────────
+  function setGeoStatus(msg){const s=document.getElementById('geo-status');if(s)s.textContent=msg;}
+
+  // Step 1: load from localStorage cache immediately (synchronous)
+  try{
+    const s=localStorage.getItem('lwr_geocache');
+    if(s){
+      const cached=JSON.parse(s);
+      if(cached['lwr_fm']){
+        window._FM_LIVE={lat:cached['lwr_fm'][0],lng:cached['lwr_fm'][1]};
+        state.lat=cached['lwr_fm'][0]; state.lng=cached['lwr_fm'][1];
+      }
+      C.forEach(c=>{if(cached[c.id]){c.lat=cached[c.id][0];c.lng=cached[c.id][1];}});
+      setGeoStatus('⚡ Cached');
+      setTimeout(()=>setGeoStatus(''),2000);
+    }
+  }catch(e){}
+
+  // Step 2: expose state & draw for region buttons
+  el._mapState=state;
+  el._mapDraw=draw;
+
+  // Step 3: initial draw
+  draw();
+
+  // Step 4: async geocode anything not yet cached
+  (async function geocodeAll(){
+    const cached={};
+    try{const s=localStorage.getItem('lwr_geocache');if(s)Object.assign(cached,JSON.parse(s));}catch(e){}
+
+    // Geocode FM if not cached
+    if(!cached['lwr_fm']){
+      setGeoStatus('📍 Locating...');
+      try{
+        const r=await fetch('https://nominatim.openstreetmap.org/search?q=7500+Island+Cove+Terrace+Sarasota+FL+34240&format=json&limit=1',{headers:{'User-Agent':'LWRFinder/1.0'}});
+        const d=await r.json();
+        if(d&&d[0]){
+          const lat=parseFloat(d[0].lat),lng=parseFloat(d[0].lon);
+          window._FM_LIVE={lat,lng}; state.lat=lat; state.lng=lng;
+          cached['lwr_fm']=[lat,lng]; draw();
+        }
+      }catch(e){}
+    }
+
+    // Geocode communities not yet cached
+    const todo=C.filter(c=>c.geocodeAddr&&!cached[c.id]);
+    let done=0;
+    setGeoStatus(todo.length?'📍 0/'+todo.length:'');
+    for(const c of todo){
+      await new Promise(r=>setTimeout(r,1100));
+      try{
+        const r=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(c.geocodeAddr)+'&format=json&limit=1',{headers:{'User-Agent':'LWRFinder/1.0'}});
+        const d=await r.json();
+        if(d&&d[0]){c.lat=parseFloat(d[0].lat);c.lng=parseFloat(d[0].lon);cached[c.id]=[c.lat,c.lng];draw();}
+      }catch(e){}
+      done++;setGeoStatus('📍 '+done+'/'+todo.length);
+    }
+    if(todo.length){
+      try{localStorage.setItem('lwr_geocache',JSON.stringify(cached));}catch(e){}
+      setGeoStatus('✅ Done');setTimeout(()=>setGeoStatus(''),3000);
+    } else if(!cached['lwr_fm']){
+      setGeoStatus('');
+    }
+    draw();
+  })();
 }
 
 function zoomTo(lat,lng,z){
