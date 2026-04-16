@@ -1235,7 +1235,21 @@ function initMap(){
   function setGeoStatus(msg){ const el=document.getElementById('geo-status'); if(el)el.textContent=msg; }
   async function geocodeAll(){
     const cached = {};
-    try{ const s=localStorage.getItem('lwr_geocache'); if(s){ Object.assign(cached,JSON.parse(s)); setGeoStatus('⚡ Loading from cache...'); } }catch(e){}
+    try{
+      const s=localStorage.getItem('lwr_geocache');
+      if(s){
+        Object.assign(cached,JSON.parse(s));
+        // Apply all cached coords IMMEDIATELY before first draw
+        if(cached['lwr_fm']){
+          window._FM_LIVE={lat:cached['lwr_fm'][0],lng:cached['lwr_fm'][1]};
+          state.lat=cached['lwr_fm'][0]; state.lng=cached['lwr_fm'][1];
+        }
+        C.forEach(c=>{ if(cached[c.id]){c.lat=cached[c.id][0];c.lng=cached[c.id][1];} });
+        setGeoStatus('⚡ From cache');
+        draw(); // draw immediately with cached positions
+        setTimeout(()=>setGeoStatus(''),2000);
+      }
+    }catch(e){}
 
     setGeoStatus('📍 Loading locations...');
     // Geocode Farmers Market first
@@ -1411,7 +1425,7 @@ function initMap(){
     });
 
     // Farmers Market star pin
-    const fm=project(window._FM_LIVE?window._FM_LIVE.lat:FM[0],window._FM_LIVE?window._FM_LIVE.lng:FM[1]);
+    const _fml=window._FM_LIVE||{lat:FM[0],lng:FM[1]}; const fm=project(_fml.lat,_fml.lng);
     if(fm.x>-20&&fm.x<W+20&&fm.y>-20&&fm.y<H+20){
       ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;
       ctx.beginPath();ctx.arc(fm.x,fm.y,12,0,Math.PI*2);
@@ -1449,131 +1463,137 @@ function initMap(){
   });
   el.appendChild(zoomDiv);
 
-  // Pin click detection
-  canvas.addEventListener('click',function(e){
-    // Calibration mode: user clicks to set Farmers Market position
+  // ─── Input handling (Pointer Events API - works for mouse + touch) ───
+  let _pd={x:0,y:0,moved:false,active:false};  // pointer down state
+
+  function _pixelToLatLng(mx,my){
+    const W=canvas.width,H=canvas.height;
+    const scale=Math.pow(2,state.zoom)*256;
+    const sinLat=Math.sin(state.lat*Math.PI/180);
+    const cX=(state.lng+180)/360*scale;
+    const cY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
+    const px=cX+(mx-W/2), py=cY+(my-H/2);
+    return {
+      lat: Math.atan(Math.sinh((0.5-py/scale)*2*Math.PI))*180/Math.PI,
+      lng: (px/scale)*360-180
+    };
+  }
+
+  function _handleTap(mx,my){
+    // Calibration mode
     if(_calibrating){
-      const rect=canvas.getBoundingClientRect();
-      const mx=e.clientX-rect.left, my=e.clientY-rect.top;
-      const W=canvas.width,H=canvas.height;
-      const scale=Math.pow(2,state.zoom)*256;
-      const sinLat=Math.sin(state.lat*Math.PI/180);
-      const cX=(state.lng+180)/360*scale;
-      const cY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
-      const px=cX+(mx-W/2); const py=cY+(my-H/2);
-      const newLng=(px/scale)*360-180;
-      const newLat=Math.atan(Math.sinh((0.5-py/scale)*2*Math.PI))*180/Math.PI;
-      window._FM_LIVE={lat:newLat,lng:newLng};
-      // Save to localStorage for persistence
-      try{localStorage.setItem('lwr_fm_lat',newLat.toFixed(6));localStorage.setItem('lwr_fm_lng',newLng.toFixed(6));}catch(e){}
-      _calibrating=false;
-      toggleCalibrate();
-      state.lat=newLat; state.lng=newLng;
+      const {lat,lng}=_pixelToLatLng(mx,my);
+      window._FM_LIVE={lat,lng};
+      try{localStorage.setItem('lwr_fm_lat',lat.toFixed(6));localStorage.setItem('lwr_fm_lng',lng.toFixed(6));}catch(e){}
+      _calibrating=false; toggleCalibrate();
+      state.lat=lat; state.lng=lng;
       draw();
-      alert('✅ Farmers Market pinned at '+newLat.toFixed(5)+', '+newLng.toFixed(5)+'\n\nThis is saved. Share this coordinate so the app can be updated permanently.');
+      alert('✅ Farmers Market pinned at '+lat.toFixed(5)+', '+lng.toFixed(5)+'\n\nSaved to this browser.');
       return;
     }
-    if(Math.abs(e.clientX-this._lastX)>5||Math.abs(e.clientY-this._lastY)>5)return;
-    const rect=canvas.getBoundingClientRect();
-    const mx=e.clientX-rect.left;
-    const my=e.clientY-rect.top;
-    // Check FM star first
-    const fm=project(window._FM_LIVE?window._FM_LIVE.lat:FM[0],window._FM_LIVE?window._FM_LIVE.lng:FM[1]);
-    if(Math.hypot(mx-fm.x,my-fm.y)<14){
-      showPopup(mx,my,null);return;
+
+    // Close existing popup if clicking away
+    popup.style.display='none';
+
+    // Check Farmers Market star first
+    const fmLat=window._FM_LIVE?window._FM_LIVE.lat:FM[0];
+    const fmLng=window._FM_LIVE?window._FM_LIVE.lng:FM[1];
+    const fm=project(fmLat,fmLng);
+    if(Math.hypot(mx-fm.x,my-fm.y)<20){
+      showPopup(mx,my,null); return;
     }
-    // Check communities
-    let hit=null,minD=22;
+
+    // Check community pins - find closest within 28px
+    let hit=null, minD=28;
     C.forEach(c=>{
       const {x,y}=project(c.lat,c.lng);
       const d=Math.hypot(mx-x,my-y);
       if(d<minD){minD=d;hit=c;}
     });
-    if(hit)showPopup(mx,my,hit);
+    if(hit) showPopup(mx,my,hit);
+  }
+
+  canvas.style.touchAction='none'; // prevent browser scroll/zoom interfering
+
+  canvas.addEventListener('pointerdown',function(e){
+    if(e.button>0)return; // ignore right-click
+    canvas.setPointerCapture(e.pointerId);
+    const rect=canvas.getBoundingClientRect();
+    _pd={x:e.clientX-rect.left, y:e.clientY-rect.top, moved:false, active:true,
+         mapLat:state.lat, mapLng:state.lng,
+         rawX:e.clientX, rawY:e.clientY};
+    canvas.style.cursor=_calibrating?'crosshair':'grabbing';
   });
-  canvas.addEventListener('mousedown',function(e){
-    state.dragging=true;state.lastX=e.clientX;state.lastY=e.clientY;
-    this._lastX=e.clientX;this._lastY=e.clientY;
-    canvas.style.cursor='grabbing';
+
+  canvas.addEventListener('pointermove',function(e){
+    if(!_pd.active)return;
+    const dx=e.clientX-_pd.rawX, dy=e.clientY-_pd.rawY;
+    if(Math.abs(dx)>5||Math.abs(dy)>5) _pd.moved=true;
+    if(_pd.moved){
+      // Pan the map
+      const scale=Math.pow(2,state.zoom)*256;
+      const totalDx=e.clientX-(_pd.rawX+(e.clientX-_pd.rawX-dx));
+      // simpler: track current vs last
+      if(!_pd.prevX){_pd.prevX=e.clientX;_pd.prevY=e.clientY;}
+      const pdx=e.clientX-_pd.prevX, pdy=e.clientY-_pd.prevY;
+      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
+      state.lng-=pdx/scale*360;
+      const sinLat=Math.sin(state.lat*Math.PI/180);
+      const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
+      state.lat=Math.atan(Math.sinh(2*Math.PI*(mercY+pdy/scale)))*180/Math.PI;
+      draw();
+    }
   });
-  canvas.addEventListener('mousemove',function(e){
-    if(!state.dragging)return;
-    const dx=e.clientX-state.lastX;
-    const dy=e.clientY-state.lastY;
-    state.lastX=e.clientX;state.lastY=e.clientY;
-    const scale=Math.pow(2,state.zoom)*256;
-    state.lng-=dx/scale*360;
-    const sinLat=Math.sin(state.lat*Math.PI/180);
-    const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
-    const newMercY=mercY+dy/scale;
-    state.lat=Math.atan(Math.sinh(2*Math.PI*newMercY))*180/Math.PI;
-    draw();
+
+  canvas.addEventListener('pointerup',function(e){
+    if(!_pd.active)return;
+    canvas.releasePointerCapture(e.pointerId);
+    canvas.style.cursor=_calibrating?'crosshair':'grab';
+    if(!_pd.moved){
+      // It was a TAP - handle it
+      _handleTap(_pd.x,_pd.y);
+    }
+    _pd={x:0,y:0,moved:false,active:false};
   });
-  canvas.addEventListener('mouseup',()=>{state.dragging=false;canvas.style.cursor='grab';});
-  canvas.addEventListener('mouseleave',()=>{state.dragging=false;canvas.style.cursor='grab';});
+
+  canvas.addEventListener('pointercancel',function(){
+    _pd={x:0,y:0,moved:false,active:false};
+    canvas.style.cursor='grab';
+  });
+
+  // Pinch-to-zoom via touch events (pointer events don't expose multi-touch well)
+  let _pinchDist=0;
+  canvas.addEventListener('touchstart',function(e){
+    if(e.touches.length===2){
+      _pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
+                            e.touches[0].clientY-e.touches[1].clientY);
+    }
+  },{passive:true});
+  canvas.addEventListener('touchmove',function(e){
+    if(e.touches.length===2){
+      e.preventDefault();
+      const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
+                         e.touches[0].clientY-e.touches[1].clientY);
+      if(_pinchDist>0){
+        state.zoom=Math.min(18,Math.max(5,state.zoom+(d>_pinchDist?0.12:-0.12)));
+        draw();
+      }
+      _pinchDist=d;
+    }
+  },{passive:false});
+  canvas.addEventListener('touchend',()=>{_pinchDist=0;},{passive:true});
+
+  // Scroll wheel zoom
   canvas.addEventListener('wheel',function(e){
     e.preventDefault();
     state.zoom=Math.min(18,Math.max(5,state.zoom+(e.deltaY<0?1:-1)));
     draw();
   },{passive:false});
 
-  // Touch support
-  let lastTouchDist=0;
-  canvas.addEventListener('touchstart',function(e){
-    if(e.touches.length===1){
-      state.dragging=true;
-      state.lastX=e.touches[0].clientX;
-      state.lastY=e.touches[0].clientY;
-      this._lastX=e.touches[0].clientX;
-      this._lastY=e.touches[0].clientY;
-    } else if(e.touches.length===2){
-      lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-    }
-  },{passive:true});
-  canvas.addEventListener('touchmove',function(e){
-    e.preventDefault();
-    if(e.touches.length===1&&state.dragging){
-      const dx=e.touches[0].clientX-state.lastX;
-      const dy=e.touches[0].clientY-state.lastY;
-      state.lastX=e.touches[0].clientX;state.lastY=e.touches[0].clientY;
-      const scale=Math.pow(2,state.zoom)*256;
-      state.lng-=dx/scale*360;
-      const sinLat=Math.sin(state.lat*Math.PI/180);
-      const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
-      const newMercY=mercY+dy/scale;
-      state.lat=Math.atan(Math.sinh(2*Math.PI*newMercY))*180/Math.PI;
-      draw();
-    } else if(e.touches.length===2){
-      const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-      if(lastTouchDist>0){
-        state.zoom=Math.min(18,Math.max(5,state.zoom+(dist>lastTouchDist?0.15:-0.15)));
-        draw();
-      }
-      lastTouchDist=dist;
-    }
-  },{passive:false});
-  canvas.addEventListener('touchend',function(e){
-    if(e.touches.length===0){
-      state.dragging=false;lastTouchDist=0;
-      // Tap detection
-      if(e.changedTouches.length===1){
-        const rect=canvas.getBoundingClientRect();
-        const mx=e.changedTouches[0].clientX-rect.left;
-        const my=e.changedTouches[0].clientY-rect.top;
-        if(Math.abs(mx-(this._lastX-rect.left))<10&&Math.abs(my-(this._lastY-rect.top))<10){
-          const fm=project(window._FM_LIVE?window._FM_LIVE.lat:FM[0],window._FM_LIVE?window._FM_LIVE.lng:FM[1]);
-          if(Math.hypot(mx-fm.x,my-fm.y)<18){showPopup(mx,my,null);return;}
-          let hit=null,minD=22;
-          C.forEach(c=>{
-            const {x,y}=project(c.lat,c.lng);
-            const d=Math.hypot(mx-x,my-y);
-            if(d<minD){minD=d;hit=c;}
-          });
-          if(hit)showPopup(mx,my,hit);
-        }
-      }
-    }
-  },{passive:true});
+  // Click on map background closes popup
+  el.addEventListener('click',function(e){
+    if(e.target===el) popup.style.display='none';
+  });
 
   el._mapState=state;
   el._mapDraw=draw;
