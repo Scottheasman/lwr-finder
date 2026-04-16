@@ -1244,6 +1244,8 @@ function showTab(t){
   if(t==='mortgage'){cm();renderQC();}
 }
 
+function closePopup(){if(window._closeMapPopup)window._closeMapPopup();}
+
 function initMap(){
   const el=document.getElementById('map');
   if(el._mapInit)return;
@@ -1268,8 +1270,8 @@ function initMap(){
   popup.style.cssText='display:none;position:absolute;background:#fff;border-radius:12px;padding:12px 14px;font-size:11px;box-shadow:0 4px 20px rgba(0,0,0,.22);z-index:100;max-width:240px;min-width:200px;font-family:-apple-system,sans-serif;pointer-events:auto';
   el.appendChild(popup);
 
-  function closePopup(){popup.style.display='none';}
-  window._closeMapPopup=closePopup;
+  window._closeMapPopup=function(){popup.style.display='none';};
+  function closePopup(){window._closeMapPopup&&window._closeMapPopup();}
 
   // ── Geo helpers ────────────────────────────────────────────────────────────
   function project(lat,lng){
@@ -1587,18 +1589,24 @@ function initMap(){
 function zoomTo(lat,lng,z){
   const el=document.getElementById('map');
   if(!el._mapInit)initMap();
-  el._mapState.lat=lat;el._mapState.lng=lng;el._mapState.zoom=z;
-  el._mapDraw();
+  // Wait a tick for initMap to complete if needed
+  const apply=()=>{if(el._mapState){el._mapState.lat=lat;el._mapState.lng=lng;el._mapState.zoom=z;el._mapDraw();}else{setTimeout(apply,50);}};
+  apply();
 }
 
 function fitAll(){
   const el=document.getElementById('map');
   if(!el._mapInit)initMap();
-  const lats=C.map(c=>c.lat),lngs=C.map(c=>c.lng);
-  const midLat=(Math.max(...lats)+Math.min(...lats))/2;
-  const midLng=(Math.max(...lngs)+Math.min(...lngs))/2;
-  el._mapState.lat=midLat;el._mapState.lng=midLng;el._mapState.zoom=8;
-  el._mapDraw();
+  const apply=()=>{
+    if(el._mapState){
+      const lats=C.map(c=>c.lat),lngs=C.map(c=>c.lng);
+      el._mapState.lat=(Math.max(...lats)+Math.min(...lats))/2;
+      el._mapState.lng=(Math.max(...lngs)+Math.min(...lngs))/2;
+      el._mapState.zoom=8;
+      el._mapDraw();
+    } else { setTimeout(apply,50); }
+  };
+  apply();
 }
 
 function cm(){
