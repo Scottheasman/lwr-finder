@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="LWR Finder">
 <meta name="theme-color" content="#1a6b4a">
 <title>LWR Community Finder</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <style>
 :root{--g:#1a6b4a;--g2:#2d9065;--gl:#e8f4f0;--b:#1a5c8a;--bl:#e6f1f8;--a:#c47f1a;--al:#fdf3e3;--r:#c0392b;--rl:#fde8e6;--p:#6b3fa0;--pl:#f2ecfb;--warn:#e67e22;--warnl:#fef5e7;--gray50:#f8f8f6;--gray100:#ebebea;--gray200:#d4d4d2;--gray400:#888785;--gray700:#3a3a38;--gray900:#1a1a18;--rad:10px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -134,12 +134,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 .pros2 h4{color:var(--g);font-size:9px;font-weight:700;margin-bottom:3px}
 .cons2 h4{color:#9b2c1e;font-size:9px;font-weight:700;margin-bottom:3px}
 .pros2 li,.cons2 li{font-size:10px;margin-left:10px;margin-bottom:2px}
-.leaflet-popup-content-wrapper{border-radius:9px!important;font-family:-apple-system,sans-serif!important;font-size:11px!important}
-.leaflet-popup-content{margin:9px 12px!important}
-.lpu-name{font-size:13px;font-weight:700;color:var(--gray900)}
-.lpu-dist{font-size:9.5px;color:var(--gray400);margin-bottom:4px}
-.lpu-row{font-size:10.5px;margin-bottom:2px}
-.lpu-btn{margin-top:7px;width:100%;padding:6px;border-radius:6px;border:none;background:var(--g);color:#fff;font-size:10.5px;font-weight:600;cursor:pointer}
+
 @media(max-width:480px){.grid{grid-template-columns:1fr}.dg{grid-template-columns:1fr}.pc{grid-template-columns:1fr}.mres{grid-template-columns:1fr 1fr}.travel-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -539,9 +534,17 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 </div>
 
 <!-- MAP -->
-<div id="tab-map" style="display: none; padding: 8px 10px;">
-  <div id="map" style="width:100%;height:calc(100vh - 136px);border-radius:var(--rad)"></div>
-  <p class="map-info">⭐ Purple star = Farmers Market at Waterside Place · Tap any pin for details &amp; travel times · Satellite imagery via Esri</p>
+<div id="tab-map" style="display:none;padding:8px 10px">
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
+    <button onclick="zoomTo(27.4284,-82.3804,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
+    <button onclick="zoomTo(27.4600,-82.3850,12)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
+    <button onclick="zoomTo(27.3605,-82.4408,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--a);background:var(--al);color:var(--a);font-size:10px;font-weight:600;cursor:pointer">🌿 Skye Ranch</button>
+    <button onclick="zoomTo(27.0530,-82.3790,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--p);background:var(--pl);color:var(--p);font-size:10px;font-weight:600;cursor:pointer">🏖 Wellen Park</button>
+    <button onclick="zoomTo(27.1950,-82.4670,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--r);background:var(--rl);color:var(--r);font-size:10px;font-weight:600;cursor:pointer">🌴 Palmer Ranch</button>
+    <button onclick="fitAll()" style="padding:4px 10px;border-radius:12px;border:1px solid var(--gray400);background:var(--gray50);color:var(--gray700);font-size:10px;font-weight:600;cursor:pointer">🗺 Fit All</button>
+  </div>
+  <div id="map" style="width:100%;height:calc(100vh - 174px);border-radius:var(--rad)"></div>
+  <p class="map-info" style="margin-top:5px">⭐ Purple star = Farmers Market at Waterside Place · Tap any pin for details &amp; travel times · Satellite via Esri · Coords verified from builder/MLS addresses</p>
 </div>
 
 <!-- COMPARE -->
@@ -668,9 +671,9 @@ before making an offer.</p></div>
   <button class="clr2" onclick="clearCmp()">Clear</button>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-const FM=[27.3746,-82.3995];
+const FM=[27.4284,-82.3804]; // Waterside Place / Farmers Market
 
 const C=[
   {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
@@ -684,7 +687,7 @@ const C=[
    amenities:['Resort pool','Pickleball','Dog park','Water taxi to Farmers Market','Maintenance-free yard','Walking trails'],
    highlights:'Most affordable Waterside entry. Low-maintenance with water taxi to Farmers Market.',
    pros:['Lowest price in Waterside','Maintenance-free','Water taxi','Close to Farmers Market'],cons:['Smallest homes','Not gated','No golf'],
-   tags:['maint','water'],lat:27.3760,lng:-82.4010,travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
+   tags:['maint','water'],lat:27.4267,lng:-82.3818,travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
 
   {id:'bungalow',name:'Bungalow Walk',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:700000,pLabel:'$500s–$700s',sqMin:1696,sqMax:2557,bdMin:3,bdMax:4,baMin:2,baMax:3,
@@ -697,7 +700,7 @@ const C=[
    amenities:['Community pool','Pickleball','Primary bed on main floor','Low HOA'],
    highlights:'Charming bungalow community. Primary bed on main floor. Lowest HOA in mid-tier Waterside.',
    pros:['Low HOA ($200/mo)','Primary bed on main floor','Bungalow charm'],cons:['Not gated','No golf'],
-   tags:[],lat:27.3740,lng:-82.3980,travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
+   tags:[],lat:27.4318,lng:-82.3865,travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
 
   {id:'emerald',name:'Emerald Landing',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1496,sqMax:3249,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -710,7 +713,7 @@ const C=[
    amenities:['Boat dock','Kayak launch','Pool','Pickleball','Dog park','Water taxi','Maintenance included (attached)'],
    highlights:'Unique 3-story city homes. Boat dock & kayak launch. Water taxi to Farmers Market.',
    pros:['Rare 3-story city homes','Boat dock & kayak','Walk/boat to Farmers Market'],cons:['Small 193-home community','Not gated'],
-   tags:['maint','water'],lat:27.3755,lng:-82.4005,travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
+   tags:['maint','water'],lat:27.4292,lng:-82.3842,travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
 
   {id:'nautique',name:'Nautique',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
    pMin:400000,pMax:600000,pLabel:'$400s–$600s',sqMin:1702,sqMax:1850,bdMin:2,bdMax:3,baMin:2,baMax:2,
@@ -723,7 +726,7 @@ const C=[
    amenities:['Pool','Pickleball','Dog park','Playground','Maintenance included'],
    highlights:'Lowest HOA in all of Waterside. Maritime design. Best value per dollar in district.',
    pros:['Lowest HOA in Waterside ($172–$200)','Maintenance included'],cons:['Smallest homes','Not gated'],
-   tags:['maint'],lat:27.3730,lng:-82.3960,travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
+   tags:['maint'],lat:27.4182,lng:-82.3795,travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
 
   {id:'shellstone',name:'Shellstone',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:2000000,pLabel:'$500s–$2M+',sqMin:2078,sqMax:4000,bdMin:3,bdMax:6,baMin:2,baMax:5,
@@ -736,7 +739,7 @@ const C=[
    amenities:['Parks','Resort pool','Fitness center','Tennis','Pickleball','Dog park','Trails'],
    highlights:'Largest Waterside village (682 homes). Two builders with wide price range.',
    pros:['Largest community','Wide price range','Two builders'],cons:['Higher HOA $400+','Not gated'],
-   tags:[],lat:27.3720,lng:-82.3940,travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
+   tags:[],lat:27.4108,lng:-82.3692,travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
 
   {id:'shoreview',name:'Shoreview',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:900000,pMax:1800000,pLabel:'$900s–$1.8M',sqMin:2000,sqMax:3900,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -749,7 +752,7 @@ const C=[
    amenities:['Gated','Lake views','Kayak launch','Tennis','Pickleball','Resort pool','Fitness center','Bocce ball'],
    highlights:'Gated lakeside with panoramic water views. Lower HOA for a luxury gated community.',
    pros:['Gated','Lake views','Low HOA for luxury ($300)','Kayak launch'],cons:['Single builder','No golf'],
-   tags:['gated','water'],lat:27.3790,lng:-82.4030,travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
+   tags:['gated','water'],lat:27.4252,lng:-82.3672,travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
 
   {id:'lakehouse',name:'LakeHouse Cove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:4000000,pLabel:'$800s–$4M+',sqMin:1764,sqMax:3426,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -762,7 +765,7 @@ const C=[
    amenities:['Gated','Water taxi ferry to Farmers Market','Kayak dock & storage','Bocce','Fire pit','Resort pool & spa','Tennis','Pickleball','Dog park','Lifestyle director','Maintenance-free'],
    highlights:'First & most established Waterside village. Gated + maint-free. Water taxi directly to Farmers Market.',
    pros:['Gated + maint-free','Water taxi to Farmers Market','Kayak dock','Lifestyle director'],cons:['Single builder','Prices to $4M+'],
-   tags:['gated','maint','water'],lat:27.3800,lng:-82.4050,travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
+   tags:['gated','maint','water'],lat:27.4305,lng:-82.3758,travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
 
   {id:'alcove',name:'The Alcove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:1800000,pLabel:'$800s–$1.8M',sqMin:2426,sqMax:3334,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -775,7 +778,7 @@ const C=[
    amenities:['Boutique 47-home community','Maintenance included in HOA','Neal Signature craftsmanship'],
    highlights:'Only 47 homes — most exclusive boutique village. HOA covers maintenance. No shared amenity center.',
    pros:['Only 47 homes','Maintenance included','Very private'],cons:['$500/mo HOA with no amenities','No clubhouse','Not gated'],
-   tags:['maint'],lat:27.3710,lng:-82.3970,travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
+   tags:['maint'],lat:27.4160,lng:-82.3638,travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
 
   {id:'wildblue',name:'Wild Blue',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:1500000,pMax:5000000,pLabel:'$1.5M–$5M+',sqMin:2400,sqMax:4575,bdMin:3,bdMax:6,baMin:3,baMax:6,
@@ -788,7 +791,7 @@ const C=[
    amenities:['25,000 sf clubhouse','Fiji lagoon pool','Full-service restaurant','Private theater','Indoor golf simulator','9-hole putting course','Tennis','Pickleball','Fitness','Dog park','Kayaking','Lifestyle director'],
    highlights:'Crown jewel of Waterside. 25K sf clubhouse — Fiji pool, restaurant, theater, golf sim.',
    pros:['Best amenity package in LWR','Golf sim + putting course','On-site restaurant','Private theater'],cons:['Highest HOA $800–$900','$1.5M+ floor','Not gated'],
-   tags:['golf','water'],lat:27.3700,lng:-82.3990,travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
+   tags:['golf','water'],lat:27.4082,lng:-82.3715,travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
 
   {id:'kingfisher',name:'Kingfisher Estates',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:3000000,pMax:10000000,pLabel:'$3M–$10M+',sqMin:3600,sqMax:8000,bdMin:4,bdMax:7,baMin:3,baMax:7,
@@ -801,7 +804,7 @@ const C=[
    amenities:['Gated estate','Lakefront lots','Preserve views','Trophy property addresses'],
    highlights:'Most exclusive address in Waterside. Gated. Custom estate homes on premium lakefront lots.',
    pros:['Most exclusive in LWR','Gated','Lakefront lots','Largest custom homes'],cons:['Entry $3M+','Very limited inventory'],
-   tags:['gated','water'],lat:27.3748,lng:-82.4038,travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
+   tags:['gated','water'],lat:27.4355,lng:-82.3848,travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
 
   {id:'windward',name:'Windward',district:'lwr',distLabel:'LWR · Sarasota County',tier:'mid',county:'sarasota',
    pMin:400000,pMax:1100000,pLabel:'$400s–$1.1M',sqMin:1434,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -814,7 +817,7 @@ const C=[
    amenities:['Waterfront lots','Preserve views','Clubhouse','Resort pool','Tennis','Pickleball','Fitness','Dog park','Nature trails'],
    highlights:'Waterfront & preserve views. Wide range villas to estates.',
    pros:['Waterfront & preserve lots','Wide price range','Neal quality'],cons:['No golf','Not gated'],
-   tags:['water'],lat:27.4180,lng:-82.3820,travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
+   tags:['water'],lat:27.4272,lng:-82.3618,travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
 
   {id:'azario',name:'Esplanade at Azario',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1500000,pLabel:'$400s–$1.5M',sqMin:1500,sqMax:4000,bdMin:2,bdMax:5,baMin:2,baMax:5,
@@ -828,7 +831,7 @@ const C=[
    highlights:'Only gated bundled-golf new construction in LWR. Base prices look attractive but lot premiums on golf/lake sites can add $200K–$350K+ to total cost.',
    pros:['Only new-build bundled golf LWR','Gated','18-hole championship','Culinary center & restaurant'],
    cons:['⚠️ Golf lot premiums $200K–$350K+','Base price misleading — always get full homesite cost','Golf HOA $600+/mo','Taylor Morrison only'],
-   tags:['golf','gated','maint'],lat:27.4620,lng:-82.3750,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
+   tags:['golf','gated','maint'],lat:27.4655,lng:-82.3792,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
 
   {id:'starfarms',name:'Star Farms',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:375000,pMax:2500000,pLabel:'$375s–$2.5M+',sqMin:1500,sqMax:5000,bdMin:2,bdMax:6,baMin:2,baMax:5,
@@ -841,7 +844,7 @@ const C=[
    amenities:['5 resort pool complexes','27,000 sf clubhouse','Restaurant & bar','Tennis','Pickleball','Fitness','Dog park','Splash pad','Gated'],
    highlights:'6 builders — widest range in LWR. 5 pool complexes, 27K sf clubhouse with dining.',
    pros:['6 builders','5 resort pools','27K sf clubhouse','On-site dining','Gated'],cons:['Farthest from Farmers Market','No golf'],
-   tags:['gated'],lat:27.4850,lng:-82.3980,travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
+   tags:['gated'],lat:27.4812,lng:-82.3872,travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
 
   {id:'lorraine',name:'Lorraine Lakes',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:350000,pMax:900000,pLabel:'$350s–$900s',sqMin:1400,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -854,7 +857,7 @@ const C=[
    amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
    highlights:'Gated. Lennar Everything\'s Included. Lake views. Splash pad & waterslide.',
    pros:['Gated','Lennar Included package','Lake views','Splash pad & waterslide'],cons:['Lennar only','No golf'],
-   tags:['gated','water'],lat:27.4700,lng:-82.3680,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
+   tags:['gated','water'],lat:27.4692,lng:-82.3705,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
 
   {id:'lakeclub',name:'The Lake Club',district:'lwr',distLabel:'LWR · Manatee County',tier:'ultra',county:'manatee',
    pMin:1500000,pMax:6000000,pLabel:'$1.5M–$6M+',sqMin:2500,sqMax:8000,bdMin:3,bdMax:7,baMin:3,baMax:7,
@@ -867,7 +870,7 @@ const C=[
    amenities:['Gated grand entrance','Tuscan clubhouse','Full restaurant','Resort pool','Fitness','Tennis','Pickleball','Lakefront estate lots','Concierge'],
    highlights:"LWR's original ultra-luxury community. Grand Tuscan clubhouse, restaurant, lakefront estates.",
    pros:['LWR prestige address','Gated','Multiple custom builders','Restaurant on-site'],cons:['$1.5M+ entry','High HOA + CDD','No bundled golf'],
-   tags:['gated','water'],lat:27.4540,lng:-82.3600,travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
+   tags:['gated','water'],lat:27.4528,lng:-82.4018,travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
 
   {id:'lwnational',name:'Lakewood National',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1200000,pLabel:'$400s–$1.2M',sqMin:1500,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -880,7 +883,7 @@ const C=[
    amenities:['36-hole Arnold Palmer golf (bundled)','Full-service clubhouse & restaurant','Resort pool','Fitness','Tennis','Pickleball','Gated','Maintenance-free'],
    highlights:'36-hole Arnold Palmer bundled golf. Maintenance-free. Most accessible price golf community.',
    pros:['36-hole AP bundled golf','Maint-free','Gated','Full resort amenities'],cons:['Lennar only','HOA $700+/mo'],
-   tags:['golf','gated','maint'],lat:27.4480,lng:-82.3520,travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
+   tags:['golf','gated','maint'],lat:27.4448,lng:-82.3898,travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
 
   {id:'cresswind',name:'Cresswind (55+)',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:450000,pMax:900000,pLabel:'$450s–$900s',sqMin:1500,sqMax:3000,bdMin:2,bdMax:4,baMin:2,baMax:3,
@@ -893,7 +896,7 @@ const C=[
    amenities:['Gated','Maintenance-free','Resort pool','Fitness','Tennis','Pickleball','Social clubs','Dog park','Art studio','Active 55+ programming'],
    highlights:'Age-restricted 55+ by Kolter. Resort active-adult lifestyle — gated, maint-free.',
    pros:['55+ focused','Resort amenities','Gated + maint-free','Kolter quality'],cons:['Age restricted','No golf'],
-   tags:['gated','maint','age55'],lat:27.4760,lng:-82.3900,travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
+   tags:['gated','maint','age55'],lat:27.4738,lng:-82.3848,travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
 
   {id:'mallory',name:'Mallory Park',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1700,sqMax:3200,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -906,7 +909,7 @@ const C=[
    amenities:['Gated','Resort pool','Fitness','Pickleball','Dog park','Playground','A-rated schools nearby'],
    highlights:'Gated family community. A-rated school zone. Neal quality at accessible prices.',
    pros:['Gated','A-rated schools nearby','Reasonable HOA'],cons:['No golf','No water features'],
-   tags:['gated'],lat:27.4660,lng:-82.3820,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
+   tags:['gated'],lat:27.4618,lng:-82.4005,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
 
   {id:'cassia',name:'Cassia at Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:498000,pMax:1200000,pLabel:'$498K–$1.2M',sqMin:1790,sqMax:3835,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -920,7 +923,7 @@ const C=[
    highlights:'Gated. K-8 school onsite 2025. 15–25% cheaper than comparable LWR. Closest to Siesta Key.',
    pros:['Gated','K-8 school onsite','Low HOA ($140/mo)','15-25% cheaper than LWR','10-11 mi to Siesta Key'],
    cons:['CDD moderate ($154–$197/mo)','Taylor Morrison only','Still building amenities'],
-   tags:['gated'],lat:27.3640,lng:-82.4380,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   tags:['gated'],lat:27.3612,lng:-82.4402,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
   {id:'esplanade-skye',name:'Esplanade Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:495000,pMax:1028000,pLabel:'$495K–$1M+',sqMin:1533,sqMax:3145,bdMin:2,bdMax:4,baMin:2,baMax:3,
@@ -933,7 +936,7 @@ const C=[
    amenities:['Gated','Maintenance-free','Single-story homes','55+ active adult','Resort pool','Adults-only pool','Fitness','Tennis','Pickleball'],
    highlights:'55+ section of Skye Ranch. Single-story maint-free. Excellent value vs Esplanade Azario.',
    pros:['55+ focused','Maint-free','Single-story','Near Siesta Key'],cons:['Age restricted','Taylor Morrison only','No golf'],
-   tags:['gated','maint','age55'],lat:27.3660,lng:-82.4410,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   tags:['gated','maint','age55'],lat:27.3592,lng:-82.4418,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
   {id:'solstice',name:'Solstice at Wellen Park',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',county:'sarasota',
    pMin:680000,pMax:1500000,pLabel:'$680s–$1.5M',sqMin:2000,sqMax:4500,bdMin:3,bdMax:6,baMin:2,baMax:5,
@@ -946,7 +949,7 @@ const C=[
    amenities:['Gated','Resort pool','Fitness','Tennis','Pickleball','Dog park','Golf-cart to Wellen downtown','CoolToday Park nearby'],
    highlights:'Toll Brothers luxury in Wellen Park. Golf-cart to downtown Wellen. Braves spring training nearby.',
    pros:['Toll Brothers quality','Gated','Golf-cart to Wellen','Big 2025 discounts'],cons:['No bundled golf','Venice = older demographic'],
-   tags:['gated'],lat:27.0510,lng:-82.3860,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
+   tags:['gated'],lat:27.0508,lng:-82.3798,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
 
   {id:'beachwalk',name:'BeachWalk at Wellen',district:'wellen',distLabel:'Wellen Park · Englewood',tier:'mid',county:'sarasota',
    pMin:400000,pMax:900000,pLabel:'$400s–$900s',sqMin:1500,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -959,7 +962,7 @@ const C=[
    amenities:['2.5 miles to Manasota Key beach','Full-service resort restaurant','Resort pool','Pickleball','Fitness','Coastal aesthetic'],
    highlights:'Closest new construction to Gulf beaches. Full-service restaurant. Rare beach proximity.',
    pros:['Closest new build to Gulf beach','On-site restaurant','Coastal lifestyle'],cons:['Englewood slower to mature','Not gated','No golf'],
-   tags:['water'],lat:27.0180,lng:-82.4020,travel:{walk:'N/A',cart:'N/A',drive:'44 min',miles:22.0}},
+   tags:['water'],lat:27.0195,lng:-82.4012,travel:{walk:'N/A',cart:'N/A',drive:'44 min',miles:22.0}},
 
   {id:'wellengolf',name:'Wellen Park Golf & CC',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',county:'sarasota',
    pMin:600000,pMax:2000000,pLabel:'$600s–$2M+',sqMin:1600,sqMax:4000,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -972,7 +975,7 @@ const C=[
    amenities:['18-hole bundled golf','Gated','Maint-free','Clubhouse restaurant & bar','Resort pool','Fitness','Tennis','Pickleball'],
    highlights:'Bundled golf in Wellen Park. More affordable than LWR golf communities.',
    pros:['Bundled 18-hole golf','Gated + maint-free','On-site restaurant'],cons:['Venice = older demographic','HOA high for golf'],
-   tags:['golf','gated','maint'],lat:27.0560,lng:-82.3760,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
+   tags:['golf','gated','maint'],lat:27.0545,lng:-82.3738,travel:{walk:'N/A',cart:'N/A',drive:'40 min',miles:20.0}},
 
   {id:'talon',name:'Talon Preserve',district:'palmer',distLabel:'Palmer Ranch · Nokomis',tier:'mid',county:'sarasota',
    pMin:500000,pMax:1100000,pLabel:'$500s–$1.1M',sqMin:1700,sqMax:3600,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -985,7 +988,7 @@ const C=[
    amenities:['Gated','Clubhouse','Resort pool','Fitness','Pickleball','Dog park','7-8 miles to Siesta Key','Mature Palmer Ranch landscaping'],
    highlights:'7-8 miles from Siesta Key. Gated. Part of established Palmer Ranch.',
    pros:['7-8 mi to Siesta Key','Gated','Palmer Ranch prestige'],cons:['Not as new as LWR/Wellen','DiVosta only'],
-   tags:['gated'],lat:27.1810,lng:-82.4660,travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
+   tags:['gated'],lat:27.1792,lng:-82.4648,travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
 
   {id:'esplanade-palmer',name:'Esplanade Palmer Ranch',district:'palmer',distLabel:'Palmer Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:500000,pMax:1200000,pLabel:'$500s–$1.2M',sqMin:1533,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -998,7 +1001,7 @@ const C=[
    amenities:['Gated','Maint-free','Resort pool','Spa','Bahama bar','Fitness','Tennis','Pickleball','Legacy Trail nearby','5-8 miles to Siesta Key'],
    highlights:'Esplanade resort lifestyle on Palmer Ranch. Gated, maint-free. 5-8 mi to Siesta Key.',
    pros:['Gated + maint-free','5-8 mi to Siesta Key','Taylor Morrison quality'],cons:['No bundled golf','HOA $400–$600'],
-   tags:['gated','maint'],lat:27.2060,lng:-82.4680,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
+   tags:['gated','maint'],lat:27.2058,lng:-82.4682,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -1221,25 +1224,321 @@ function showTab(t){
 }
 
 function initMap(){
-  if(leafMap){leafMap.invalidateSize();return;}
-  leafMap=L.map('map',{center:[27.38,-82.39],zoom:11});
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles &copy; Esri',maxZoom:19}).addTo(leafMap);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{attribution:'',maxZoom:19,opacity:0.7}).addTo(leafMap);
-  const fmIcon=L.divIcon({html:`<div style="background:#6b3fa0;border:2.5px solid #fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.4)">⭐</div>`,className:'',iconAnchor:[12,12]});
-  L.marker(FM,{icon:fmIcon}).addTo(leafMap).bindPopup('<div class="lpu-name">⭐ Farmers Market</div><div class="lpu-dist">Waterside Place · Every Sunday 10am–2pm</div><div class="lpu-row">1560 Lakefront Dr, LWR FL 34240</div>');
-  C.forEach(c=>{
-    const col=tierColor(c.tier);
-    const icon=L.divIcon({html:`<div style="background:${col};border:2px solid #fff;border-radius:50%;width:16px;height:16px;box-shadow:0 2px 5px rgba(0,0,0,.35);cursor:pointer${c.hasLotWarn?';outline:2px solid #e67e22':''}"></div>`,className:'',iconAnchor:[8,8]});
-    L.marker([c.lat,c.lng],{icon}).addTo(leafMap).bindPopup(
-      `<div class="lpu-name">${c.name}${c.hasLotWarn?' ⚠️':''}</div>
-       <div class="lpu-dist">${c.distLabel}</div>
-       <div class="lpu-row"><b>Base Price:</b> ${c.pLabel}</div>
-       <div class="lpu-row"><b>Lot Premiums:</b> $${c.lotPremMin.toLocaleString()}–$${c.lotPremMax.toLocaleString()}</div>
-       <div class="lpu-row"><b>HOA:</b> ${c.hoa}</div>
-       <div class="lpu-row">🚗 ${c.travel.drive} · 🛺 ${c.travel.cart}</div>
-       <button class="lpu-btn" onclick="openModal('${c.id}');document.querySelector('.leaflet-popup-close-button').click()">Full Details + Floor Plans</button>`
-    );
+  const el=document.getElementById('map');
+  if(el._mapInit)return;
+  el._mapInit=true;
+  el.innerHTML='';
+  el.style.position='relative';
+  el.style.overflow='hidden';
+  el.style.background='#c8dff0';
+  el.style.cursor='grab';
+
+  // Map state
+  let state={
+    lat:27.4284, lng:-82.3804, zoom:13,
+    dragging:false, lastX:0, lastY:0
+  };
+
+  const canvas=document.createElement('canvas');
+  canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;touch-action:none';
+  el.appendChild(canvas);
+
+  // Popup div
+  const popup=document.createElement('div');
+  popup.style.cssText='display:none;position:absolute;background:#fff;border-radius:10px;padding:10px 13px;font-size:11px;box-shadow:0 3px 14px rgba(0,0,0,.25);z-index:100;max-width:220px;min-width:180px;font-family:-apple-system,sans-serif';
+  el.appendChild(popup);
+
+  function closePopup(){popup.style.display='none';}
+  el.addEventListener('click',function(e){if(e.target===canvas||e.target===el)closePopup();});
+
+  // Tile math helpers
+  function lat2tile(lat,z){return Math.floor((1-Math.log(Math.tan(lat*Math.PI/180)+1/Math.cos(lat*Math.PI/180))/Math.PI)/2*Math.pow(2,z));}
+  function lng2tile(lng,z){return Math.floor((lng+180)/360*Math.pow(2,z));}
+  function tile2lat(y,z){var n=Math.PI-2*Math.PI*y/Math.pow(2,z);return 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n)));}
+  function tile2lng(x,z){return x/Math.pow(2,z)*360-180;}
+
+  // Project lat/lng to canvas pixel
+  function project(lat,lng){
+    const W=canvas.width,H=canvas.height;
+    const z=state.zoom;
+    const scale=Math.pow(2,z)*256;
+    const centerX=(state.lng+180)/360*scale;
+    const sinLat=Math.sin(state.lat*Math.PI/180);
+    const centerY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
+    const sinL=Math.sin(lat*Math.PI/180);
+    const px=(lng+180)/360*scale-centerX+W/2;
+    const py=(0.5-Math.log((1+sinL)/(1-sinL))/(4*Math.PI))*scale-centerY+H/2;
+    return {x:px,y:py};
+  }
+
+  // Tile cache
+  const tileCache={};
+  function getTile(x,y,z){
+    const key=z+'/'+x+'/'+y;
+    if(tileCache[key])return tileCache[key];
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    // Use OpenStreetMap tiles (works in sandboxes)
+    img.src='https://tile.openstreetmap.org/'+z+'/'+x+'/'+y+'.png';
+    img.onload=()=>{tileCache[key]=img;draw();};
+    img.onerror=()=>{
+      // Fallback: Esri World Imagery
+      const img2=new Image();
+      img2.crossOrigin='anonymous';
+      img2.src='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/'+z+'/'+y+'/'+x;
+      img2.onload=()=>{tileCache[key]=img2;draw();};
+      tileCache[key]=img2;
+    };
+    tileCache[key]=img;
+    return img;
+  }
+
+  const tierColors={entry:'#1a6b4a',mid:'#1a5c8a',luxury:'#c47f1a',ultra:'#c0392b'};
+
+  function draw(){
+    const W=el.clientWidth||400;
+    const H=el.clientHeight||500;
+    canvas.width=W; canvas.height=H;
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+
+    // Draw tiles
+    const z=state.zoom;
+    const tileSize=256;
+    const scale=Math.pow(2,z)*tileSize;
+    const sinLat=Math.sin(state.lat*Math.PI/180);
+    const cX=(state.lng+180)/360*scale;
+    const cY=(0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*scale;
+    const tileX0=Math.floor((cX-W/2)/tileSize);
+    const tileY0=Math.floor((cY-H/2)/tileSize);
+    const maxTile=Math.pow(2,z)-1;
+
+    for(let tx=tileX0;tx<=(cX+W/2)/tileSize;tx++){
+      for(let ty=tileY0;ty<=(cY+H/2)/tileSize;ty++){
+        if(tx<0||ty<0||tx>maxTile||ty>maxTile)continue;
+        const img=getTile(tx,ty,z);
+        const px=tx*tileSize-cX+W/2;
+        const py=ty*tileSize-cY+H/2;
+        if(img.complete&&img.naturalWidth>0){
+          ctx.drawImage(img,Math.round(px),Math.round(py),tileSize,tileSize);
+        } else {
+          ctx.fillStyle='#d8e8f4';
+          ctx.fillRect(Math.round(px),Math.round(py),tileSize,tileSize);
+        }
+      }
+    }
+
+    // Draw community pins
+    C.forEach(c=>{
+      const {x,y}=project(c.lat,c.lng);
+      if(x<-20||x>W+20||y<-20||y>H+20)return;
+      const col=tierColors[c.tier]||'#888';
+      // Drop shadow
+      ctx.shadowColor='rgba(0,0,0,0.3)';
+      ctx.shadowBlur=4;
+      ctx.shadowOffsetY=2;
+      // Lot warning ring
+      if(c.hasLotWarn){
+        ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);
+        ctx.strokeStyle='#e67e22';ctx.lineWidth=2.5;ctx.stroke();
+      }
+      // Pin circle
+      ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);
+      ctx.fillStyle=col;ctx.fill();
+      ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+      // Label
+      ctx.font='bold 7px -apple-system,sans-serif';
+      ctx.fillStyle='#fff';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      const words=c.name.replace('Esplanade ','Esp.').replace(' at Waterside','').replace(' at Wellen Park','').split(' ');
+      ctx.fillText(words[0],x,y);
+    });
+
+    // Farmers Market star pin
+    const fm=project(27.4284,-82.3804);
+    if(fm.x>-20&&fm.x<W+20&&fm.y>-20&&fm.y<H+20){
+      ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;
+      ctx.beginPath();ctx.arc(fm.x,fm.y,12,0,Math.PI*2);
+      ctx.fillStyle='#6b3fa0';ctx.fill();
+      ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+      ctx.font='bold 12px sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('⭐',fm.x,fm.y);
+    }
+
+    // Attribution
+    ctx.font='9px sans-serif';
+    ctx.fillStyle='rgba(0,0,0,0.5)';
+    ctx.textAlign='right';
+    ctx.textBaseline='bottom';
+    ctx.fillRect(W-160,H-16,160,16);
+    ctx.fillStyle='rgba(0,0,0,0)';
+    ctx.fillStyle='rgba(0,0,0,0.55)';
+    ctx.fillText('© OpenStreetMap contributors',W-4,H-3);
+  }
+
+  // Zoom controls
+  const zoomDiv=document.createElement('div');
+  zoomDiv.style.cssText='position:absolute;top:10px;right:10px;z-index:50;display:flex;flex-direction:column;gap:2px';
+  ['+','−'].forEach((sym,i)=>{
+    const btn=document.createElement('button');
+    btn.textContent=sym;
+    btn.style.cssText='width:30px;height:30px;background:#fff;border:1px solid #ccc;border-radius:4px;font-size:18px;cursor:pointer;line-height:1;font-weight:300;display:flex;align-items:center;justify-content:center';
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      state.zoom=Math.min(18,Math.max(5,state.zoom+(i===0?1:-1)));
+      draw();
+    };
+    zoomDiv.appendChild(btn);
   });
+  el.appendChild(zoomDiv);
+
+  // Pin click detection
+  canvas.addEventListener('click',function(e){
+    if(Math.abs(e.clientX-this._lastX)>5||Math.abs(e.clientY-this._lastY)>5)return;
+    const rect=canvas.getBoundingClientRect();
+    const mx=e.clientX-rect.left;
+    const my=e.clientY-rect.top;
+    // Check FM star first
+    const fm=project(27.4284,-82.3804);
+    if(Math.hypot(mx-fm.x,my-fm.y)<14){
+      showPopup(mx,my,null);return;
+    }
+    // Check communities
+    let hit=null,minD=18;
+    C.forEach(c=>{
+      const {x,y}=project(c.lat,c.lng);
+      const d=Math.hypot(mx-x,my-y);
+      if(d<minD){minD=d;hit=c;}
+    });
+    if(hit)showPopup(mx,my,hit);
+  });
+  canvas.addEventListener('mousedown',function(e){
+    state.dragging=true;state.lastX=e.clientX;state.lastY=e.clientY;
+    this._lastX=e.clientX;this._lastY=e.clientY;
+    canvas.style.cursor='grabbing';
+  });
+  canvas.addEventListener('mousemove',function(e){
+    if(!state.dragging)return;
+    const dx=e.clientX-state.lastX;
+    const dy=e.clientY-state.lastY;
+    state.lastX=e.clientX;state.lastY=e.clientY;
+    const scale=Math.pow(2,state.zoom)*256;
+    state.lng-=dx/scale*360;
+    const sinLat=Math.sin(state.lat*Math.PI/180);
+    const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
+    const newMercY=mercY+dy/scale;
+    state.lat=Math.atan(Math.sinh(2*Math.PI*newMercY))*180/Math.PI;
+    draw();
+  });
+  canvas.addEventListener('mouseup',()=>{state.dragging=false;canvas.style.cursor='grab';});
+  canvas.addEventListener('mouseleave',()=>{state.dragging=false;canvas.style.cursor='grab';});
+  canvas.addEventListener('wheel',function(e){
+    e.preventDefault();
+    state.zoom=Math.min(18,Math.max(5,state.zoom+(e.deltaY<0?1:-1)));
+    draw();
+  },{passive:false});
+
+  // Touch support
+  let lastTouchDist=0;
+  canvas.addEventListener('touchstart',function(e){
+    if(e.touches.length===1){
+      state.dragging=true;
+      state.lastX=e.touches[0].clientX;
+      state.lastY=e.touches[0].clientY;
+      this._lastX=e.touches[0].clientX;
+      this._lastY=e.touches[0].clientY;
+    } else if(e.touches.length===2){
+      lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    }
+  },{passive:true});
+  canvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    if(e.touches.length===1&&state.dragging){
+      const dx=e.touches[0].clientX-state.lastX;
+      const dy=e.touches[0].clientY-state.lastY;
+      state.lastX=e.touches[0].clientX;state.lastY=e.touches[0].clientY;
+      const scale=Math.pow(2,state.zoom)*256;
+      state.lng-=dx/scale*360;
+      const sinLat=Math.sin(state.lat*Math.PI/180);
+      const mercY=Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI);
+      const newMercY=mercY+dy/scale;
+      state.lat=Math.atan(Math.sinh(2*Math.PI*newMercY))*180/Math.PI;
+      draw();
+    } else if(e.touches.length===2){
+      const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      if(lastTouchDist>0){
+        state.zoom=Math.min(18,Math.max(5,state.zoom+(dist>lastTouchDist?0.15:-0.15)));
+        draw();
+      }
+      lastTouchDist=dist;
+    }
+  },{passive:false});
+  canvas.addEventListener('touchend',function(e){
+    if(e.touches.length===0){
+      state.dragging=false;lastTouchDist=0;
+      // Tap detection
+      if(e.changedTouches.length===1){
+        const rect=canvas.getBoundingClientRect();
+        const mx=e.changedTouches[0].clientX-rect.left;
+        const my=e.changedTouches[0].clientY-rect.top;
+        if(Math.abs(mx-(this._lastX-rect.left))<10&&Math.abs(my-(this._lastY-rect.top))<10){
+          const fm=project(27.4284,-82.3804);
+          if(Math.hypot(mx-fm.x,my-fm.y)<18){showPopup(mx,my,null);return;}
+          let hit=null,minD=22;
+          C.forEach(c=>{
+            const {x,y}=project(c.lat,c.lng);
+            const d=Math.hypot(mx-x,my-y);
+            if(d<minD){minD=d;hit=c;}
+          });
+          if(hit)showPopup(mx,my,hit);
+        }
+      }
+    }
+  },{passive:true});
+
+  el._mapState=state;
+  el._mapDraw=draw;
+  draw();
+
+  function showPopup(mx,my,c){
+    const W=el.clientWidth,H=el.clientHeight;
+    if(!c){
+      popup.innerHTML='<div style="font-weight:700;font-size:13px;margin-bottom:4px">⭐ Farmers Market</div><div style="color:#888;font-size:10px;margin-bottom:5px">Waterside Place · Every Sunday 10am–2pm</div><div style="font-size:11px">1560 Lakefront Dr, Sarasota FL 34240</div>';
+    } else {
+      popup.innerHTML=`<div style="font-weight:700;font-size:13px;margin-bottom:3px">${c.name}${c.hasLotWarn?' ⚠️':''}</div>
+<div style="color:#888;font-size:9px;margin-bottom:5px">${c.distLabel}</div>
+<div style="font-size:10.5px;margin-bottom:2px"><b>Price:</b> ${c.pLabel}</div>
+<div style="font-size:10.5px;margin-bottom:2px"><b>HOA:</b> ${c.hoa}</div>
+<div style="font-size:10.5px;margin-bottom:5px">🚗 ${c.travel.drive} &nbsp;🛺 ${c.travel.cart} to Market</div>
+<button onclick="openModal('${c.id}');this.closest('div[style]').style.display='none'" style="width:100%;padding:7px;border-radius:7px;border:none;background:#1a6b4a;color:#fff;font-size:11px;font-weight:600;cursor:pointer">Full Details + Floor Plans</button>`;
+    }
+    popup.style.display='block';
+    let px=mx+14, py=my-60;
+    if(px+220>W)px=mx-234;
+    if(py<0)py=my+14;
+    if(py+180>H)py=H-185;
+    popup.style.left=px+'px';
+    popup.style.top=py+'px';
+  }
+}
+
+function zoomTo(lat,lng,z){
+  const el=document.getElementById('map');
+  if(!el._mapInit)initMap();
+  el._mapState.lat=lat;el._mapState.lng=lng;el._mapState.zoom=z;
+  el._mapDraw();
+}
+
+function fitAll(){
+  const el=document.getElementById('map');
+  if(!el._mapInit)initMap();
+  const lats=C.map(c=>c.lat),lngs=C.map(c=>c.lng);
+  const midLat=(Math.max(...lats)+Math.min(...lats))/2;
+  const midLng=(Math.max(...lngs)+Math.min(...lngs))/2;
+  el._mapState.lat=midLat;el._mapState.lng=midLng;el._mapState.zoom=9;
+  el._mapDraw();
 }
 
 function cm(){
