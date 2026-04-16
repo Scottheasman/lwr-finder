@@ -1472,7 +1472,11 @@ function initMap(){
       if(_calibrating){
         const ll=pixelToLatLng(mx,my);
         window._FM_LIVE={lat:ll.lat,lng:ll.lng};
-        try{localStorage.setItem('lwr_fm_lat',ll.lat.toFixed(6));localStorage.setItem('lwr_fm_lng',ll.lng.toFixed(6));}catch(x){}
+        try{
+          const gc=JSON.parse(localStorage.getItem('lwr_gc2')||'{}');
+          gc['lwr_fm']=[ll.lat,ll.lng];
+          localStorage.setItem('lwr_gc2',JSON.stringify(gc));
+        }catch(x){}
         _calibrating=false; toggleCalibrate();
         state.lat=ll.lat; state.lng=ll.lng; draw();
         alert('✅ Pinned at '+ll.lat.toFixed(5)+', '+ll.lng.toFixed(5));
@@ -1506,15 +1510,17 @@ function initMap(){
   function setGeoStatus(msg){const s=document.getElementById('geo-status');if(s)s.textContent=msg;}
 
   // Step 1: load from localStorage cache immediately (synchronous)
+  // Clear any old cache keys from previous versions
+  try{localStorage.removeItem('lwr_geocache');localStorage.removeItem('lwr_fm_lat');localStorage.removeItem('lwr_fm_lng');}catch(e){}
   try{
-    const s=localStorage.getItem('lwr_geocache');
+    const s=localStorage.getItem('lwr_gc2');
     if(s){
       const cached=JSON.parse(s);
       if(cached['lwr_fm']){
         window._FM_LIVE={lat:cached['lwr_fm'][0],lng:cached['lwr_fm'][1]};
         state.lat=cached['lwr_fm'][0]; state.lng=cached['lwr_fm'][1];
       }
-      C.forEach(c=>{if(cached[c.id]){c.lat=cached[c.id][0];c.lng=cached[c.id][1];}});
+      C.forEach(c=>{if(cached[c.id]&&!c.latFixed){c.lat=cached[c.id][0];c.lng=cached[c.id][1];}});
       setGeoStatus('⚡ Cached');
       setTimeout(()=>setGeoStatus(''),2000);
     }
@@ -1532,7 +1538,7 @@ function initMap(){
     const CACHE_VER='v3';
     const cached={};
     try{
-      const raw=localStorage.getItem('lwr_geocache');
+      const raw=localStorage.getItem('lwr_gc2');
       if(raw){
         const parsed=JSON.parse(raw);
         // Only use cache if same version (clears bad geocodes)
@@ -1564,12 +1570,12 @@ function initMap(){
       try{
         const r=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(c.geocodeAddr)+'&format=json&limit=1',{headers:{'User-Agent':'LWRFinder/1.0'}});
         const d=await r.json();
-        if(d&&d[0]){c.lat=parseFloat(d[0].lat);c.lng=parseFloat(d[0].lon);cached[c.id]=[c.lat,c.lng];draw();}
+        if(d&&d[0]&&!c.latFixed){c.lat=parseFloat(d[0].lat);c.lng=parseFloat(d[0].lon);cached[c.id]=[c.lat,c.lng];draw();}
       }catch(e){}
       done++;setGeoStatus('📍 '+done+'/'+todo.length);
     }
     if(todo.length){
-      try{cached['__ver']=CACHE_VER;localStorage.setItem('lwr_geocache',JSON.stringify(cached));}catch(e){}
+      try{cached['__ver']=CACHE_VER;localStorage.setItem('lwr_gc2',JSON.stringify(cached));}catch(e){}
       setGeoStatus('✅ Done');setTimeout(()=>setGeoStatus(''),3000);
     } else if(!cached['lwr_fm']){
       setGeoStatus('');
