@@ -536,9 +536,9 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 <!-- MAP -->
 <div id="tab-map" style="display:none;padding:8px 10px">
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
-    <button onclick="zoomTo(27.4284,-82.3804,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
-    <button onclick="zoomTo(27.4600,-82.3850,12)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
-    <button onclick="zoomTo(27.3605,-82.4408,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--a);background:var(--al);color:var(--a);font-size:10px;font-weight:600;cursor:pointer">🌿 Skye Ranch</button>
+    <button onclick="zoomTo(27.3630,-82.4153,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
+    <button onclick="zoomTo(27.4580,-82.4000,12)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
+    <button onclick="zoomTo(27.3282,-82.4465,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--a);background:var(--al);color:var(--a);font-size:10px;font-weight:600;cursor:pointer">🌿 Skye Ranch</button>
     <button onclick="zoomTo(27.0530,-82.3790,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--p);background:var(--pl);color:var(--p);font-size:10px;font-weight:600;cursor:pointer">🏖 Wellen Park</button>
     <button onclick="zoomTo(27.1950,-82.4670,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--r);background:var(--rl);color:var(--r);font-size:10px;font-weight:600;cursor:pointer">🌴 Palmer Ranch</button>
     <button onclick="fitAll()" style="padding:4px 10px;border-radius:12px;border:1px solid var(--gray400);background:var(--gray50);color:var(--gray700);font-size:10px;font-weight:600;cursor:pointer">🗺 Fit All</button>
@@ -673,7 +673,7 @@ before making an offer.</p></div>
 
 
 <script>
-const FM=[27.4284,-82.3804]; // Waterside Place / Farmers Market
+const FM=[27.3630,-82.4153]; // Waterside Place / Farmers Market
 
 const C=[
   {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
@@ -687,7 +687,7 @@ const C=[
    amenities:['Resort pool','Pickleball','Dog park','Water taxi to Farmers Market','Maintenance-free yard','Walking trails'],
    highlights:'Most affordable Waterside entry. Low-maintenance with water taxi to Farmers Market.',
    pros:['Lowest price in Waterside','Maintenance-free','Water taxi','Close to Farmers Market'],cons:['Smallest homes','Not gated','No golf'],
-   tags:['maint','water'],lat:27.4267,lng:-82.3818,travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
+   tags:['maint','water'],lat:27.3592,lng:-82.4058,travel:{walk:'28 min',cart:'8 min',drive:'4 min',miles:1.4}},
 
   {id:'bungalow',name:'Bungalow Walk',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:700000,pLabel:'$500s–$700s',sqMin:1696,sqMax:2557,bdMin:3,bdMax:4,baMin:2,baMax:3,
@@ -700,7 +700,7 @@ const C=[
    amenities:['Community pool','Pickleball','Primary bed on main floor','Low HOA'],
    highlights:'Charming bungalow community. Primary bed on main floor. Lowest HOA in mid-tier Waterside.',
    pros:['Low HOA ($200/mo)','Primary bed on main floor','Bungalow charm'],cons:['Not gated','No golf'],
-   tags:[],lat:27.4318,lng:-82.3865,travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
+   tags:[],lat:27.368,lng:-82.421,travel:{walk:'35 min',cart:'10 min',drive:'5 min',miles:1.8}},
 
   {id:'emerald',name:'Emerald Landing',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1496,sqMax:3249,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -713,7 +713,7 @@ const C=[
    amenities:['Boat dock','Kayak launch','Pool','Pickleball','Dog park','Water taxi','Maintenance included (attached)'],
    highlights:'Unique 3-story city homes. Boat dock & kayak launch. Water taxi to Farmers Market.',
    pros:['Rare 3-story city homes','Boat dock & kayak','Walk/boat to Farmers Market'],cons:['Small 193-home community','Not gated'],
-   tags:['maint','water'],lat:27.4292,lng:-82.3842,travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
+   tags:['maint','water'],lat:27.3658,lng:-82.418,travel:{walk:'8 min',cart:'3 min',drive:'2 min',miles:0.4}},
 
   {id:'nautique',name:'Nautique',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
    pMin:400000,pMax:600000,pLabel:'$400s–$600s',sqMin:1702,sqMax:1850,bdMin:2,bdMax:3,baMin:2,baMax:2,
@@ -726,7 +726,7 @@ const C=[
    amenities:['Pool','Pickleball','Dog park','Playground','Maintenance included'],
    highlights:'Lowest HOA in all of Waterside. Maritime design. Best value per dollar in district.',
    pros:['Lowest HOA in Waterside ($172–$200)','Maintenance included'],cons:['Smallest homes','Not gated'],
-   tags:['maint'],lat:27.4182,lng:-82.3795,travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
+   tags:['maint'],lat:27.3545,lng:-82.4105,travel:{walk:'40 min',cart:'12 min',drive:'6 min',miles:2.1}},
 
   {id:'shellstone',name:'Shellstone',district:'waterside',distLabel:'Waterside · LWR',tier:'mid',county:'sarasota',
    pMin:500000,pMax:2000000,pLabel:'$500s–$2M+',sqMin:2078,sqMax:4000,bdMin:3,bdMax:6,baMin:2,baMax:5,
@@ -739,7 +739,7 @@ const C=[
    amenities:['Parks','Resort pool','Fitness center','Tennis','Pickleball','Dog park','Trails'],
    highlights:'Largest Waterside village (682 homes). Two builders with wide price range.',
    pros:['Largest community','Wide price range','Two builders'],cons:['Higher HOA $400+','Not gated'],
-   tags:[],lat:27.4108,lng:-82.3692,travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
+   tags:[],lat:27.3498,lng:-82.4055,travel:{walk:'48 min',cart:'14 min',drive:'7 min',miles:2.5}},
 
   {id:'shoreview',name:'Shoreview',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:900000,pMax:1800000,pLabel:'$900s–$1.8M',sqMin:2000,sqMax:3900,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -752,7 +752,7 @@ const C=[
    amenities:['Gated','Lake views','Kayak launch','Tennis','Pickleball','Resort pool','Fitness center','Bocce ball'],
    highlights:'Gated lakeside with panoramic water views. Lower HOA for a luxury gated community.',
    pros:['Gated','Lake views','Low HOA for luxury ($300)','Kayak launch'],cons:['Single builder','No golf'],
-   tags:['gated','water'],lat:27.4252,lng:-82.3672,travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
+   tags:['gated','water'],lat:27.361,lng:-82.402,travel:{walk:'55 min',cart:'16 min',drive:'8 min',miles:2.9}},
 
   {id:'lakehouse',name:'LakeHouse Cove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:4000000,pLabel:'$800s–$4M+',sqMin:1764,sqMax:3426,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -765,7 +765,7 @@ const C=[
    amenities:['Gated','Water taxi ferry to Farmers Market','Kayak dock & storage','Bocce','Fire pit','Resort pool & spa','Tennis','Pickleball','Dog park','Lifestyle director','Maintenance-free'],
    highlights:'First & most established Waterside village. Gated + maint-free. Water taxi directly to Farmers Market.',
    pros:['Gated + maint-free','Water taxi to Farmers Market','Kayak dock','Lifestyle director'],cons:['Single builder','Prices to $4M+'],
-   tags:['gated','maint','water'],lat:27.4305,lng:-82.3758,travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
+   tags:['gated','maint','water'],lat:27.3645,lng:-82.4125,travel:{walk:'12 min',cart:'4 min',drive:'3 min',miles:0.6}},
 
   {id:'alcove',name:'The Alcove',district:'waterside',distLabel:'Waterside · LWR',tier:'luxury',county:'sarasota',
    pMin:800000,pMax:1800000,pLabel:'$800s–$1.8M',sqMin:2426,sqMax:3334,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -778,7 +778,7 @@ const C=[
    amenities:['Boutique 47-home community','Maintenance included in HOA','Neal Signature craftsmanship'],
    highlights:'Only 47 homes — most exclusive boutique village. HOA covers maintenance. No shared amenity center.',
    pros:['Only 47 homes','Maintenance included','Very private'],cons:['$500/mo HOA with no amenities','No clubhouse','Not gated'],
-   tags:['maint'],lat:27.4160,lng:-82.3638,travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
+   tags:['maint'],lat:27.353,lng:-82.3995,travel:{walk:'50 min',cart:'14 min',drive:'7 min',miles:2.6}},
 
   {id:'wildblue',name:'Wild Blue',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:1500000,pMax:5000000,pLabel:'$1.5M–$5M+',sqMin:2400,sqMax:4575,bdMin:3,bdMax:6,baMin:3,baMax:6,
@@ -791,7 +791,7 @@ const C=[
    amenities:['25,000 sf clubhouse','Fiji lagoon pool','Full-service restaurant','Private theater','Indoor golf simulator','9-hole putting course','Tennis','Pickleball','Fitness','Dog park','Kayaking','Lifestyle director'],
    highlights:'Crown jewel of Waterside. 25K sf clubhouse — Fiji pool, restaurant, theater, golf sim.',
    pros:['Best amenity package in LWR','Golf sim + putting course','On-site restaurant','Private theater'],cons:['Highest HOA $800–$900','$1.5M+ floor','Not gated'],
-   tags:['golf','water'],lat:27.4082,lng:-82.3715,travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
+   tags:['golf','water'],lat:27.347,lng:-82.407,travel:{walk:'52 min',cart:'15 min',drive:'7 min',miles:2.7}},
 
   {id:'kingfisher',name:'Kingfisher Estates',district:'waterside',distLabel:'Waterside · LWR',tier:'ultra',county:'sarasota',
    pMin:3000000,pMax:10000000,pLabel:'$3M–$10M+',sqMin:3600,sqMax:8000,bdMin:4,bdMax:7,baMin:3,baMax:7,
@@ -804,7 +804,7 @@ const C=[
    amenities:['Gated estate','Lakefront lots','Preserve views','Trophy property addresses'],
    highlights:'Most exclusive address in Waterside. Gated. Custom estate homes on premium lakefront lots.',
    pros:['Most exclusive in LWR','Gated','Lakefront lots','Largest custom homes'],cons:['Entry $3M+','Very limited inventory'],
-   tags:['gated','water'],lat:27.4355,lng:-82.3848,travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
+   tags:['gated','water'],lat:27.37,lng:-82.419,travel:{walk:'58 min',cart:'17 min',drive:'9 min',miles:3.1}},
 
   {id:'windward',name:'Windward',district:'lwr',distLabel:'LWR · Sarasota County',tier:'mid',county:'sarasota',
    pMin:400000,pMax:1100000,pLabel:'$400s–$1.1M',sqMin:1434,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -817,7 +817,7 @@ const C=[
    amenities:['Waterfront lots','Preserve views','Clubhouse','Resort pool','Tennis','Pickleball','Fitness','Dog park','Nature trails'],
    highlights:'Waterfront & preserve views. Wide range villas to estates.',
    pros:['Waterfront & preserve lots','Wide price range','Neal quality'],cons:['No golf','Not gated'],
-   tags:['water'],lat:27.4272,lng:-82.3618,travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
+   tags:['water'],lat:27.3625,lng:-82.3975,travel:{walk:'22 min',cart:'7 min',drive:'4 min',miles:1.1}},
 
   {id:'azario',name:'Esplanade at Azario',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1500000,pLabel:'$400s–$1.5M',sqMin:1500,sqMax:4000,bdMin:2,bdMax:5,baMin:2,baMax:5,
@@ -831,7 +831,7 @@ const C=[
    highlights:'Only gated bundled-golf new construction in LWR. Base prices look attractive but lot premiums on golf/lake sites can add $200K–$350K+ to total cost.',
    pros:['Only new-build bundled golf LWR','Gated','18-hole championship','Culinary center & restaurant'],
    cons:['⚠️ Golf lot premiums $200K–$350K+','Base price misleading — always get full homesite cost','Golf HOA $600+/mo','Taylor Morrison only'],
-   tags:['golf','gated','maint'],lat:27.4655,lng:-82.3792,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
+   tags:['golf','gated','maint'],lat:27.4648,lng:-82.379,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:6.8}},
 
   {id:'starfarms',name:'Star Farms',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:375000,pMax:2500000,pLabel:'$375s–$2.5M+',sqMin:1500,sqMax:5000,bdMin:2,bdMax:6,baMin:2,baMax:5,
@@ -844,7 +844,7 @@ const C=[
    amenities:['5 resort pool complexes','27,000 sf clubhouse','Restaurant & bar','Tennis','Pickleball','Fitness','Dog park','Splash pad','Gated'],
    highlights:'6 builders — widest range in LWR. 5 pool complexes, 27K sf clubhouse with dining.',
    pros:['6 builders','5 resort pools','27K sf clubhouse','On-site dining','Gated'],cons:['Farthest from Farmers Market','No golf'],
-   tags:['gated'],lat:27.4812,lng:-82.3872,travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
+   tags:['gated'],lat:27.4818,lng:-82.3872,travel:{walk:'N/A',cart:'36 min',drive:'18 min',miles:9.0}},
 
   {id:'lorraine',name:'Lorraine Lakes',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',
    pMin:350000,pMax:900000,pLabel:'$350s–$900s',sqMin:1400,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -857,7 +857,7 @@ const C=[
    amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
    highlights:'Gated. Lennar Everything\'s Included. Lake views. Splash pad & waterslide.',
    pros:['Gated','Lennar Included package','Lake views','Splash pad & waterslide'],cons:['Lennar only','No golf'],
-   tags:['gated','water'],lat:27.4692,lng:-82.3705,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
+   tags:['gated','water'],lat:27.4688,lng:-82.3712,travel:{walk:'N/A',cart:'30 min',drive:'15 min',miles:7.5}},
 
   {id:'lakeclub',name:'The Lake Club',district:'lwr',distLabel:'LWR · Manatee County',tier:'ultra',county:'manatee',
    pMin:1500000,pMax:6000000,pLabel:'$1.5M–$6M+',sqMin:2500,sqMax:8000,bdMin:3,bdMax:7,baMin:3,baMax:7,
@@ -870,7 +870,7 @@ const C=[
    amenities:['Gated grand entrance','Tuscan clubhouse','Full restaurant','Resort pool','Fitness','Tennis','Pickleball','Lakefront estate lots','Concierge'],
    highlights:"LWR's original ultra-luxury community. Grand Tuscan clubhouse, restaurant, lakefront estates.",
    pros:['LWR prestige address','Gated','Multiple custom builders','Restaurant on-site'],cons:['$1.5M+ entry','High HOA + CDD','No bundled golf'],
-   tags:['gated','water'],lat:27.4528,lng:-82.4018,travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
+   tags:['gated','water'],lat:27.4412,lng:-82.4268,travel:{walk:'N/A',cart:'25 min',drive:'12 min',miles:6.0}},
 
   {id:'lwnational',name:'Lakewood National',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:400000,pMax:1200000,pLabel:'$400s–$1.2M',sqMin:1500,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -883,7 +883,7 @@ const C=[
    amenities:['36-hole Arnold Palmer golf (bundled)','Full-service clubhouse & restaurant','Resort pool','Fitness','Tennis','Pickleball','Gated','Maintenance-free'],
    highlights:'36-hole Arnold Palmer bundled golf. Maintenance-free. Most accessible price golf community.',
    pros:['36-hole AP bundled golf','Maint-free','Gated','Full resort amenities'],cons:['Lennar only','HOA $700+/mo'],
-   tags:['golf','gated','maint'],lat:27.4448,lng:-82.3898,travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
+   tags:['golf','gated','maint'],lat:27.4348,lng:-82.4148,travel:{walk:'N/A',cart:'22 min',drive:'11 min',miles:5.4}},
 
   {id:'cresswind',name:'Cresswind (55+)',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:450000,pMax:900000,pLabel:'$450s–$900s',sqMin:1500,sqMax:3000,bdMin:2,bdMax:4,baMin:2,baMax:3,
@@ -896,7 +896,7 @@ const C=[
    amenities:['Gated','Maintenance-free','Resort pool','Fitness','Tennis','Pickleball','Social clubs','Dog park','Art studio','Active 55+ programming'],
    highlights:'Age-restricted 55+ by Kolter. Resort active-adult lifestyle — gated, maint-free.',
    pros:['55+ focused','Resort amenities','Gated + maint-free','Kolter quality'],cons:['Age restricted','No golf'],
-   tags:['gated','maint','age55'],lat:27.4738,lng:-82.3848,travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
+   tags:['gated','maint','age55'],lat:27.4735,lng:-82.3848,travel:{walk:'N/A',cart:'33 min',drive:'17 min',miles:8.4}},
 
   {id:'mallory',name:'Mallory Park',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',
    pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1700,sqMax:3200,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -909,7 +909,7 @@ const C=[
    amenities:['Gated','Resort pool','Fitness','Pickleball','Dog park','Playground','A-rated schools nearby'],
    highlights:'Gated family community. A-rated school zone. Neal quality at accessible prices.',
    pros:['Gated','A-rated schools nearby','Reasonable HOA'],cons:['No golf','No water features'],
-   tags:['gated'],lat:27.4618,lng:-82.4005,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
+   tags:['gated'],lat:27.4528,lng:-82.4188,travel:{walk:'N/A',cart:'28 min',drive:'14 min',miles:7.0}},
 
   {id:'cassia',name:'Cassia at Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:498000,pMax:1200000,pLabel:'$498K–$1.2M',sqMin:1790,sqMax:3835,bdMin:3,bdMax:5,baMin:2,baMax:4,
@@ -923,7 +923,7 @@ const C=[
    highlights:'Gated. K-8 school onsite 2025. 15–25% cheaper than comparable LWR. Closest to Siesta Key.',
    pros:['Gated','K-8 school onsite','Low HOA ($140/mo)','15-25% cheaper than LWR','10-11 mi to Siesta Key'],
    cons:['CDD moderate ($154–$197/mo)','Taylor Morrison only','Still building amenities'],
-   tags:['gated'],lat:27.3612,lng:-82.4402,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   tags:['gated'],lat:27.3292,lng:-82.4458,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
   {id:'esplanade-skye',name:'Esplanade Skye Ranch',district:'skye',distLabel:'Skye Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:495000,pMax:1028000,pLabel:'$495K–$1M+',sqMin:1533,sqMax:3145,bdMin:2,bdMax:4,baMin:2,baMax:3,
@@ -936,7 +936,7 @@ const C=[
    amenities:['Gated','Maintenance-free','Single-story homes','55+ active adult','Resort pool','Adults-only pool','Fitness','Tennis','Pickleball'],
    highlights:'55+ section of Skye Ranch. Single-story maint-free. Excellent value vs Esplanade Azario.',
    pros:['55+ focused','Maint-free','Single-story','Near Siesta Key'],cons:['Age restricted','Taylor Morrison only','No golf'],
-   tags:['gated','maint','age55'],lat:27.3592,lng:-82.4418,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
+   tags:['gated','maint','age55'],lat:27.3272,lng:-82.4475,travel:{walk:'N/A',cart:'N/A',drive:'28 min',miles:14.2}},
 
   {id:'solstice',name:'Solstice at Wellen Park',district:'wellen',distLabel:'Wellen Park · Venice',tier:'luxury',county:'sarasota',
    pMin:680000,pMax:1500000,pLabel:'$680s–$1.5M',sqMin:2000,sqMax:4500,bdMin:3,bdMax:6,baMin:2,baMax:5,
@@ -988,7 +988,7 @@ const C=[
    amenities:['Gated','Clubhouse','Resort pool','Fitness','Pickleball','Dog park','7-8 miles to Siesta Key','Mature Palmer Ranch landscaping'],
    highlights:'7-8 miles from Siesta Key. Gated. Part of established Palmer Ranch.',
    pros:['7-8 mi to Siesta Key','Gated','Palmer Ranch prestige'],cons:['Not as new as LWR/Wellen','DiVosta only'],
-   tags:['gated'],lat:27.1792,lng:-82.4648,travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
+   tags:['gated'],lat:27.1795,lng:-82.4648,travel:{walk:'N/A',cart:'N/A',drive:'34 min',miles:17.0}},
 
   {id:'esplanade-palmer',name:'Esplanade Palmer Ranch',district:'palmer',distLabel:'Palmer Ranch · Sarasota',tier:'mid',county:'sarasota',
    pMin:500000,pMax:1200000,pLabel:'$500s–$1.2M',sqMin:1533,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,
@@ -1001,7 +1001,7 @@ const C=[
    amenities:['Gated','Maint-free','Resort pool','Spa','Bahama bar','Fitness','Tennis','Pickleball','Legacy Trail nearby','5-8 miles to Siesta Key'],
    highlights:'Esplanade resort lifestyle on Palmer Ranch. Gated, maint-free. 5-8 mi to Siesta Key.',
    pros:['Gated + maint-free','5-8 mi to Siesta Key','Taylor Morrison quality'],cons:['No bundled golf','HOA $400–$600'],
-   tags:['gated','maint'],lat:27.2058,lng:-82.4682,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
+   tags:['gated','maint'],lat:27.2055,lng:-82.4678,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -1235,7 +1235,7 @@ function initMap(){
 
   // Map state
   let state={
-    lat:27.4284, lng:-82.3804, zoom:13,
+    lat:27.3630, lng:-82.4153, zoom:13,
     dragging:false, lastX:0, lastY:0
   };
 
@@ -1356,7 +1356,7 @@ function initMap(){
     });
 
     // Farmers Market star pin
-    const fm=project(27.4284,-82.3804);
+    const fm=project(27.3630,-82.4153);
     if(fm.x>-20&&fm.x<W+20&&fm.y>-20&&fm.y<H+20){
       ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;
       ctx.beginPath();ctx.arc(fm.x,fm.y,12,0,Math.PI*2);
@@ -1401,7 +1401,7 @@ function initMap(){
     const mx=e.clientX-rect.left;
     const my=e.clientY-rect.top;
     // Check FM star first
-    const fm=project(27.4284,-82.3804);
+    const fm=project(27.3630,-82.4153);
     if(Math.hypot(mx-fm.x,my-fm.y)<14){
       showPopup(mx,my,null);return;
     }
@@ -1484,7 +1484,7 @@ function initMap(){
         const mx=e.changedTouches[0].clientX-rect.left;
         const my=e.changedTouches[0].clientY-rect.top;
         if(Math.abs(mx-(this._lastX-rect.left))<10&&Math.abs(my-(this._lastY-rect.top))<10){
-          const fm=project(27.4284,-82.3804);
+          const fm=project(27.3630,-82.4153);
           if(Math.hypot(mx-fm.x,my-fm.y)<18){showPopup(mx,my,null);return;}
           let hit=null,minD=22;
           C.forEach(c=>{
@@ -1537,7 +1537,7 @@ function fitAll(){
   const lats=C.map(c=>c.lat),lngs=C.map(c=>c.lng);
   const midLat=(Math.max(...lats)+Math.min(...lats))/2;
   const midLng=(Math.max(...lngs)+Math.min(...lngs))/2;
-  el._mapState.lat=midLat;el._mapState.lng=midLng;el._mapState.zoom=9;
+  el._mapState.lat=midLat;el._mapState.lng=midLng;el._mapState.zoom=8;
   el._mapDraw();
 }
 
