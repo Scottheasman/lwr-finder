@@ -141,14 +141,14 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 <body>
 <div class="hdr">
   <h1>🌴 LWR Community Finder</h1>
-  <p>Lakewood Ranch · Waterside · Skye Ranch · Palmer Ranch · Wellen Park</p>
+  <p>36 communities · Waterside · LWR Main · Skye Ranch · Wellen Park · Palmer Ranch</p>
 </div>
 <div class="tabs">
-  <button class="tb" data-tab="browse" on" onclick="showTab('browse')">Browse</button>
-  <button class="tb" data-tab="map"" onclick="showTab('map')">🗺 Map</button>
-  <button class="tb" data-tab="compare"" onclick="showTab('compare')">Compare</button>
-  <button class="tb" data-tab="mortgage"" onclick="showTab('mortgage')">💰 Mortgage</button>
-  <button class="tb" data-tab="install"" onclick="showTab('install')">Install</button>
+  <button class="tb on" data-tab="browse" onclick="showTab('browse')">Browse</button>
+  <button class="tb" data-tab="map" onclick="showTab('map')">🗺 Map</button>
+  <button class="tb" data-tab="compare" onclick="showTab('compare')">Compare</button>
+  <button class="tb" data-tab="mortgage" onclick="showTab('mortgage')">💰 Mortgage</button>
+  <button class="tb" data-tab="install" onclick="showTab('install')">Install</button>
 </div>
 
 <!-- BROWSE -->
@@ -216,10 +216,11 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button class="ch" onclick="sf('builder','kolter',this)">Kolter</button>
     <button class="ch" onclick="sf('builder','toll',this)">Toll Brothers</button>
     <button class="ch" onclick="sf('builder','luxury',this)">Stock / Custom</button>
+    <button class="ch" onclick="sf('builder','ryan',this)">Ryan Homes</button>
   </div>
 </div>
 <div class="content">
-  <div class="rc" id="rcount">25 of 25 communities shown</div>
+  <div class="rc" id="rcount">36 communities</div>
   <div class="grid" id="cards"><div class="card" onclick="openModal('avanti')">
       <div class="ch2"><div><div class="cn">Avanti</div><div class="cs">Waterside · LWR</div></div><span class="badge entry">Entry</span></div>
       <div class="cb">
@@ -552,15 +553,15 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 <!-- MAP -->
 <div id="tab-map" style="display:none;padding:8px 10px">
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
-    <button onclick="zoomTo(27.364865,-82.417412,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
-    <button onclick="zoomTo(27.4580,-82.3950,12)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
-    <button onclick="zoomTo(27.364865,-82.417412,14)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--a);background:var(--al);color:var(--a);font-size:10px;font-weight:600;cursor:pointer">🌿 Skye Ranch</button>
+    <button onclick="zoomTo(27.364865,-82.417412,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
+    <button onclick="zoomTo(27.4600,-82.3750,11)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
+    <button onclick="zoomTo(27.2380,-82.4040,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--a);background:var(--al);color:var(--a);font-size:10px;font-weight:600;cursor:pointer">🌿 Skye Ranch</button>
     <button onclick="zoomTo(27.0200,-82.3400,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--p);background:var(--pl);color:var(--p);font-size:10px;font-weight:600;cursor:pointer">🏖 Wellen Park</button>
     <button onclick="zoomTo(27.1900,-82.4500,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--r);background:var(--rl);color:var(--r);font-size:10px;font-weight:600;cursor:pointer">🌴 Palmer Ranch</button>
     <button onclick="fitAll()" style="padding:4px 10px;border-radius:12px;border:1px solid var(--gray400);background:var(--gray50);color:var(--gray700);font-size:10px;font-weight:600;cursor:pointer">🗺 Fit All</button>
     <button id="cal-btn" onclick="toggleCalibrate()" style="padding:4px 10px;border-radius:12px;border:1px solid #c47f1a;background:#fdf3e3;color:#c47f1a;font-size:10px;font-weight:600;cursor:pointer">📍 Calibrate ⭐</button>
-    <span id="cal-hint" style="display:none;font-size:9px;color:#c47f1a;padding:4px 8px;background:#fef5e7;border-radius:8px;border:1px solid #f0c878">Tap the exact Farmers Market location on the map</span>
-  </div>
+    <span id="cal-hint" style="display:none;font-size:9px;color:#c47f1a;padding:4px 8px;background:#fef5e7;border-radius:8px;border:1px solid #f0c878">Tap the exact Farmers Market location</span>
+  </div></div>
   <div id="map" style="width:100%;height:calc(100vh - 174px);border-radius:var(--rad)"></div>
   <p class="map-info" style="margin-top:5px">⭐ = Farmers Market · Tap any pin for details · <span id="geo-status" style="color:#c47f1a;font-weight:600"></span></p>
 </div>
@@ -692,25 +693,7 @@ before making an offer.</p></div>
 
 <script>
 const FM=[27.364865,-82.417412];
-
-// Global calibration state
-let _calibrating=false;
-function toggleCalibrate(){
-  _calibrating=!_calibrating;
-  const btn=document.getElementById('cal-btn');
-  const hint=document.getElementById('cal-hint');
-  const mapEl=document.getElementById('map');
-  if(_calibrating){
-    if(btn){btn.textContent='❌ Cancel';btn.style.background='#fde8e6';btn.style.color='#c0392b';btn.style.borderColor='#c0392b';}
-    if(hint)hint.style.display='inline-block';
-    if(mapEl)mapEl.style.cursor='crosshair';
-  } else {
-    if(btn){btn.textContent='📍 Calibrate ⭐';btn.style.background='#fdf3e3';btn.style.color='#c47f1a';btn.style.borderColor='#c47f1a';}
-    if(hint)hint.style.display='none';
-    if(mapEl)mapEl.style.cursor='grab';
-  }
-}
-window._FM_LIVE={lat:27.3905,lng:-82.3855};; // Waterside Place / Farmers Market
+window._FM_LIVE=null;
 
 const C=[
   {id:'avanti',name:'Avanti',district:'waterside',distLabel:'Waterside · LWR',tier:'entry',county:'sarasota',
@@ -1094,7 +1077,7 @@ function render(){
     const sel=cmpList.includes(c.id);
     const bc=c.age55?'active55':c.tier;
     const bt=c.age55?'55+':tierLabel(c.tier);
-    const builderShort={'pulte':'Pulte/DiVosta','taylor':'Taylor Morrison','drhorton':'D.R. Horton','lennar':'Lennar','neal':'Neal Communities','weekley':'David Weekley','hbt':'Homes by Towne','dreamfinders':'Dream Finders','mi':'M/I Homes','kolter':'Kolter','toll':'Toll Brothers','luxury':'Custom/Luxury'}[c.builderKey]||'';
+    const builderShort={'pulte':'Pulte/DiVosta','taylor':'Taylor Morrison','drhorton':'D.R. Horton','lennar':'Lennar','neal':'Neal Communities','weekley':'David Weekley','hbt':'Homes by Towne','dreamfinders':'Dream Finders','mi':'M/I Homes','kolter':'Kolter','toll':'Toll Brothers','luxury':'Custom/Luxury','ryan':'Ryan Homes'}[c.builderKey]||'';
     const lotTag=c.hasLotWarn?'<span class="tag warn">⚠️ Lot Premium Alert</span>':'';
     const tagHtml=[
       c.golf&&'<span class="tag golf">⛳ Golf</span>',
@@ -1616,7 +1599,7 @@ function fitAll(){
       const lats=C.map(c=>c.lat),lngs=C.map(c=>c.lng);
       el._mapState.lat=(Math.max(...lats)+Math.min(...lats))/2;
       el._mapState.lng=(Math.max(...lngs)+Math.min(...lngs))/2;
-      el._mapState.zoom=8;
+      el._mapState.zoom=7;
       el._mapDraw();
     } else { setTimeout(apply,50); }
   };
@@ -1706,3 +1689,26 @@ render();
 
 
 </body></html>
+,
+
+  {id:'ambercreek',name:'Amber Creek',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:300000,pMax:500000,pLabel:'$300s–$500s',sqMin:1200,sqMax:2200,bdMin:2,bdMax:4,baMin:2,baMax:3,hoa:'~$175/mo',hoaN:175,cdd:'Yes',cddN:120,hasCDD:true,lotPremMin:0,lotPremMax:15000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['townhome'],builders:['Ryan Homes'],homes:'~200',floorPlanUrl:'https://www.ryanhomes.com',amenities:['Pool','Pickleball','Fitness'],highlights:'Affordable Ryan Homes townhomes — lowest-price entry into LWR.',pros:['Most affordable LWR entry','Ryan Homes quality'],cons:['Townhome only'],tags:[],geocodeAddr:'12570 Amber Creek Circle, Lakewood Ranch, FL 34211',latFixed:true,lat:27.461751,lng:-82.418021,travel:{walk:'N/A',cart:'N/A',drive:'18 min',miles:9.0},builderKey:'ryan'},
+
+  {id:'aurora',name:'Aurora',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:280000,pMax:450000,pLabel:'High $200s–$400s',sqMin:1100,sqMax:2000,bdMin:2,bdMax:4,baMin:2,baMax:3,hoa:'~$180/mo',hoaN:180,cdd:'Yes',cddN:130,hasCDD:true,lotPremMin:0,lotPremMax:10000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:false,fitness:true,pool:true,dogpark:false,theater:false,types:['townhome'],builders:['Lennar Homes'],homes:'~300',floorPlanUrl:'https://www.lennar.com',amenities:['Pool','Fitness','Tot Lot'],highlights:'Lennar townhomes — cheapest entry into LWR under $300K.',pros:['Most affordable LWR','Near A-rated schools'],cons:['Townhome only','No resort amenities'],tags:[],geocodeAddr:'14165 Lilac Sky Terrace, Lakewood Ranch, FL 34202',latFixed:true,lat:27.454962,lng:-82.400192,travel:{walk:'N/A',cart:'N/A',drive:'16 min',miles:8.0},builderKey:'lennar'},
+
+  {id:'avalonwoods',name:'Avalon Woods',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:375000,pMax:500000,pLabel:'High $300s–$500s',sqMin:1400,sqMax:2400,bdMin:3,bdMax:5,baMin:2,baMax:3,hoa:'~$160/mo',hoaN:160,cdd:'Yes',cddN:110,hasCDD:true,lotPremMin:0,lotPremMax:20000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,types:['sfh'],builders:['Ryan Homes'],homes:'~280',floorPlanUrl:'https://www.ryanhomes.com',amenities:['Pool','Pickleball','Dog Park','Fitness'],highlights:'Ryan Homes SFH near SR-64 and Premier Sports Campus.',pros:['SFH under $500K in LWR','Good location'],cons:['Not gated'],tags:[],geocodeAddr:'4640 Arden Way, Lakewood Ranch, FL 34211',latFixed:true,lat:27.456322,lng:-82.397189,travel:{walk:'N/A',cart:'N/A',drive:'17 min',miles:8.5},builderKey:'ryan'},
+
+  {id:'calusacc',name:'Calusa Country Club',district:'lwr',distLabel:'LWR · Manatee County',tier:'luxury',county:'manatee',pMin:500000,pMax:900000,pLabel:'$500s–$900s',sqMin:1600,sqMax:3500,bdMin:2,bdMax:5,baMin:2,baMax:4,hoa:'~$500/mo',hoaN:500,cdd:'Yes',cddN:250,hasCDD:true,lotPremMin:30000,lotPremMax:150000,lotPremNote:'Golf-front lots command significant premiums.',hasLotWarn:true,golf:true,golfT:'18-hole bundled (private)',gated:true,maint:true,water:false,age55:false,restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['villa','sfh'],builders:['Lennar Homes'],homes:'~900',floorPlanUrl:'https://www.lennar.com',amenities:['18-hole bundled golf','Restaurant','Bar','Pool','Tennis','Pickleball','Fitness','Gated'],highlights:'New bundled golf community in far east LWR — links-style course by Lennar.',pros:['Bundled golf at lower entry than Azario','Gated','Links-style course'],cons:['Far east LWR','Long drive to Waterside'],tags:['golf','gated','maint'],geocodeAddr:'18812 Scallop Loop, Lakewood Ranch, FL 34211',latFixed:true,lat:27.438455,lng:-82.342075,travel:{walk:'N/A',cart:'N/A',drive:'20 min',miles:10.5},builderKey:'lennar'},
+
+  {id:'delwebb',name:'Del Webb Catalina',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',pMin:350000,pMax:1000000,pLabel:'$350s–$1M+',sqMin:1200,sqMax:2800,bdMin:2,bdMax:4,baMin:2,baMax:3,hoa:'~$370/mo',hoaN:370,cdd:'Yes',cddN:200,hasCDD:true,lotPremMin:0,lotPremMax:50000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:true,maint:true,water:false,age55:true,restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,types:['villa','sfh'],builders:['Pulte Homes'],homes:'~1000',floorPlanUrl:'https://www.delwebb.com',amenities:['Resort clubhouse','Pool','Tennis','Pickleball','Restaurant','Fitness','Dog Park','Gated','55+'],highlights:'Del Webb 55+ active adult by Pulte — best 55+ amenity package in LWR.',pros:['Top 55+ amenities','Pulte quality','Gated','Lifestyle director'],cons:['55+ only','Far east LWR'],tags:['gated','maint','age55'],geocodeAddr:'4844 Starlight Beach Lane, Lakewood Ranch, FL 34211',latFixed:true,lat:27.454927,lng:-82.339513,travel:{walk:'N/A',cart:'N/A',drive:'22 min',miles:11.5},builderKey:'pulte'},
+
+  {id:'monterey',name:'Monterey',district:'waterside',distLabel:'Waterside · Sarasota County',tier:'luxury',county:'sarasota',pMin:700000,pMax:1500000,pLabel:'$700s–$1.5M+',sqMin:2000,sqMax:4000,bdMin:3,bdMax:5,baMin:2,baMax:5,hoa:'~$400/mo',hoaN:400,cdd:'Yes',cddN:180,hasCDD:true,lotPremMin:0,lotPremMax:80000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['sfh'],builders:['Toll Brothers'],homes:'~300',floorPlanUrl:'https://www.tollbrothers.com',amenities:['Gated','Pool','Pickleball','Fitness','Lake views'],highlights:'Toll Brothers gated luxury east of Waterside — lake views, high-end finishes, Sarasota County.',pros:['Toll Brothers luxury','Gated','Lake views','Sarasota schools'],cons:['Not near Waterside Place','Quieter area'],tags:['gated','water'],geocodeAddr:'2637 Waterfront Circle, Lakewood Ranch, FL 34240',latFixed:true,lat:27.341459,lng:-82.328127,travel:{walk:'N/A',cart:'N/A',drive:'15 min',miles:7.5},builderKey:'toll'},
+
+  {id:'palmgrove',name:'Palm Grove',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:300000,pMax:600000,pLabel:'$300s–$600s',sqMin:1200,sqMax:2600,bdMin:2,bdMax:5,baMin:2,baMax:3,hoa:'~$200/mo',hoaN:200,cdd:'Yes',cddN:130,hasCDD:true,lotPremMin:0,lotPremMax:25000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,types:['townhome','villa','sfh'],builders:['Neal Communities'],homes:'~500',floorPlanUrl:'https://www.nealcommunities.com',amenities:['Pool','Pickleball','Fitness','Dog Park'],highlights:'Neal Communities variety in north LWR — townhomes to SFH near SR-64.',pros:['Wide price range','Neal quality','SR-64 location'],cons:['Not gated','No golf'],tags:[],geocodeAddr:'2013 Coconut Palm Cove, Bradenton, FL 34212',latFixed:true,lat:27.478733,lng:-82.358094,travel:{walk:'N/A',cart:'N/A',drive:'20 min',miles:10.5},builderKey:'neal'},
+
+  {id:'solera',name:'Solera',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:400000,pMax:550000,pLabel:'$400s–$550s',sqMin:1500,sqMax:2800,bdMin:3,bdMax:5,baMin:2,baMax:3,hoa:'~$220/mo',hoaN:220,cdd:'Yes',cddN:140,hasCDD:true,lotPremMin:0,lotPremMax:20000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['sfh'],builders:['D.R. Horton'],homes:'~600',floorPlanUrl:'https://www.drhorton.com',amenities:['Pool','Pickleball','Fitness','Tot Lot'],highlights:'D.R. Horton SFH — multi-generational floor plans, strong value near Lakewood National.',pros:['Affordable SFH in LWR','Multi-gen plans','DR Horton reliability'],cons:['Not gated','No golf'],tags:[],geocodeAddr:'16812 Harvest Moon Way, Lakewood Ranch, FL 34211',latFixed:true,lat:27.444462,lng:-82.370923,travel:{walk:'N/A',cart:'N/A',drive:'15 min',miles:7.0},builderKey:'drhorton'},
+
+  {id:'sweetwater',name:'Sweetwater',district:'lwr',distLabel:'LWR · Manatee County',tier:'mid',county:'manatee',pMin:400000,pMax:900000,pLabel:'$400s–$900s',sqMin:1500,sqMax:3200,bdMin:2,bdMax:5,baMin:2,baMax:4,hoa:'~$280/mo',hoaN:280,cdd:'Yes',cddN:160,hasCDD:true,lotPremMin:0,lotPremMax:40000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,types:['villa','sfh'],builders:['M/I Homes'],homes:'~500',floorPlanUrl:'https://www.mihomes.com',amenities:['Gated','Pool','Tennis','Pickleball','Fitness','Dog Park'],highlights:'M/I Homes gated community — final opportunities in established LWR village.',pros:['Gated','M/I Homes quality','Wide price range'],cons:['Selling out — limited inventory'],tags:['gated'],geocodeAddr:'18169 Cherished Loop, Bradenton, FL 34211',latFixed:true,lat:27.457645,lng:-82.356054,travel:{walk:'N/A',cart:'N/A',drive:'18 min',miles:9.5},builderKey:'mi'},
+
+  {id:'theisles',name:'The Isles',district:'lwr',distLabel:'LWR · Sarasota County',tier:'luxury',county:'sarasota',pMin:800000,pMax:1500000,pLabel:'$800s–$1.5M+',sqMin:2200,sqMax:4200,bdMin:3,bdMax:5,baMin:3,baMax:5,hoa:'~$450/mo',hoaN:450,cdd:'Yes',cddN:220,hasCDD:true,lotPremMin:20000,lotPremMax:100000,lotPremNote:'Lake/preserve lots command significant premium.',hasLotWarn:false,golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['sfh'],builders:['Toll Brothers'],homes:'~450',floorPlanUrl:'https://www.tollbrothers.com',amenities:['Gated','Resort pool','Tennis','Pickleball','Fitness','Lake views'],highlights:'Toll Brothers luxury gated — best value luxury in eastern LWR Sarasota County.',pros:['Toll Brothers quality','Gated','Water views','Sarasota County'],cons:['Longer drive to Waterside Place'],tags:['gated','water'],geocodeAddr:'17523 Fairwinds Drive, Lakewood Ranch, FL 34202',latFixed:true,lat:27.389061,lng:-82.361730,travel:{walk:'N/A',cart:'N/A',drive:'12 min',miles:5.5},builderKey:'toll'},
+
+  {id:'waterburypark',name:'Waterbury Park',district:'lwr',distLabel:'LWR · Sarasota County',tier:'ultra',county:'sarasota',pMin:1300000,pMax:3000000,pLabel:'$1.3M–$3M+',sqMin:2800,sqMax:5000,bdMin:3,bdMax:6,baMin:3,baMax:6,hoa:'~$600/mo',hoaN:600,cdd:'Yes',cddN:300,hasCDD:true,lotPremMin:100000,lotPremMax:400000,lotPremNote:'Premium estate lots — water/preserve views.',hasLotWarn:true,golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,restaurant:false,tennis:false,pickleball:false,fitness:false,pool:false,dogpark:false,theater:false,types:['custom'],builders:['Neal Signature Homes'],homes:'~80',floorPlanUrl:'https://www.nealsignaturehomes.com',amenities:['Gated enclave','Custom luxury estates','Lake/preserve views'],highlights:'Neal Signature ultra-luxury custom enclave — bespoke homes, extreme privacy.',pros:['True custom luxury','Neal Signature craftsmanship','Gated exclusive'],cons:['Entry $1.3M+','Very limited inventory'],tags:['gated','water'],geocodeAddr:'17809 Signature Place, Bradenton, FL 34202',latFixed:true,lat:27.401783,lng:-82.357050,travel:{walk:'N/A',cart:'N/A',drive:'12 min',miles:5.5},builderKey:'luxury'}
