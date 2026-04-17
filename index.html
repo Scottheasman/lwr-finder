@@ -219,7 +219,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button class="ch" onclick="sf('builder','ryan',this)">Ryan Homes</button>
   </div>
 </div>
-<div class="content">
+<div class="content" id="tab-browse-cards">
   <div class="rc" id="rcount">36 communities</div>
   <div class="grid" id="cards"><div class="card" onclick="openModal('avanti')">
       <div class="ch2"><div><div class="cn">Avanti</div><div class="cs">Waterside · LWR</div></div><span class="badge entry">Entry</span></div>
@@ -551,7 +551,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 </div>
 
 <!-- MAP -->
-<div id="tab-map" style="display:none;padding:8px 10px">
+<div id="tab-map" style="display:none;padding:8px 10px;overflow:hidden">
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
     <button onclick="zoomTo(27.364865,-82.417412,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
     <button onclick="zoomTo(27.4600,-82.3750,11)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
@@ -562,7 +562,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button id="cal-btn" onclick="toggleCalibrate()" style="padding:4px 10px;border-radius:12px;border:1px solid #c47f1a;background:#fdf3e3;color:#c47f1a;font-size:10px;font-weight:600;cursor:pointer">📍 Calibrate ⭐</button>
     <span id="cal-hint" style="display:none;font-size:9px;color:#c47f1a;padding:4px 8px;background:#fef5e7;border-radius:8px;border:1px solid #f0c878">Tap the exact Farmers Market location</span>
   </div></div>
-  <div id="map" style="width:100%;height:calc(100vh - 174px);border-radius:var(--rad)"></div>
+  <div id="map" style="width:100%;height:calc(100vh - 170px);border-radius:var(--rad)"></div>
   <p class="map-info" style="margin-top:5px">⭐ = Farmers Market · Tap any pin for details · <span id="geo-status" style="color:#c47f1a;font-weight:600"></span></p>
 </div>
 
@@ -1239,6 +1239,9 @@ function showTab(t){
   document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   document.getElementById('tab-'+t).style.display='block';
+  // Cards grid is outside the tab divs - show/hide with browse tab
+  const cards=document.getElementById('tab-browse-cards');
+  if(cards) cards.style.display=(t==='browse')?'block':'none';
   const btn=document.querySelector('.tb[data-tab="'+t+'"]');
   if(btn)btn.classList.add('on');
   if(t==='compare')renderCmp();
@@ -1455,21 +1458,22 @@ function initMap(){
 
   canvas.addEventListener('pointermove',e=>{
     if(!_pd.active) return;
-    const dx=e.clientX-_pd.prevX, dy=e.clientY-_pd.prevY;
-    if(Math.abs(e.clientX-(_pd.prevX+(e.clientX-_pd.prevX-dx)))>0||
-       Math.hypot(e.clientX-(_pd.sx+(e.clientX-_pd.sx)),e.clientY-(_pd.sy+(e.clientY-_pd.sy)))>6)
+    // Check if we've moved enough to be a drag (not a tap)
+    if(!_pd.moved && Math.hypot(e.clientX-_pd.sx, e.clientY-_pd.sy)>8){
       _pd.moved=true;
-    if(_pd.moved&&(Math.abs(dx)>0||Math.abs(dy)>0)){
-      const scale=Math.pow(2,state.zoom)*256;
-      state.lng-=dx/scale*360;
-      const sL=Math.sin(state.lat*Math.PI/180);
-      const mY=Math.log((1+sL)/(1-sL))/(4*Math.PI);
-      state.lat=Math.atan(Math.sinh(2*Math.PI*(mY+dy/scale)))*180/Math.PI;
-      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
-      draw();
-    } else {
-      _pd.prevX=e.clientX; _pd.prevY=e.clientY;
     }
+    if(_pd.moved){
+      const dx=e.clientX-_pd.prevX, dy=e.clientY-_pd.prevY;
+      if(Math.abs(dx)>0||Math.abs(dy)>0){
+        const scale=Math.pow(2,state.zoom)*256;
+        state.lng-=dx/scale*360;
+        const sL=Math.sin(state.lat*Math.PI/180);
+        const mY=Math.log((1+sL)/(1-sL))/(4*Math.PI);
+        state.lat=Math.atan(Math.sinh(2*Math.PI*(mY+dy/scale)))*180/Math.PI;
+        draw();
+      }
+    }
+    _pd.prevX=e.clientX; _pd.prevY=e.clientY;
   });
 
   canvas.addEventListener('pointerup',e=>{
