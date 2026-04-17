@@ -201,6 +201,22 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button class="ch" onclick="sf('bed','4',this)">4+</button>
     <button class="ch" onclick="sf('bed','5',this)">5+</button>
   </div>
+
+  <div class="fr"><span class="fl">Builder</span>
+    <button class="ch on" onclick="sf('builder','all',this)">All</button>
+    <button class="ch" onclick="sf('builder','pulte',this)">Pulte / DiVosta</button>
+    <button class="ch" onclick="sf('builder','taylor',this)">Taylor Morrison</button>
+    <button class="ch" onclick="sf('builder','drhorton',this)">D.R. Horton</button>
+    <button class="ch" onclick="sf('builder','lennar',this)">Lennar</button>
+    <button class="ch" onclick="sf('builder','neal',this)">Neal</button>
+    <button class="ch" onclick="sf('builder','weekley',this)">David Weekley</button>
+    <button class="ch" onclick="sf('builder','hbt',this)">Homes by Towne</button>
+    <button class="ch" onclick="sf('builder','dreamfinders',this)">Dream Finders</button>
+    <button class="ch" onclick="sf('builder','mi',this)">M/I Homes</button>
+    <button class="ch" onclick="sf('builder','kolter',this)">Kolter</button>
+    <button class="ch" onclick="sf('builder','toll',this)">Toll Brothers</button>
+    <button class="ch" onclick="sf('builder','luxury',this)">Stock / Custom</button>
+  </div>
 </div>
 <div class="content">
   <div class="rc" id="rcount">25 of 25 communities shown</div>
@@ -703,7 +719,7 @@ const C=[
    lotPremMin:0,lotPremMax:35000,lotPremNote:'Modest lot premiums $0–$35K for corner/lake-view sites.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],builders:['Pulte Homes'],homes:'~200',
+   types:['villa','sfh'],builders:['Pulte Homes'],builderKey:'pulte',homes:'~200',
    floorPlanUrl:'https://www.pulte.com/homes/florida/sarasota/lakewood-ranch',
    amenities:['Resort pool','Pickleball','Dog park','Water taxi to Farmers Market','Maintenance-free yard','Walking trails'],
    highlights:'Most affordable Waterside entry. Low-maintenance with water taxi to Farmers Market.',
@@ -716,7 +732,7 @@ const C=[
    lotPremMin:0,lotPremMax:45000,lotPremNote:'Corner/pond lots typically $15K–$45K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:false,pool:true,dogpark:false,theater:false,
-   types:['bungalow','sfh'],builders:['Dream Finders Homes'],homes:'225',
+   types:['bungalow','sfh'],builders:['Dream Finders Homes'],builderKey:'dreamfinders',homes:'225',
    floorPlanUrl:'https://www.dreamfindershomes.com/new-homes/florida/sarasota/lakewood-ranch/bungalow-walk-at-waterside',
    amenities:['Community pool','Pickleball','Primary bed on main floor','Low HOA'],
    highlights:'Charming bungalow community. Primary bed on main floor. Lowest HOA in mid-tier Waterside.',
@@ -729,7 +745,7 @@ const C=[
    lotPremMin:0,lotPremMax:60000,lotPremNote:'Lake-view city home lots $25K–$60K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['townhome','sfh'],builders:['David Weekley Homes'],homes:'193',
+   types:['townhome','sfh'],builders:['David Weekley Homes'],builderKey:'weekley',homes:'193',
    floorPlanUrl:'https://www.davidweekleyhomes.com/new-homes/fl/sarasota-bradenton-area/lakewood-ranch/emerald-landing',
    amenities:['Boat dock','Kayak launch','Pool','Pickleball','Dog park','Water taxi','Maintenance included (attached)'],
    highlights:'Unique 3-story city homes. Boat dock & kayak launch. Water taxi to Farmers Market.',
@@ -742,7 +758,7 @@ const C=[
    lotPremMin:0,lotPremMax:25000,lotPremNote:'Minimal lot premiums — mostly standard pricing.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:false,pool:true,dogpark:true,theater:false,
-   types:['townhome','sfh'],builders:['M/I Homes'],homes:'222',
+   types:['townhome','sfh'],builders:['M/I Homes'],builderKey:'mi',homes:'222',
    floorPlanUrl:'https://www.mihomes.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/nautique',
    amenities:['Pool','Pickleball','Dog park','Playground','Maintenance included'],
    highlights:'Lowest HOA in all of Waterside. Maritime design. Best value per dollar in district.',
@@ -755,7 +771,7 @@ const C=[
    lotPremMin:20000,lotPremMax:120000,lotPremNote:'Lake/preserve lots $20K–$120K premium. Larger homesite selections carry significant premiums.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],builders:['Neal Signature Homes','Pulte Homes'],homes:'682',
+   types:['villa','sfh'],builders:['Neal Signature Homes','Pulte Homes'],builderKey:'neal',homes:'682',
    floorPlanUrl:'https://www.nealsignaturehomes.com',
    amenities:['Parks','Resort pool','Fitness center','Tennis','Pickleball','Dog park','Trails'],
    highlights:'Largest Waterside village (682 homes). Two builders with wide price range.',
@@ -768,7 +784,7 @@ const C=[
    lotPremMin:30000,lotPremMax:150000,lotPremNote:'Lake-front lots carry $30K–$150K premiums over standard.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh'],builders:['Pulte Homes'],homes:'~300',
+   types:['sfh'],builders:['Pulte Homes'],builderKey:'pulte',homes:'~300',
    floorPlanUrl:'https://www.pulte.com/homes/florida/sarasota/lakewood-ranch/shoreview-at-waterside',
    amenities:['Gated','Lake views','Kayak launch','Tennis','Pickleball','Resort pool','Fitness center','Bocce ball'],
    highlights:'Gated lakeside with panoramic water views. Lower HOA for a luxury gated community.',
@@ -781,7 +797,7 @@ const C=[
    lotPremMin:25000,lotPremMax:200000,lotPremNote:'Waterfront/premium sites $25K–$200K above base. Custom lots on lake can exceed $200K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh','custom'],builders:['Homes by Towne'],homes:'~400',
+   types:['sfh','custom'],builders:['Homes by Towne'],builderKey:'hbt',homes:'~400',
    floorPlanUrl:'https://www.homesbytowne.com/communities/lakehouse-cove',
    amenities:['Gated','Water taxi ferry to Farmers Market','Kayak dock & storage','Bocce','Fire pit','Resort pool & spa','Tennis','Pickleball','Dog park','Lifestyle director','Maintenance-free'],
    highlights:'First & most established Waterside village. Gated + maint-free. Water taxi directly to Farmers Market.',
@@ -794,7 +810,7 @@ const C=[
    lotPremMin:20000,lotPremMax:80000,lotPremNote:'Premium homesites $20K–$80K above base price.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:true,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:false,fitness:false,pool:false,dogpark:false,theater:false,
-   types:['sfh'],builders:['Neal Signature Homes'],homes:'47',
+   types:['sfh'],builders:['Neal Signature Homes'],builderKey:'neal',homes:'47',
    floorPlanUrl:'https://www.nealsignaturehomes.com',
    amenities:['Boutique 47-home community','Maintenance included in HOA','Neal Signature craftsmanship'],
    highlights:'Only 47 homes — most exclusive boutique village. HOA covers maintenance. No shared amenity center.',
@@ -807,7 +823,7 @@ const C=[
    lotPremMin:80000,lotPremMax:500000,lotPremNote:'Waterfront/golf-view lots $80K–$500K+ premium. Premium homesites are a major cost driver at this tier.',hasLotWarn:false,
    golf:true,golfT:'9-hole putting + indoor simulator',gated:false,maint:false,water:true,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:true,
-   types:['sfh','custom'],builders:['Stock Luxury Homes','Anchor Builders','Custom Builders'],homes:'505',
+   types:['sfh','custom'],builders:['Stock Luxury Homes','Anchor Builders','Custom Builders'],builderKey:'luxury',homes:'505',
    floorPlanUrl:'https://www.stockdevelopment.com/communities/wild-blue',
    amenities:['25,000 sf clubhouse','Fiji lagoon pool','Full-service restaurant','Private theater','Indoor golf simulator','9-hole putting course','Tennis','Pickleball','Fitness','Dog park','Kayaking','Lifestyle director'],
    highlights:'Crown jewel of Waterside. 25K sf clubhouse — Fiji pool, restaurant, theater, golf sim.',
@@ -820,7 +836,7 @@ const C=[
    lotPremMin:200000,lotPremMax:800000,lotPremNote:'Estate lakefront lots $200K–$800K premium over base home price. Lot cost can rival or exceed structure cost.',hasLotWarn:true,
    golf:false,golfT:'None bundled',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:false,pickleball:false,fitness:false,pool:false,dogpark:false,theater:false,
-   types:['custom'],builders:['Anchor Builders','Multiple Custom'],homes:'~60',
+   types:['custom'],builders:['Anchor Builders','Multiple Custom'],builderKey:'luxury',homes:'~60',
    floorPlanUrl:'https://www.anchorbuilders.com',
    amenities:['Gated estate','Lakefront lots','Preserve views','Trophy property addresses'],
    highlights:'Most exclusive address in Waterside. Gated. Custom estate homes on premium lakefront lots.',
@@ -833,7 +849,7 @@ const C=[
    lotPremMin:0,lotPremMax:80000,lotPremNote:'Waterfront/preserve lots $30K–$80K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],builders:['Neal Communities'],homes:'~600',
+   types:['villa','sfh'],builders:['Neal Communities'],builderKey:'neal',homes:'~600',
    floorPlanUrl:'https://www.nealcommunities.com/community/windward-at-lakewood-ranch',
    amenities:['Waterfront lots','Preserve views','Clubhouse','Resort pool','Tennis','Pickleball','Fitness','Dog park','Nature trails'],
    highlights:'Waterfront & preserve views. Wide range villas to estates.',
@@ -846,7 +862,7 @@ const C=[
    lotPremMin:50000,lotPremMax:350000,lotPremNote:'⚠️ MAJOR LOT PREMIUM ALERT: Golf-front & lake lots run $50K–$350K+ above base home price. Homes advertised from $400K can reach $750K–$1.1M+ once lot premium and options are added. Golf-deeded lots are auctioned via "Highest & Best Offer" process and routinely exceed $200K premium.',hasLotWarn:true,
    golf:true,golfT:'18-hole championship (bundled on golf lots)',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh'],builders:['Taylor Morrison'],homes:'~1,400',
+   types:['villa','sfh'],builders:['Taylor Morrison'],builderKey:'taylor',homes:'~1,400',
    floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/lakewood-ranch/esplanade-at-azario-lakewood-ranch',
    amenities:['18-hole championship golf (bundled — golf lots)','Culinary center & restaurant','Bahama bar','Resort pool','Spa','Tennis','Pickleball','Fitness','Dog park','Fire pit','Gated','Maint-free villas','Lifestyle director'],
    highlights:'Only gated bundled-golf new construction in LWR. Base prices look attractive but lot premiums on golf/lake sites can add $200K–$350K+ to total cost.',
@@ -860,7 +876,7 @@ const C=[
    lotPremMin:0,lotPremMax:150000,lotPremNote:'Lake/preserve lots $20K–$150K premium. Custom estate lots significantly higher.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['villa','sfh','custom'],builders:['D.R. Horton','Homes by WestBay','John Cannon Homes','Lee Wetherington','AR Homes','Perry Homes'],homes:'700+',
+   types:['villa','sfh','custom'],builders:['D.R. Horton','Homes by WestBay','John Cannon Homes','Lee Wetherington','AR Homes','Perry Homes'],builderKey:'drhorton',homes:'700+',
    floorPlanUrl:'https://www.drhorton.com/florida/sarasota/lakewood-ranch/star-farms',
    amenities:['5 resort pool complexes','27,000 sf clubhouse','Restaurant & bar','Tennis','Pickleball','Fitness','Dog park','Splash pad','Gated'],
    highlights:'6 builders — widest range in LWR. 5 pool complexes, 27K sf clubhouse with dining.',
@@ -873,7 +889,7 @@ const C=[
    lotPremMin:0,lotPremMax:80000,lotPremNote:'Lakefront lots $20K–$80K premium. Most standard lots have no premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:true,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['townhome','villa','sfh'],builders:['Lennar Homes'],homes:'~600',
+   types:['townhome','villa','sfh'],builders:['Lennar Homes'],builderKey:'lennar',homes:'~600',
    floorPlanUrl:'https://www.lennar.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/lorraine-lakes',
    amenities:['Gated','Lake views','Resort pool with waterslide','Splash pad','Fitness','Tennis','Pickleball','Volleyball','Basketball','Dog park','Lennar Everything\'s Included'],
    highlights:'Gated. Lennar Everything\'s Included. Lake views. Splash pad & waterslide.',
@@ -886,7 +902,7 @@ const C=[
    lotPremMin:100000,lotPremMax:600000,lotPremNote:'Lake estate lots $100K–$600K+ premium. Half-acre waterfront sites among most expensive in LWR.',hasLotWarn:true,
    golf:false,golfT:'None (nearby courses available)',gated:true,maint:false,water:true,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['custom'],builders:['Multiple Luxury Custom'],homes:'~500',
+   types:['custom'],builders:['Multiple Luxury Custom'],builderKey:'luxury',homes:'~500',
    floorPlanUrl:'https://www.lakeclub.com',
    amenities:['Gated grand entrance','Tuscan clubhouse','Full restaurant','Resort pool','Fitness','Tennis','Pickleball','Lakefront estate lots','Concierge'],
    highlights:"LWR's original ultra-luxury community. Grand Tuscan clubhouse, restaurant, lakefront estates.",
@@ -899,7 +915,7 @@ const C=[
    lotPremMin:20000,lotPremMax:120000,lotPremNote:'Golf-front lots $40K–$120K premium. Lake lots $20K–$80K.',hasLotWarn:false,
    golf:true,golfT:'36-hole Arnold Palmer (bundled)',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],builders:['Lennar Homes'],homes:'~1,200',
+   types:['villa','sfh'],builders:['Lennar Homes'],builderKey:'lennar',homes:'~1,200',
    floorPlanUrl:'https://www.lennar.com/new-homes/florida/sarasota-bradenton/lakewood-ranch/lakewood-national',
    amenities:['36-hole Arnold Palmer golf (bundled)','Full-service clubhouse & restaurant','Resort pool','Fitness','Tennis','Pickleball','Gated','Maintenance-free'],
    highlights:'36-hole Arnold Palmer bundled golf. Maintenance-free. Most accessible price golf community.',
@@ -912,7 +928,7 @@ const C=[
    lotPremMin:0,lotPremMax:60000,lotPremNote:'Premium homesites $15K–$60K. Most lots standard pricing.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:false,age55:true,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],builders:['Kolter Homes'],homes:'~600',
+   types:['sfh'],builders:['Kolter Homes'],builderKey:'kolter',homes:'~600',
    floorPlanUrl:'https://www.kolter.com/cresswind-lakewood-ranch',
    amenities:['Gated','Maintenance-free','Resort pool','Fitness','Tennis','Pickleball','Social clubs','Dog park','Art studio','Active 55+ programming'],
    highlights:'Age-restricted 55+ by Kolter. Resort active-adult lifestyle — gated, maint-free.',
@@ -925,7 +941,7 @@ const C=[
    lotPremMin:0,lotPremMax:50000,lotPremNote:'Corner/pond lots $10K–$50K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],builders:['Neal Communities'],homes:'~400',
+   types:['sfh'],builders:['Neal Communities'],builderKey:'neal',homes:'~400',
    floorPlanUrl:'https://www.nealcommunities.com/community/mallory-park-at-lakewood-ranch',
    amenities:['Gated','Resort pool','Fitness','Pickleball','Dog park','Playground','A-rated schools nearby'],
    highlights:'Gated family community. A-rated school zone. Neal quality at accessible prices.',
@@ -938,7 +954,7 @@ const C=[
    lotPremMin:10000,lotPremMax:80000,lotPremNote:'Conservation/water-view lots $10K–$80K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],builders:['Taylor Morrison'],homes:'~900',
+   types:['sfh'],builders:['Taylor Morrison'],builderKey:'taylor',homes:'~900',
    floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/cassia-at-skye-ranch',
    amenities:['Gated','K-8 school onsite (2025)','The Hub amenity center','Resort pool','Fitness','Tennis','Pickleball','Dog park','35+ miles trails'],
    highlights:'Gated. K-8 school onsite 2025. 15–25% cheaper than comparable LWR. Closest to Siesta Key.',
@@ -952,7 +968,7 @@ const C=[
    lotPremMin:10000,lotPremMax:60000,lotPremNote:'Premium sites $10K–$60K.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:true,water:false,age55:true,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],builders:['Taylor Morrison'],homes:'~400',
+   types:['villa','sfh'],builders:['Taylor Morrison'],builderKey:'taylor',homes:'~400',
    floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/esplanade-at-skye-ranch',
    amenities:['Gated','Maintenance-free','Single-story homes','55+ active adult','Resort pool','Adults-only pool','Fitness','Tennis','Pickleball'],
    highlights:'55+ section of Skye Ranch. Single-story maint-free. Excellent value vs Esplanade Azario.',
@@ -965,7 +981,7 @@ const C=[
    lotPremMin:0,lotPremMax:100000,lotPremNote:'Premium lots $20K–$100K. Toll Brothers incentives in 2025 sometimes offset lot premiums.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],builders:['Toll Brothers'],homes:'~400',
+   types:['sfh'],builders:['Toll Brothers'],builderKey:'toll',homes:'~400',
    floorPlanUrl:'https://www.tollbrothers.com/luxury-homes-for-sale/Florida/Solstice-at-Wellen-Park',
    amenities:['Gated','Resort pool','Fitness','Tennis','Pickleball','Dog park','Golf-cart to Wellen downtown','CoolToday Park nearby'],
    highlights:'Toll Brothers luxury in Wellen Park. Golf-cart to downtown Wellen. Braves spring training nearby.',
@@ -978,7 +994,7 @@ const C=[
    lotPremMin:0,lotPremMax:60000,lotPremNote:'Lake/preserve lots $15K–$60K.',hasLotWarn:false,
    golf:false,golfT:'None',gated:false,maint:false,water:true,age55:false,
    restaurant:true,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh'],builders:['DiVosta (Pulte)'],homes:'~800',
+   types:['sfh'],builders:['DiVosta (Pulte)'],builderKey:'pulte',homes:'~800',
    floorPlanUrl:'https://www.divosta.com/new-homes/florida/venice/beachwalk',
    amenities:['2.5 miles to Manasota Key beach','Full-service resort restaurant','Resort pool','Pickleball','Fitness','Coastal aesthetic'],
    highlights:'Closest new construction to Gulf beaches. Full-service restaurant. Rare beach proximity.',
@@ -991,7 +1007,7 @@ const C=[
    lotPremMin:30000,lotPremMax:120000,lotPremNote:'Golf-front lots $40K–$120K premium.',hasLotWarn:false,
    golf:true,golfT:'18-hole bundled',gated:true,maint:true,water:false,age55:false,
    restaurant:true,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['villa','sfh'],builders:['DiVosta (Pulte)'],homes:'~600',
+   types:['villa','sfh'],builders:['DiVosta (Pulte)'],builderKey:'pulte',homes:'~600',
    floorPlanUrl:'https://www.divosta.com/new-homes/florida/venice/wellen-park-golf-country-club',
    amenities:['18-hole bundled golf','Gated','Maint-free','Clubhouse restaurant & bar','Resort pool','Fitness','Tennis','Pickleball'],
    highlights:'Bundled golf in Wellen Park. More affordable than LWR golf communities.',
@@ -1004,7 +1020,7 @@ const C=[
    lotPremMin:10000,lotPremMax:70000,lotPremNote:'Water/preserve lots $10K–$70K premium.',hasLotWarn:false,
    golf:false,golfT:'None',gated:true,maint:false,water:false,age55:false,
    restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:true,theater:false,
-   types:['sfh'],builders:['DiVosta (Pulte)'],homes:'~600',
+   types:['sfh'],builders:['DiVosta (Pulte)'],builderKey:'pulte',homes:'~600',
    floorPlanUrl:'https://www.divosta.com/new-homes/florida/nokomis/talon-preserve',
    amenities:['Gated','Clubhouse','Resort pool','Fitness','Pickleball','Dog park','7-8 miles to Siesta Key','Mature Palmer Ranch landscaping'],
    highlights:'7-8 miles from Siesta Key. Gated. Part of established Palmer Ranch.',
@@ -1017,7 +1033,7 @@ const C=[
    lotPremMin:15000,lotPremMax:80000,lotPremNote:'Premium homesites $15K–$80K. Legacy Trail–adjacent lots carry higher premiums.',hasLotWarn:false,
    golf:false,golfT:'Legacy Trail nearby',gated:true,maint:true,water:false,age55:false,
    restaurant:false,tennis:true,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,
-   types:['sfh','villa'],builders:['Taylor Morrison'],homes:'~500',
+   types:['sfh','villa'],builders:['Taylor Morrison'],builderKey:'taylor',homes:'~500',
    floorPlanUrl:'https://www.taylormorrison.com/fl/sarasota/sarasota/esplanade-at-palmer-ranch',
    amenities:['Gated','Maint-free','Resort pool','Spa','Bahama bar','Fitness','Tennis','Pickleball','Legacy Trail nearby','5-8 miles to Siesta Key'],
    highlights:'Esplanade resort lifestyle on Palmer Ranch. Gated, maint-free. 5-8 mi to Siesta Key.',
@@ -1026,7 +1042,7 @@ const C=[
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
-let flt={price:'all',district:'all',type:'all',bed:'all'};
+let flt={price:'all',district:'all',type:'all',bed:'all',builder:'all'};
 let feats=new Set();
 let cmpList=[];
 let leafMap=null;
@@ -1046,6 +1062,7 @@ function getFiltered(){
   return C.filter(c=>{
     if(flt.price!=='all'&&c.tier!==flt.price)return false;
     if(flt.district!=='all'&&c.district!==flt.district)return false;
+    if(flt.builder&&flt.builder!=='all'&&c.builderKey!==flt.builder)return false;
     if(flt.bed!=='all'&&c.bdMax<parseInt(flt.bed))return false;
     if(flt.type!=='all'&&!c.types.includes(flt.type))return false;
     if(feats.has('golf')&&!c.golf)return false;
@@ -1077,6 +1094,7 @@ function render(){
     const sel=cmpList.includes(c.id);
     const bc=c.age55?'active55':c.tier;
     const bt=c.age55?'55+':tierLabel(c.tier);
+    const builderShort={'pulte':'Pulte/DiVosta','taylor':'Taylor Morrison','drhorton':'D.R. Horton','lennar':'Lennar','neal':'Neal Communities','weekley':'David Weekley','hbt':'Homes by Towne','dreamfinders':'Dream Finders','mi':'M/I Homes','kolter':'Kolter','toll':'Toll Brothers','luxury':'Custom/Luxury'}[c.builderKey]||'';
     const lotTag=c.hasLotWarn?'<span class="tag warn">⚠️ Lot Premium Alert</span>':'';
     const tagHtml=[
       c.golf&&'<span class="tag golf">⛳ Golf</span>',
