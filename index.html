@@ -144,11 +144,11 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
   <p>Lakewood Ranch · Waterside · Skye Ranch · Palmer Ranch · Wellen Park</p>
 </div>
 <div class="tabs">
-  <button class="tb on" onclick="showTab('browse')">Browse</button>
-  <button class="tb" onclick="showTab('map')">🗺 Map</button>
-  <button class="tb" onclick="showTab('compare')">Compare</button>
-  <button class="tb" onclick="showTab('mortgage')">💰 Mortgage</button>
-  <button class="tb" onclick="showTab('install')">Install</button>
+  <button class="tb" data-tab="browse" on" onclick="showTab('browse')">Browse</button>
+  <button class="tb" data-tab="map"" onclick="showTab('map')">🗺 Map</button>
+  <button class="tb" data-tab="compare"" onclick="showTab('compare')">Compare</button>
+  <button class="tb" data-tab="mortgage"" onclick="showTab('mortgage')">💰 Mortgage</button>
+  <button class="tb" data-tab="install"" onclick="showTab('install')">Install</button>
 </div>
 
 <!-- BROWSE -->
@@ -1238,20 +1238,18 @@ function showTab(t){
   document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   document.getElementById('tab-'+t).style.display='block';
-  document.querySelector(`.tb[onclick*="'${t
+  const btn=document.querySelector('.tb[data-tab="'+t+'"]');
+  if(btn)btn.classList.add('on');
+  if(t==='compare')renderCmp();
+  if(t==='mortgage'){cm();renderQC();}
   if(t==='map'){
-    // Force redraw when map becomes visible
     const mapEl=document.getElementById('map');
-    if(mapEl && mapEl._mapDraw){
-      requestAnimationFrame(()=>{ mapEl._mapDraw(); });
-    } else if(mapEl && !mapEl._mapInit){
+    if(mapEl&&mapEl._mapDraw){
+      requestAnimationFrame(()=>{if(mapEl.clientWidth>0)mapEl._mapDraw();});
+    } else {
       initMap();
     }
   }
-}'"]`).classList.add('on');
-  if(t==='compare')renderCmp();
-  if(t==='map')initMap();
-  if(t==='mortgage'){cm();renderQC();}
 }
 
 function closePopup(){if(window._closeMapPopup)window._closeMapPopup();}
