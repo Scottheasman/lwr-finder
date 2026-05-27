@@ -141,9 +141,12 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 
 </head>
 <body>
-<div class="hdr">
-  <h1>🌴 LWR Community Finder</h1>
-  <p>36 communities · Waterside · LWR Main · Skye Ranch · Wellen Park · Palmer Ranch</p>
+<div class="hdr" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+  <div>
+    <h1>🌴 LWR Community Finder</h1>
+    <p>36 communities · Waterside · LWR Main · Skye Ranch · Wellen Park · Palmer Ranch</p>
+  </div>
+  <button id="refresh-btn" onclick="hardRefresh()" title="Check for updates" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 9px;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1">🔄</button>
 </div>
 <div class="tabs">
   <button class="tb on" data-tab="browse" onclick="showTab('browse')">Browse</button>
@@ -1379,6 +1382,15 @@ function loadMort(id){
 
 function renderQC(){
   document.getElementById('qcoms').innerHTML=C.map(c=>`<button onclick="loadMort('${c.id}')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:${c.hasLotWarn?'var(--warnl)':'var(--gray50)'};font-size:10px;cursor:pointer;color:${c.hasLotWarn?'var(--warn)':'var(--gray700)'}">${c.hasLotWarn?'⚠️ ':''} ${c.name}</button>`).join('');
+}
+
+function hardRefresh(){
+  const btn=document.getElementById('refresh-btn');
+  btn.textContent='⏳';
+  btn.disabled=true;
+  // Bust cache by appending timestamp to current URL then reloading
+  const url=location.href.split('?')[0].split('#')[0];
+  location.replace(url+'?v='+Date.now());
 }
 
 // Show cards on initial load
