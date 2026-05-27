@@ -222,10 +222,9 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button class="ch" onclick="sf('builder','ryan',this)">Ryan Homes</button>
   </div>
 </div>
-<div class="content" id="tab-browse-cards">
+<div class="content" id="browse-cards">
   <div class="rc" id="rcount">36 communities</div>
   <div class="grid" id="cards"></div>
-</div>
 </div>
 
 <!-- MAP -->
@@ -240,7 +239,7 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button onclick="fitAll()" style="padding:4px 10px;border-radius:12px;border:1px solid var(--gray400);background:var(--gray50);color:var(--gray700);font-size:10px;font-weight:600;cursor:pointer">🗺 Fit All</button>
     <button id="cal-btn" onclick="toggleCalibrate()" style="padding:4px 10px;border-radius:12px;border:1px solid #c47f1a;background:#fdf3e3;color:#c47f1a;font-size:10px;font-weight:600;cursor:pointer">📍 Calibrate ⭐</button>
     <span id="cal-hint" style="display:none;font-size:9px;color:#c47f1a;padding:4px 8px;background:#fef5e7;border-radius:8px;border:1px solid #f0c878">Tap the exact Farmers Market location</span>
-  </div></div>
+  </div>
   <div id="map" style="width:100%;height:calc(100svh - 170px);min-height:300px;border-radius:var(--rad)"></div>
   <p class="map-info" style="margin-top:5px">⭐ = Farmers Market · Tap any pin for details · <span id="geo-status" style="color:#c47f1a;font-weight:600"></span></p>
 </div>
@@ -938,6 +937,9 @@ function showTab(t){
   document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   document.getElementById('tab-'+t).style.display='block';
+  // browse-cards sits outside tab-browse as a sibling; show only on browse tab
+  const bc=document.getElementById('browse-cards');
+  if(bc) bc.style.display=(t==='browse')?'block':'none';
   const btn=document.querySelector('.tb[data-tab="'+t+'"]');
   if(btn)btn.classList.add('on');
   if(t==='compare')renderCmp();
