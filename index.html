@@ -53,7 +53,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tag.warn{background:var(--warnl);color:var(--warn);border-color:#f0c878}
 .noR{text-align:center;padding:34px 14px;color:var(--gray400);grid-column:1/-1}
 .rc{font-size:10px;color:var(--gray400);margin-bottom:6px}
-#map{width:100%;height:calc(100svh - 136px);min-height:300px;border-radius:var(--rad)}
+#map{width:100%;height:calc(100vh - 136px);border-radius:var(--rad)}
 .map-info{font-size:9.5px;color:var(--gray400);margin-top:5px;padding:0 2px}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:600;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
@@ -141,12 +141,9 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
 
 </head>
 <body>
-<div class="hdr" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-  <div>
-    <h1>🌴 LWR Community Finder</h1>
-    <p>36 communities · Waterside · LWR Main · Skye Ranch · Wellen Park · Palmer Ranch</p>
-  </div>
-  <button id="refresh-btn" onclick="hardRefresh()" title="Check for updates" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 9px;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1">🔄</button>
+<div class="hdr">
+  <h1>🌴 LWR Community Finder</h1>
+  <p>36 communities · Waterside · LWR Main · Skye Ranch · Wellen Park · Palmer Ranch</p>
 </div>
 <div class="tabs">
   <button class="tb on" data-tab="browse" onclick="showTab('browse')">Browse</button>
@@ -225,14 +222,14 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button class="ch" onclick="sf('builder','ryan',this)">Ryan Homes</button>
   </div>
 </div>
-<div class="content" id="browse-cards">
+<div class="content" id="tab-browse-cards" style="display:none">
   <div class="rc" id="rcount">36 communities</div>
   <div class="grid" id="cards"></div>
 </div>
 
 <!-- MAP -->
 
-<div id="tab-map" style="display:none;padding:8px 10px">
+<div id="tab-map" style="display:none;padding:8px 10px;overflow:hidden">
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
     <button onclick="zoomTo(27.364865,-82.417412,13)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--g);background:var(--gl);color:var(--g);font-size:10px;font-weight:600;cursor:pointer">⭐ Waterside</button>
     <button onclick="zoomTo(27.4600,-82.3750,11)" style="padding:4px 10px;border-radius:12px;border:1px solid var(--b);background:var(--bl);color:var(--b);font-size:10px;font-weight:600;cursor:pointer">🏡 LWR Main</button>
@@ -242,8 +239,8 @@ code{background:var(--gray100);padding:1px 4px;border-radius:3px;font-size:10px}
     <button onclick="fitAll()" style="padding:4px 10px;border-radius:12px;border:1px solid var(--gray400);background:var(--gray50);color:var(--gray700);font-size:10px;font-weight:600;cursor:pointer">🗺 Fit All</button>
     <button id="cal-btn" onclick="toggleCalibrate()" style="padding:4px 10px;border-radius:12px;border:1px solid #c47f1a;background:#fdf3e3;color:#c47f1a;font-size:10px;font-weight:600;cursor:pointer">📍 Calibrate ⭐</button>
     <span id="cal-hint" style="display:none;font-size:9px;color:#c47f1a;padding:4px 8px;background:#fef5e7;border-radius:8px;border:1px solid #f0c878">Tap the exact Farmers Market location</span>
-  </div>
-  <div id="map" style="width:100%;height:calc(100svh - 170px);min-height:300px;border-radius:var(--rad)"></div>
+  </div></div>
+  <div id="map" style="width:100%;height:calc(100vh - 170px);border-radius:var(--rad)"></div>
   <p class="map-info" style="margin-top:5px">⭐ = Farmers Market · Tap any pin for details · <span id="geo-status" style="color:#c47f1a;font-weight:600"></span></p>
 </div>
 
@@ -331,11 +328,23 @@ $150–$600/mo — factor into your budget.</em>
     <div class="ms"><div class="msl">Loan Amount</div><div class="msv">$560,000</div></div>
     <div class="ms"><div class="msl">Est. Tax/Mo (1.35%)</div><div class="msv warn2">$788</div></div>
     <div class="ms"><div class="msl">HOA + CDD</div><div class="msv">$480</div></div>
-    <div class="ms"><div class="msl">Annual Cost</div><div class="msv">$62,319</div></div></div>
-    <p class="mnote">Tax rates: Sarasota Co. ~1.10% / Manatee Co. ~1.35% of assessed value (2025 millage). PMI rates per Urban Institute 2025 data. Homestead exemption saves ~$550–$900/yr from year 2 — not included above. Verify all figures with a licensed lender and county appraiser before purchase.</p>
-    <h3>Quick-Load Community Costs</h3>
-    <p style="font-size:10px;color:var(--gray400);margin-bottom:7px">Tap a community to auto-fill HOA, CDD, lot premium &amp; midpoint price.</p>
-    <div id="qcoms" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+
+```
+<div class="ms"><div class="msl">Annual Cost</div><div class="msv">$62,319</div></div></div>
+<p class="mnote">Tax rates: Sarasota Co. ~1.10% / Manatee Co. ~1.35%
+```
+
+of assessed value (2025 millage). PMI rates per Urban Institute 2025
+data. Homestead exemption saves ~$550–$900/yr from year 2 — not included
+above. Verify all figures with a licensed lender and county appraiser
+before purchase.</p>
+
+```
+<h3>Quick-Load Community Costs</h3>
+<p style="font-size:10px;color:var(--gray400);margin-bottom:7px">Tap a community to auto-fill HOA, CDD, lot premium &amp; midpoint price.</p>
+<div id="qcoms" style="display:flex;flex-wrap:wrap;gap:4px"><button onclick="loadMort('avanti')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Avanti</button><button onclick="loadMort('bungalow')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Bungalow Walk</button><button onclick="loadMort('emerald')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Emerald Landing</button><button onclick="loadMort('nautique')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Nautique</button><button onclick="loadMort('shellstone')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Shellstone</button><button onclick="loadMort('shoreview')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Shoreview</button><button onclick="loadMort('lakehouse')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> LakeHouse Cove</button><button onclick="loadMort('alcove')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> The Alcove</button><button onclick="loadMort('wildblue')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Wild Blue</button><button onclick="loadMort('kingfisher')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  Kingfisher Estates</button><button onclick="loadMort('windward')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Windward</button><button onclick="loadMort('azario')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  Esplanade at Azario</button><button onclick="loadMort('starfarms')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Star Farms</button><button onclick="loadMort('lorraine')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Lorraine Lakes</button><button onclick="loadMort('lakeclub')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--warnl);font-size:10px;cursor:pointer;color:var(--warn)">⚠️  The Lake Club</button><button onclick="loadMort('lwnational')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Lakewood National</button><button onclick="loadMort('cresswind')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Cresswind (55+)</button><button onclick="loadMort('mallory')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Mallory Park</button><button onclick="loadMort('cassia')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Cassia at Skye Ranch</button><button onclick="loadMort('esplanade-skye')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Esplanade Skye Ranch</button><button onclick="loadMort('solstice')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Solstice at Wellen Park</button><button onclick="loadMort('beachwalk')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> BeachWalk at Wellen</button><button onclick="loadMort('wellengolf')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Wellen Park Golf &amp; CC</button><button onclick="loadMort('talon')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Talon Preserve</button><button onclick="loadMort('esplanade-palmer')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:var(--gray50);font-size:10px;cursor:pointer;color:var(--gray700)"> Esplanade Palmer Ranch</button></div>
+```
+
   </div>
 </div>
 </div>
@@ -700,7 +709,7 @@ const C=[
    amenities:['Gated','Maint-free','Resort pool','Spa','Bahama bar','Fitness','Tennis','Pickleball','Legacy Trail nearby','5-8 miles to Siesta Key'],
    highlights:'Esplanade resort lifestyle on Palmer Ranch. Gated, maint-free. 5-8 mi to Siesta Key.',
    pros:['Gated + maint-free','5-8 mi to Siesta Key','Taylor Morrison quality'],cons:['No bundled golf','HOA $400–$600'],
-   tags:['gated','maint'],geocodeAddr:'1700 Palmer Ranch Pkwy, Sarasota, FL 34238',latFixed:true,lat:27.207361,lng:-82.457918,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},,
+   tags:['gated','maint'],geocodeAddr:'1700 Palmer Ranch Pkwy, Sarasota, FL 34238',latFixed:true,lat:27.207361,lng:-82.457918,travel:{walk:'N/A',cart:'N/A',drive:'30 min',miles:15.0}},
 
   {id:'ambercreek',name:'Amber Creek',district:'lwr',distLabel:'LWR · Manatee County',tier:'entry',county:'manatee',pMin:300000,pMax:500000,pLabel:'$300s–$500s',sqMin:1200,sqMax:2200,bdMin:2,bdMax:4,baMin:2,baMax:3,hoa:'~$175/mo',hoaN:175,cdd:'Yes',cddN:120,hasCDD:true,lotPremMin:0,lotPremMax:15000,lotPremNote:'',hasLotWarn:false,golf:false,golfT:'None',gated:false,maint:false,water:false,age55:false,restaurant:false,tennis:false,pickleball:true,fitness:true,pool:true,dogpark:false,theater:false,types:['townhome'],builders:['Ryan Homes'],homes:'~200',floorPlanUrl:'https://www.ryanhomes.com',amenities:['Pool','Pickleball','Fitness'],highlights:'Affordable Ryan Homes townhomes — lowest-price entry into LWR.',pros:['Most affordable LWR entry','Ryan Homes quality'],cons:['Townhome only'],tags:[],geocodeAddr:'12570 Amber Creek Circle, Lakewood Ranch, FL 34211',latFixed:true,lat:27.461751,lng:-82.418021,travel:{walk:'N/A',cart:'N/A',drive:'18 min',miles:9.0},builderKey:'ryan'},
 
@@ -815,7 +824,7 @@ function tf(f,btn){
   render();
 }
 function clearAll(){
-  flt={price:'all',district:'all',type:'all',bed:'all'};feats=new Set();
+  flt={price:'all',district:'all',type:'all',bed:'all',builder:'all'};feats=new Set();
   document.querySelectorAll('.ch').forEach(b=>b.classList.remove('on'));
   document.querySelectorAll('.ch[onclick*="\'all\'"]').forEach(b=>b.classList.add('on'));
   render();
@@ -940,22 +949,20 @@ function showTab(t){
   document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   document.getElementById('tab-'+t).style.display='block';
-  // browse-cards sits outside tab-browse as a sibling; show only on browse tab
-  const bc=document.getElementById('browse-cards');
-  if(bc) bc.style.display=(t==='browse')?'block':'none';
+  // Cards grid is outside the tab divs - show/hide with browse tab
+  const cards=document.getElementById('tab-browse-cards');
+  if(cards) cards.style.display=(t==='browse')?'block':'none';
   const btn=document.querySelector('.tb[data-tab="'+t+'"]');
   if(btn)btn.classList.add('on');
   if(t==='compare')renderCmp();
   if(t==='mortgage'){cm();renderQC();}
   if(t==='map'){
-    requestAnimationFrame(()=>{
-      const mapEl=document.getElementById('map');
-      if(mapEl&&mapEl._mapDraw){
-        mapEl._mapDraw();
-      } else {
-        initMap();
-      }
-    });
+    const mapEl=document.getElementById('map');
+    if(mapEl&&mapEl._mapDraw){
+      requestAnimationFrame(()=>{if(mapEl.clientWidth>0)mapEl._mapDraw();});
+    } else {
+      initMap();
+    }
   }
 }
 
@@ -1382,15 +1389,6 @@ function loadMort(id){
 
 function renderQC(){
   document.getElementById('qcoms').innerHTML=C.map(c=>`<button onclick="loadMort('${c.id}')" style="padding:2px 8px;border-radius:12px;border:1px solid var(--gray200);background:${c.hasLotWarn?'var(--warnl)':'var(--gray50)'};font-size:10px;cursor:pointer;color:${c.hasLotWarn?'var(--warn)':'var(--gray700)'}">${c.hasLotWarn?'⚠️ ':''} ${c.name}</button>`).join('');
-}
-
-function hardRefresh(){
-  const btn=document.getElementById('refresh-btn');
-  btn.textContent='⏳';
-  btn.disabled=true;
-  // Bust cache by appending timestamp to current URL then reloading
-  const url=location.href.split('?')[0].split('#')[0];
-  location.replace(url+'?v='+Date.now());
 }
 
 // Show cards on initial load
